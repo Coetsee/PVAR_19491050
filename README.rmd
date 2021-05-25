@@ -1,0 +1,30 @@
+---
+title: "README"
+author: "J Coetsee - 19491050"
+date: "25/05/2021"
+output: pdf_document
+---
+
+## Purpose
+
+This README discusses my Time Series Econometrics project for the Advanced Econometrics 871 Course in 2021. It is due on the 7th of June. The goal of this project is to replicate and critique the PVAR paper titled "Income inequality and economic growth: a panel VAR approach" by Bebonchu Atems & Jason Jones (included in the bin folder). 
+
+
+Here are the documents that encompass this project:
+
+* PVAR_19491050.Rmd - the 'Texevier' Write_Up file based on Nico Katzke's package and template. This is the file that knits the final document
+
+* PVAR_19491050.pdf - the final document to be submitted.
+
+* Wrangling.rmd - imports the data, makes it into a format that can be compatible with both the 'tidyverse' and the 'panelvar' package, and makes descriptive statistics. In essence, this document sets up the data to be converted into the model.
+
+* Model.rmd - uses the 'panelvar' package to model the VAR using the data exported by wrangling.rmd. This document also plots the relevant IRF's. 
+
+
+## Approach
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
