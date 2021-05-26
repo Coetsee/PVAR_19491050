@@ -1,0 +1,380 @@
+\documentclass[11pt,preprint, authoryear]{elsarticle}
+
+\usepackage{lmodern}
+%%%% My spacing
+\usepackage{setspace}
+\setstretch{1.2}
+\DeclareMathSizes{12}{14}{10}{10}
+
+% Wrap around which gives all figures included the [H] command, or places it "here". This can be tedious to code in Rmarkdown.
+\usepackage{float}
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
+
+\let\origtable\table
+\let\endorigtable\endtable
+\renewenvironment{table}[1][2] {
+    \expandafter\origtable\expandafter[H]
+} {
+    \endorigtable
+}
+
+
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+
+\usepackage{amssymb, amsmath, amsthm, amsfonts}
+
+\def\bibsection{\section*{References}} %%% Make "References" appear before bibliography
+
+
+\usepackage[round]{natbib}
+
+\usepackage{longtable}
+\usepackage[margin=2.3cm,bottom=2cm,top=2.5cm, includefoot]{geometry}
+\usepackage{fancyhdr}
+\usepackage[bottom, hang, flushmargin]{footmisc}
+\usepackage{graphicx}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1.3ex plus 0.5ex minus 0.3ex}
+\usepackage{textcomp}
+\renewcommand{\headrulewidth}{0.2pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+\usepackage{array}
+\newcolumntype{x}[1]{>{\centering\arraybackslash\hspace{0pt}}p{#1}}
+
+%%%%  Remove the "preprint submitted to" part. Don't worry about this either, it just looks better without it:
+\makeatletter
+\def\ps@pprintTitle{%
+  \let\@oddhead\@empty
+  \let\@evenhead\@empty
+  \let\@oddfoot\@empty
+  \let\@evenfoot\@oddfoot
+}
+\makeatother
+
+ \def\tightlist{} % This allows for subbullets!
+
+\usepackage{hyperref}
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=blue,
+            pdfborder={0 0 0}}
+
+
+% The following packages allow huxtable to work:
+\usepackage{siunitx}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{calc}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{caption}
+
+
+\newenvironment{columns}[1][]{}{}
+
+\newenvironment{column}[1]{\begin{minipage}{#1}\ignorespaces}{%
+\end{minipage}
+\ifhmode\unskip\fi
+\aftergroup\useignorespacesandallpars}
+
+\def\useignorespacesandallpars#1\ignorespaces\fi{%
+#1\fi\ignorespacesandallpars}
+
+\makeatletter
+\def\ignorespacesandallpars{%
+  \@ifnextchar\par
+    {\expandafter\ignorespacesandallpars\@gobble}%
+    {}%
+}
+\makeatother
+
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newenvironment{CSLReferences}%
+  {\setlength{\parindent}{0pt}%
+  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
+  {\par}
+
+
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{5}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+%%% Include extra packages specified by user
+
+%%% Hard setting column skips for reports - this ensures greater consistency and control over the length settings in the document.
+%% page layout
+%% paragraphs
+\setlength{\baselineskip}{12pt plus 0pt minus 0pt}
+\setlength{\parskip}{12pt plus 0pt minus 0pt}
+\setlength{\parindent}{0pt plus 0pt minus 0pt}
+%% floats
+\setlength{\floatsep}{12pt plus 0 pt minus 0pt}
+\setlength{\textfloatsep}{20pt plus 0pt minus 0pt}
+\setlength{\intextsep}{14pt plus 0pt minus 0pt}
+\setlength{\dbltextfloatsep}{20pt plus 0pt minus 0pt}
+\setlength{\dblfloatsep}{14pt plus 0pt minus 0pt}
+%% maths
+\setlength{\abovedisplayskip}{12pt plus 0pt minus 0pt}
+\setlength{\belowdisplayskip}{12pt plus 0pt minus 0pt}
+%% lists
+\setlength{\topsep}{10pt plus 0pt minus 0pt}
+\setlength{\partopsep}{3pt plus 0pt minus 0pt}
+\setlength{\itemsep}{5pt plus 0pt minus 0pt}
+\setlength{\labelsep}{8mm plus 0mm minus 0mm}
+\setlength{\parsep}{\the\parskip}
+\setlength{\listparindent}{\the\parindent}
+%% verbatim
+\setlength{\fboxsep}{5pt plus 0pt minus 0pt}
+
+
+
+\begin{document}
+
+
+
+\begin{frontmatter}  %
+
+\title{Revisiting `Income inequality and economic growth: a panel VAR approach'}
+
+% Set to FALSE if wanting to remove title (for submission)
+
+
+
+
+\author[Add1]{Johannes Coetsee - 19491050}
+\ead{19491050@sun.ac.za}
+
+
+
+
+
+\address[Add1]{Stellenbosch University}
+
+
+\begin{abstract}
+\small{
+This paper attempts to replicate and critique Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}), in which the authors attempt to
+model the contemporaneous effects of income inequality and economic
+growth of the United States at the state level, using a Panel Vector
+Autoregression (PVAR) approach.
+}
+\end{abstract}
+
+\vspace{1cm}
+
+\begin{keyword}
+\footnotesize{
+Panel vector autoregression \sep Income Inequality \sep Economic Growth \\ \vspace{0.3cm}
+\textit{} 
+}
+\end{keyword}
+\vspace{0.5cm}
+\end{frontmatter}
+
+
+
+%________________________
+% Header and Footers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\chead{}
+\rhead{June 2021 - Econometrics 871}
+\lfoot{}
+\rfoot{\footnotesize Page \thepage}
+\lhead{}
+%\rfoot{\footnotesize Page \thepage } % "e.g. Page 2"
+\cfoot{}
+
+%\setlength\headheight{30pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%________________________
+
+\headsep 35pt % So that header does not go over title
+
+
+
+
+\hypertarget{introduction}{%
+\section{\texorpdfstring{Introduction
+\label{Introduction}}{Introduction }}\label{introduction}}
+
+This paper attempts to replicate the paper by Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}). It will specifically emphasise
+the methodological approach used by these authors in an attempt to
+uncover whether their PVAR approach holds against checks for robustness.
+
+The paper will be structured in the following manner: for completeness,
+a overview of the primary differences between the PVAR and VAR
+approaches will be given, after which the contribution of Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}) will be discussed. Section
+\ref{Section 2.2} looks at their methodological approach through a
+critical lens, thereby also informing which robustness checks are
+considered the important to include in the current analysis.
+
+\hypertarget{section-2}{%
+\section{\texorpdfstring{Section 2
+\label{Section 2}}{Section 2 }}\label{section-2}}
+
+\hypertarget{panel-vector-autoregression}{%
+\subsection{\texorpdfstring{Panel Vector Autoregression
+\label{Section 2.1}}{Panel Vector Autoregression }}\label{panel-vector-autoregression}}
+
+Panel Vector Autoregressions are, as the name indicates, a variation of
+the standard VAR approach applied to panel datasets. Whereas VAR's treat
+all variables in a given system as endogenous, the PVAR approach also
+allows for unobserved individual heterogeneity. As panel data is
+comprised out of various cross-sectional units of observation - in our
+case, states - a VAR approach to model interactions between endogenous
+variables need to account for the fact that the underlying structure
+might differ across these units. A PVAR approach therefore imposes an
+additional restriction, namely, that the underlying structure is the
+same for all of the units of analysis. However, Love \& Zicchino
+(\protect\hyperlink{ref-love}{2006}) notes that this restriction is
+highly likely to be violated in practice. In order to overcome this
+additional restriction on the parameter, Love \& Zicchino
+(\protect\hyperlink{ref-love}{2006}) suggest the introduction of fixed
+effects, thereby allowing for individual heterogeneity in the levels of
+the variables. Crucially, these fixed effects are correlated with the
+regressors because of the necessary inclusion of dependent variable lags
+in the model (the `autoregressive' aspect of VARs), meaning that
+mean-differencing - the standard method used to eliminate fixed effects
+- will bias the regression coefficients. To solve this problem, Arellano
+\& Bover (\protect\hyperlink{ref-arellano}{1995}) advocate for the usage
+of the `Helmert procedure', where the means of only the future
+observations for each unit is removed. This procedure therefore
+transforms the variables in a way that preserves the orthogonality
+between the variables and the lagged regressors, which, in turn, allows
+for the usage of the lagged regressors as instruments whereby the
+coefficients of the systems can be estimated. Moreover, these orthogonal
+relationships provide the necessary moment conditions that allow for VAR
+estimation using Generalized Method of Moments (GMM).
+
+\hypertarget{inequality-and-economic-growth-atems}{%
+\subsection{\texorpdfstring{Inequality and Economic Growth (Atems \&
+Jones, \protect\hyperlink{ref-atems}{2015})
+\label{Section 2.2}}{Inequality and Economic Growth (Atems \& Jones, 2015) }}\label{inequality-and-economic-growth-atems}}
+
+a new comprehensive panel of annual U.S. state-level income inequality
+data from 1930 to 2005 constructed by Frank (2009b), this study
+reconsiders the relationship between inequality and per capita income
+using a panel VAR approach. A panel VAR allows not only for the
+examination of the correlation between income inequality and per capita
+income, but also the dynamic responses of these variables to income and
+inequality shocks, as well.
+
+\hypertarget{methodology}{%
+\subsubsection*{Methodology}\label{methodology}}
+\addcontentsline{toc}{subsubsection}{Methodology}
+
+\hypertarget{data}{%
+\subsubsection*{Data}\label{data}}
+\addcontentsline{toc}{subsubsection}{Data}
+
+There are three datasets used by Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}) that are relevant for our
+discussion. The first, data on state-level economic growth, is measured
+by the annual change in per capita real income for the 48 contiguous US
+states (listed in the Appendix) for the period 1930-2005.
+
+Atems \& Jones (\protect\hyperlink{ref-atems}{2015}) uses a panel of
+state-level income inequality data (sourced by Frank
+(\protect\hyperlink{ref-frank}{2009})), for the period 1930-2005 for the
+United States. Their measure of inequality, the Gini coefficient, is
+constructed using tax filing data. The usage of tax data is often
+considered problematic in that it excludes low-income earners, thereby
+introducing possibly misleading results.
+
+overview of the data as a prelude to the estimation of the structural
+VAR. Our dataset consists of annual data on the percentage change in per
+capita real income and various income inequality measures for the 48
+
+\hypertarget{results}{%
+\subsubsection*{Results}\label{results}}
+\addcontentsline{toc}{subsubsection}{Results}
+
+\hypertarget{section-3}{%
+\section{\texorpdfstring{Section 3
+\label{Section 3 }}{Section 3 }}\label{section-3}}
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+\newpage
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-arellano}{}%
+Arellano, M. \& Bover, O. 1995. Another look at the instrumental
+variable estimation of error-components models. \emph{Journal of
+econometrics}. 68(1):29--51.
+
+\leavevmode\hypertarget{ref-atems}{}%
+Atems, B. \& Jones, J. 2015. Income inequality and economic growth: A
+panel var approach. \emph{Empirical Economics}. 48(4):1541--1561.
+
+\leavevmode\hypertarget{ref-frank}{}%
+Frank, M.W. 2009. Inequality and growth in the united states: Evidence
+from a new state-level panel of income inequality measures.
+\emph{Economic Inquiry}. 47(1):55--68.
+
+\leavevmode\hypertarget{ref-love}{}%
+Love, I. \& Zicchino, L. 2006. Financial development and dynamic
+investment behavior: Evidence from panel var. \emph{The Quarterly Review
+of Economics and Finance}. 46(2):190--210.
+
+\hypertarget{appendix}{%
+\section*{Appendix}\label{appendix}}
+\addcontentsline{toc}{section}{Appendix}
+
+\begin{itemize}
+\tightlist
+\item
+  Table of 48 states and the state sample splits
+\end{itemize}
+
+\bibliography{Tex/ref}
+
+
+
+
+
+\end{document}
