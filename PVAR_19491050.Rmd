@@ -85,7 +85,7 @@ abstract: |
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
 
 library(pacman)
-p_load("tidyverse", "panelvar", "scales")
+p_load("tidyverse", "panelvar", "scales", "vars")
 
 ```
 
@@ -96,9 +96,10 @@ p_load("tidyverse", "panelvar", "scales")
 
 # Introduction \label{Introduction}
 
-This paper attempts to replicate various parts of the paper by @atems. It will specifically emphasise the methodological approach used by these authors in an attempt to uncover whether their PVAR approach holds against further checks for robustness. As such, this paper will, like the authors, test the series for unit roots, whilst attempting to replicate the cumulative IRFs for the baseline bivariate PVAR. Furthermore, we will test whether certain subsamples of observational units drive their results, something the authors did not consider.
+This paper attempts to replicate various parts of the paper by @atems. It will specifically emphasise the methodological approach used by these authors in an attempt to uncover whether their PVAR approach holds against further checks for robustness. As such, this paper will, like the authors, test the series for unit roots, whilst attempting to replicate the cumulative Impulse Response Functions (IRFs) for the baseline bivariate PVAR. Furthermore, we will test whether certain subsamples of observational units drive their results, something the authors did not consider.
 
 The paper will be structured in the following manner: for completeness, a overview of the primary differences between the PVAR and VAR approaches will be given, after which the contribution of @atems will be discussed. Section \ref{Section 2.2} looks at their methodological approach through a critical lens, thereby also informing which robustness checks are considered the important ones to include in the current analysis.
+
 
 # Literature Review \label{Section 2}
 
@@ -110,7 +111,11 @@ However, @love note that this restriction is highly likely to be violated in pra
 
 ## Inequality and Economic Growth [@atems] \label{Section 2.2}
 
-@atems utilise a panel of annual state level income inequality data to consider the relationship between per capita income and income inequality using a panel VAR approach. This approach allows them to examine two things: first, the correlation between these variables, and second, the dynamic responses of both variables given shocks to income and inequality. Their results are displayed using cumulative Impulse Response Functions (IRFs), which describe the response of one variable to the innovations in the other variable in the system. They find that shocks to inequality has significant negative effects on the level of income per capita. They also find that the relation between income per capita and inequality varies over time, and is sensitive to specific subsamples of time. In order to gauge whether their analysis is sufficiently specified, a brief overview of the data and employed methodology is discussed below. 
+@atems utilise a panel of annual state level income inequality data to consider the relationship between per capita income and income inequality using a panel VAR approach. This approach allows them to examine two things: first, the correlation between these variables, and second, the dynamic responses of both variables given shocks to income and inequality. The motivation for using a PVAR approach is that it captures more complexity than either standard VARs or traditional panel date models. It also fits the data well, whilst being parsimonious enough without making strong identifying assumptions.
+
+Their results are displayed using cumulative IRFs, which describe the response of one variable to the innovations in the other variable in the system.^[Cumulative IRFs must be interpreted as capturing the effect on the levels of the variables, and not their growth rates.] They find that shocks to inequality has significant negative effects on the level of income per capita. They also find that the relation between income per capita and inequality varies over time, and is sensitive to specific subsamples of time. Overall, their contribution is novel in that it is the first study to employ a panel VAR approach to estimate the effect of inequality on income per capita and vice versa by utilising US state-level data.
+
+In order to gauge whether their analysis is sufficiently specified, a brief overview of the data and employed methodology is discussed below. 
 
 ### Data {-}
 
@@ -122,7 +127,7 @@ The first step to any VAR study is to conduct unit root tests on the series of d
 
 ### Methodology {-}
 
-The authors estimate a baseline structural bivariate VAR model of the growth rate of real income per capita and changes in the Gini index, whilst also implementing various robustness checks. These robustness checks include subsampling (structural break testing) on the time-period of analysis, as well as using three other  measures of inequality.^[These are the Relative Mean Deviation, the Theil Entropy Index, and the income share of the top decile and top percentile of the state population. All measures are sourced from @frank.]
+The authors estimate a baseline structural bivariate VAR model of the growth rate of real income per capita and changes in the Gini index, whilst also implementing various robustness checks. These robustness checks include subsampling (structural break testing) on the time-period of analysis, as well as using three other  measures of inequality.^[These are the Relative Mean Deviation, the Theil Entropy Index, and the income share of the top income decile and top percentile of the state population. All measures are sourced from @frank.]
 
 Their reduced-form empirical specification is as follows:
 
@@ -130,21 +135,22 @@ Their reduced-form empirical specification is as follows:
 Y_{it} = A(L)Y_{i,t-1} + \delta_i + \varphi_i + \varepsilon_{it} \hspace{12pt} \varepsilon_{it} ~ N(0, \Sigma_{i}), \label{eq1}
 \end{align}
 
-where $A(L)$ is the polynomial matrix of the lag operator $L$, $\delta_i$ is the unobservable time effects and $\varphi_i$ is a vector of constant-over-time fixed effects across states. $Y_{it}$ is equal to the vector of the growth rate of real income per capita ($\Delta y_{it}$) of state $i$ in year $t$, and the change in the Gini coefficient of state $i$ in year $t$ ($\Delta g_{it}$), thereby equalling $[\Delta y_{it} \Delta g_{it} ]'$. Further $\varepsilon_{i,t} = [\varepsilon_{i,t}^{\Delta y}  \varepsilon_{i,t}^{\Delta g}]'$, which denotes the vector of errors.
+where $A(L)$ is the polynomial matrix of the lag operator $L$, $\delta_i$ is the unobservable time effects and $\varphi_i$ is a vector of constant-over-time fixed effects across states. $Y_{it}$ is equal to the vector of the growth rate of real income per capita ($\Delta y_{it}$) of state $i$ in year $t$, and the change in the Gini coefficient of state $i$ in year $t$ ($\Delta g_{it}$), thereby equaling $[\Delta y_{it} \Delta g_{it} ]'$. Further $\varepsilon_{i,t} = [\varepsilon_{i,t}^{\Delta y}  \varepsilon_{i,t}^{\Delta g}]'$, which denotes the vector of errors.
 
 It is necessary to impose further structure on equation (\Ref{eq1}) to uncover the underlying structural behaviour of shocks to the system, and therefore to make IRFs interpretable. These restrictions are often untestable and must be guided by economic theory. There are two restrictions imposed on this system. The first is necessitated by the requirement of orthogonality due to the structure of panel data, and is discussed in Section \Ref{Section 2.1}. The second restriction is guided by economic theory, and is concerned with the ordering of the variables - there cannot be contemporaneous effects of changes in the Gini coefficient on economic growth. By employing a Cholesky decomposition, @atems argue that the Gini coefficient should be ordered second in the structural specification of the VAR. This argument is sound; the Gini coefficient is calculated using income data, meaning that there will be contemporaneous effects of changes on income on the Gini coefficient. The Gini coefficient, however, has delayed effects on income, a fact that is established in the literature [@cingano; @barro; @frankincome].
 
-Therefore, incorporating these restrictions to the model, one can specify the final transformed model takes the form: 
+Therefore, incorporating these restrictions to the model and transforming the variables according to the Helmert procedure, one can specify the final transformed equation as taking the form: 
 
 \begin{align}\tag{2}
-
+\tilde{Y}_{it} = A(L) \tilde{Y}_{i, t-1} + \tilde{\varepsilon}_{i,t} \label{eq2}
 \end{align}
+
 
 ### Critiques {-}
 
 The VAR model by @atems seems to hold up to scrutiny. It is difference-stationary and accounts for the paneled aspects of the data. Furthermore, the ordering restriction is economically sound, and the data seems to be of good quality. Furthermore, their initial specification holds up to robustness checks with respect to different inequality metrics and structural break tests. Moreover, the authors insulate themselves against possible criticism when it comes to omitted variable bias by including another variable, human capital, and re-estimating the VAR as a trivariate model. However, their metric of 'human capital' - average years of schooling per state - seems to be fairly simplistic. Arguments can be made for a more nuanced metric that includes labour market information.^[For instance, an inclusion of labour force participation rates,  unemployment figures or a variable measuring average work experience might be suitable.]
 
-Furthermore, the authors do not explicitly provide autocorrelation functions, an important graphical tool used to check for white noise errors. 
+Furthermore, the authors do not explicitly provide diagnostic tests such as autocorrelation functions (ACFs) or Q-stats, important tools with which to check for white noise errors. Similarly, structural breaks are not estimated
 
 
 # Replication \label{Section 3}

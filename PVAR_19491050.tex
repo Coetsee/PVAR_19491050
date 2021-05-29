@@ -240,9 +240,9 @@ emphasise the methodological approach used by these authors in an
 attempt to uncover whether their PVAR approach holds against further
 checks for robustness. As such, this paper will, like the authors, test
 the series for unit roots, whilst attempting to replicate the cumulative
-IRFs for the baseline bivariate PVAR. Furthermore, we will test whether
-certain subsamples of observational units drive their results, something
-the authors did not consider.
+Impulse Response Functions (IRFs) for the baseline bivariate PVAR.
+Furthermore, we will test whether certain subsamples of observational
+units drive their results, something the authors did not consider.
 
 The paper will be structured in the following manner: for completeness,
 a overview of the primary differences between the PVAR and VAR
@@ -304,15 +304,26 @@ annual state level income inequality data to consider the relationship
 between per capita income and income inequality using a panel VAR
 approach. This approach allows them to examine two things: first, the
 correlation between these variables, and second, the dynamic responses
-of both variables given shocks to income and inequality. Their results
-are displayed using cumulative Impulse Response Functions (IRFs), which
-describe the response of one variable to the innovations in the other
-variable in the system. They find that shocks to inequality has
-significant negative effects on the level of income per capita. They
-also find that the relation between income per capita and inequality
-varies over time, and is sensitive to specific subsamples of time. In
-order to gauge whether their analysis is sufficiently specified, a brief
-overview of the data and employed methodology is discussed below.
+of both variables given shocks to income and inequality. The motivation
+for using a PVAR approach is that it captures more complexity than
+either standard VARs or traditional panel date models. It also fits the
+data well, whilst being parsimonious enough without making strong
+identifying assumptions.
+
+Their results are displayed using cumulative IRFs, which describe the
+response of one variable to the innovations in the other variable in the
+system.\footnote{Cumulative IRFs must be interpreted as capturing the
+  effect on the levels of the variables, and not their growth rates.}
+They find that shocks to inequality has significant negative effects on
+the level of income per capita. They also find that the relation between
+income per capita and inequality varies over time, and is sensitive to
+specific subsamples of time. Overall, their contribution is novel in
+that it is the first study to employ a panel VAR approach to estimate
+the effect of inequality on income per capita and vice versa by
+utilising US state-level data.
+
+In order to gauge whether their analysis is sufficiently specified, a
+brief overview of the data and employed methodology is discussed below.
 
 \hypertarget{data}{%
 \subsubsection*{Data}\label{data}}
@@ -382,7 +393,7 @@ equal to the vector of the growth rate of real income per capita
 Gini coefficient of state \(i\) in year \(t\) (\(\Delta g_{it}\)),
 thereby equalling \([\Delta y_{it} \Delta g_{it} ]'\). Further
 \(\varepsilon_{i,t} = [\varepsilon_{i,t}^{\Delta y} \varepsilon_{i,t}^{\Delta g}]'\),
-which denotes the vector of errors for each series.
+which denotes the vector of errors.
 
 It is necessary to impose further structure on equation (\Ref{eq1}) to
 uncover the underlying structural behaviour of shocks to the system, and
@@ -396,7 +407,7 @@ by economic theory, and is concerned with the ordering of the variables
 coefficient on economic growth. By employing a Cholesky decomposition,
 Atems \& Jones (\protect\hyperlink{ref-atems}{2015}) argue that the Gini
 coefficient should be ordered second in the structural specification of
-the VAR. This argument is sound - the Gini coefficient is calculated
+the VAR. This argument is sound; the Gini coefficient is calculated
 using income data, meaning that there will be contemporaneous effects of
 changes on income on the Gini coefficient. The Gini coefficient,
 however, has delayed effects on income, a fact that is established in
@@ -404,9 +415,37 @@ the literature (Barro, \protect\hyperlink{ref-barro}{2008}; Cingano,
 \protect\hyperlink{ref-cingano}{2014}; Frank,
 \protect\hyperlink{ref-frankincome}{2009}\protect\hyperlink{ref-frankincome}{b}).
 
+Therefore, incorporating these restrictions to the model and
+transforming the variables according to the Helmert procedure, one can
+specify the final transformed equation as taking the form:
+
+\begin{align}\tag{2}
+\tilde{Y}_{it} = A(L) \tilde{Y}_{i, t-1} + \tilde{\varepsilon}_{i,t} \label{eq2}
+\end{align}
+
 \hypertarget{critiques}{%
 \subsubsection*{Critiques}\label{critiques}}
 \addcontentsline{toc}{subsubsection}{Critiques}
+
+The VAR model by Atems \& Jones (\protect\hyperlink{ref-atems}{2015})
+seems to hold up to scrutiny. It is difference-stationary and accounts
+for the paneled aspects of the data. Furthermore, the ordering
+restriction is economically sound, and the data seems to be of good
+quality. Furthermore, their initial specification holds up to robustness
+checks with respect to different inequality metrics and structural break
+tests. Moreover, the authors insulate themselves against possible
+criticism when it comes to omitted variable bias by including another
+variable, human capital, and re-estimating the VAR as a trivariate
+model. However, their metric of `human capital' - average years of
+schooling per state - seems to be fairly simplistic. Arguments can be
+made for a more nuanced metric that includes labour market
+information.\footnote{For instance, an inclusion of labour force
+  participation rates, unemployment figures or a variable measuring
+  average work experience might be suitable.}
+
+Furthermore, the authors do not explicitly provide diagnostic checks
+such as autocorrelation functions (ACFs) or Q-stats, an important
+graphical tool used to check for white noise errors.
 
 \hypertarget{replication}{%
 \section{\texorpdfstring{Replication

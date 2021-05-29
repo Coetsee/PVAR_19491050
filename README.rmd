@@ -11,14 +11,12 @@ This README discusses my Time Series Econometrics project for the Advanced Econo
 
 # Setting chunk options, loading packages:
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
 
 library(pacman)
 p_load("tidyverse", "panelvar", "scales")
 ```
-
 
 
 Here are the documents that encompass this project:
