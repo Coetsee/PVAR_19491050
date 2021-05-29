@@ -9,6 +9,17 @@ output: pdf_document
 
 This README discusses my Time Series Econometrics project for the Advanced Econometrics 871 Course in 2021. It is due on the 7th of June. The goal of this project is to replicate and critique the PVAR paper titled "Income inequality and economic growth: a panel VAR approach" by Bebonchu Atems & Jason Jones (included in the bin folder). 
 
+# Setting chunk options, loading packages:
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
+
+library(pacman)
+p_load("tidyverse", "panelvar", "scales")
+```
+
+
 
 Here are the documents that encompass this project:
 
@@ -23,8 +34,33 @@ Here are the documents that encompass this project:
 
 ## Approach
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+* Introduction
+
+* Distinction between VAR and PVAR
+
+* Discussion of Methodology of Atems and Jones (2015)
+
+- Data
+
+- Methodology
+
+- Critique
+
+* Replication of Methodology
+
+- Descriptive statistics
+
+- Baseline model
+
+* Robustness checks
+
+- Different State subsets (which drive the results?)
+
+- Structural Breaks (they have three, does it make sense to extend?)
+
+* Results (is their approach robust?)
+
+
+
 
 
