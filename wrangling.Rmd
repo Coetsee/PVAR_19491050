@@ -1,0 +1,237 @@
+---
+title: "Data"
+author: "J Coetsee"
+date: "13/04/2021"
+output: html_document
+---
+
+# Packages and code:
+
+```{r}
+
+library(tidyverse)
+library(scales)
+theme_set(theme_light())
+library(lubridate)
+library(panelvar)
+
+#sourcing in functions from code folder 
+
+source("code/growth_fun.R")
+
+```
+
+# Read in the Data: 
+
+Income
+
+```{r}
+
+income <- read.csv("data/SAINC1__ALL_AREAS_1929_2020.csv")
+
+```
+
+Inequality dataset:
+
+```{r}
+inequality <- readxl::read_xls("data/Frank_Gini_2018.xls")
+
+#dropping non-congruous states (those that weren't part of the US since 1929, and filtering for years post 1929)
+inequality <-inequality %>% 
+  filter(State != "United States",
+         State != "Alaska", 
+         State != "Hawaii") %>% 
+  filter(Year >= 1929) 
+
+# The dropped Rows are hawaii, Alaska and United States
+
+```
+
+CPI Data
+
+```{r}
+
+CPI <- readxl::read_xlsx("data/CPI_US.xlsx") %>% 
+  rename(Year = "CPI for All Urban Consumers (CPI-U)",
+         Index = ...2) %>% 
+  slice(-c(1:11)) %>% 
+  mutate(Year = as.numeric(Year),
+         Index = as.numeric(Index))
+
+```
+
+############ Inequality Wrangling ##############
+
+
+# Inequality US as a whole:
+
+```{r}
+
+#For US as a whole:
+
+US_ineq <- inequality %>% 
+  filter(State == "United States") %>% 
+  filter(Year >= 1929)
+
+#plot of US Gini line
+US_ineq %>% 
+  ggplot() +
+  geom_line(aes(Year, Gini), colour = "Steelblue") +
+  expand_limits(y = 0)
+
+```
+
+# ineq1930: replacing coeffs with growth rates year on year, and calling this dataset ineq1930: 
+
+```{r}
+
+ineq1930 <- inequality %>% 
+  group_by(State) %>% 
+  mutate(across(Atkin05:Theil, growth_fun)) %>% 
+  filter(Year != "1929")
+
+```
+
+############### Income Set wrangling ##############
+
+
+# Tidy Income data:
+
+```{r}
+#Making the dataset long and deselecting irrelevant variables
+
+income <- income %>% 
+  gather(key = Year, value = value, X1929:X2020) %>% 
+  select(-c(TableName, LineCode, IndustryClassification)) %>%
+  mutate(Year = gsub("X", "", Year))
+
+# make pcincome df which only focuses on per capita income by state
+
+pcincome <- income %>% 
+  filter(Description == "Per capita personal income (dollars) 2/") %>% 
+  rename(pc_income = value,
+         state = GeoName) %>% 
+  select(-c("Description", "Unit")) %>% 
+  mutate(Year = as.numeric(Year),
+         pc_income = as.numeric(pc_income)) %>% 
+  filter(!grepl("Alaska|Hawaii", state)) 
+
+pcincome %>% group_by(state) %>% count()
+  
+```
+
+Deflating pc income
+
+```{r}
+
+pcdeflated <- left_join(pcincome, CPI, by = ("Year" = "Year")) %>% 
+  mutate(realpc_income = pc_income/Index)
+
+```
+
+
+Joined dataset of ineq1930 and pcincome
+
+```{r}
+
+pc_joined <- left_join(ineq1930, pcincome, by = c("State" = "State", "Year" = "Year")) 
+
+```
+
+# Descriptive Statistics Inequality:
+
+```{r}
+#FIGURE 1: 
+
+# this is an exact replica of  graph a in the paper, wrt lnrealpc_income:
+
+pcdeflated %>% 
+  mutate(realpc_income = pc_income/(Index/100),
+         lnrealpc_income = log(realpc_income)) %>% 
+  filter(State == "United States") %>% 
+  filter(Year >= 1930,
+         Year <= 2005) %>% 
+  ggplot()+
+  geom_line(aes(Year, lnrealpc_income),  colour = "red") #+
+  geom_line(aes(Year, pc_income), colour = "blue") # adding nominal pc_income as well 
+
+# this is an exact replica of graph b in the paper, wrt growth in real pc income:  
+  
+pcdeflated %>% 
+    filter(State == "United States") %>% 
+    filter(Year <= 2005) %>% 
+  mutate(realpc_income = pc_income/(Index/100),
+         pc_incomegrowth = (realpc_income - lag(realpc_income))/lag(realpc_income)) %>% 
+  ggplot() +
+  geom_line(aes(Year, pc_incomegrowth))
+```
+
+Inequality descriptive
+
+```{r}
+inequality %>% 
+  group_by(State, Year) %>%
+  mutate(avg = mean(Gini)) %>% 
+  filter(Year != "1929", 
+         Year < "2005") %>% 
+  group_by(Year) %>% 
+  mutate(year_avg = mean(avg)) %>% 
+  ggplot() +
+  geom_line(aes(x = Year, y = year_mean))
+
+
+#by top 15 states alphabetically: to repeat each geom_line for the US for each facet, use transform to make the State variable NULL - I struggled with this for a long time
+
+inequality %>% 
+  filter(State == head(State, n = 16)) %>% 
+  ggplot() +
+  geom_line(aes(Year, Gini, colour = State)) +
+  geom_line(data = transform(US_ineq, State = NULL), aes(Year, Gini), colour = "Black", alpha = 0.5) +
+  facet_wrap(~State) +
+  theme(legend.position = "none") 
+
+#now with a geom_text: Not ideal, but this is the best I can do for now
+
+US_ineq %>% 
+  ggplot() +
+  geom_line(data = transform(US_ineq, State = NULL), aes(Year, Gini), colour = "Black", alpha = 0.5) +
+  geom_text(data = (US_ineq %>% filter(Year == max(Year)) %>% 
+                    transform(State = NULL)), aes(Year, Gini), label = "US", size = 2) +
+  geom_line(data = (inequality %>% filter(State == head(State, n = 15))), aes(Year, Gini, colour = State)) +
+  facet_wrap(~State)
+    
+    
+    
+inequality %>% 
+  filter(State == head(State, n = 16)) %>% 
+  ggplot() +
+  geom_line(aes(Year, Gini, colour = State)) +
+  geom_line(data = transform(US_ineq, State = NULL), aes(Year, Gini), colour = "Black", alpha = 0.5) +
+  geom_text(data = transform(US_ineq, State = NULL, Year = 2010), aes(Year, Gini), label = "United States", size = 2) +
+  facet_wrap(~State) +
+  theme(legend.position = "none") 
+
+
+inequality %>% 
+  mutate(growth = 100*(Gini - lag(Gini))/lag(Gini)) %>% 
+  filter(State == "Montana") %>% 
+  ggplot()+
+  geom_line(aes(Year, growth))
+
+```
+
+#Descriptive Stats Income
+
+```{r}
+
+pc_joined %>% 
+  filter(State == c("Alabama", "District of Columbia")) %>% 
+  ggplot() +
+  geom_line(aes(Year, pc_income, colour = State))
+  
+
+```
+
+
+
+
