@@ -123,7 +123,7 @@ There are three datasets used by @atems relevant to our discussion. The first, d
 
 ### Unit Root Testing {-}
 
-The first step to any VAR study is to conduct unit root tests on the series of data. @atems perform five different unit root tests - which include the Augmented Dickey-Fuller (ADF), Levin-Lin-Chu (LLC), IM-Pesaran-Shin (IPS), Harris-Tzavalis (HT) and Hadri (LM) tests - on demeaned data.^[@levin suggest to perform these test on demeaned data, as it reduces the effects of dependence between cross-sectional units.] After using the Akaike Information Criterion (AIC) to choose the appropriate lag length of the tests. Although the first four tests reject the null hypothesis of a unit root, the Hadri test, which tests the null hypothesis of no unit root, cannot be rejected. This is interpreted as being sufficient evidence to suggest that nonstationarity might be present at a significance level of 5% in some of the series. In order to respond to this, the authors conclude that first-differencing is the appropriate response. As such, the PVAR is estimated on the differenced series of the data.
+The first step to any VAR study is to conduct unit root tests on the series of data. @atems perform five different unit root tests - which include the Fisher-type Augmented Dickey-Fuller (ADF), Levin-Lin-Chu (LLC), IM-Pesaran-Shin (IPS), Harris-Tzavalis (HT) and Hadri (LM) tests - on demeaned data.^[@levin suggest to perform these test on demeaned data, as it reduces the effects of dependence between cross-sectional units.] After using the Akaike Information Criterion (AIC) to choose the appropriate lag length of the tests. Although the first four tests reject the null hypothesis of a unit root, the Hadri test, which tests the null hypothesis of no unit root, cannot be rejected. This is interpreted as being sufficient evidence to suggest that nonstationarity might be present at a significance level of 5% in some of the series. In order to respond to this, the authors conclude that first-differencing is the appropriate response. As such, the PVAR is estimated on the differenced series of the data.
 
 ### Methodology {-}
 
@@ -150,14 +150,31 @@ Therefore, incorporating these restrictions to the model and transforming the va
 
 The VAR model by @atems seems to hold up to scrutiny. It is difference-stationary and accounts for the paneled aspects of the data. Furthermore, the ordering restriction is economically sound, and the data seems to be of good quality. Furthermore, their initial specification holds up to robustness checks with respect to different inequality metrics and structural break tests. Moreover, the authors insulate themselves against possible criticism when it comes to omitted variable bias by including another variable, human capital, and re-estimating the VAR as a trivariate model. However, their metric of 'human capital' - average years of schooling per state - seems to be fairly simplistic. Arguments can be made for a more nuanced metric that includes labour market information.^[For instance, an inclusion of labour force participation rates,  unemployment figures or a variable measuring average work experience might be suitable.]
 
-Furthermore, the authors do not explicitly provide diagnostic tests such as autocorrelation functions (ACFs) or Q-stats, important tools with which to check for white noise errors. Similarly, structural breaks are not estimated
+Furthermore, the authors do not explicitly provide diagnostic tests such as autocorrelation functions (ACFs) or Q-stats, important tools with which to check for white noise errors. 
+
+Several extensions to this study can be undertaken, the first of which is to extend the model to include new data from 2005 to 2018, which, at the time of writing, was not available to the authors. Another extension to consider would be the inclusion of state subsamples, delineated according to geographical regions, to see whether some regions drive the results found by @atems. These extensions will be the primary contribution of the current analysis. 
 
 
 # Replication \label{Section 3}
 
 - Descriptive Statistics
+```{r Fig1, echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
+
+knitr::include_graphics("Fig1_US_Income_gridplot.png")
+
+```
+
+
+```{r Fig2, echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
+
+knitr::include_graphics("Fig2_Inequality_Measures.png")
+
+```
+
 
 - Unit Root tests
+
+Like the authors, we employ four tests for unit roots^[the Fischer-type ADF, LLC, HT and IPS tests], and one explicitly for stationarity^[The Hadri LM test]. Like @atems, these tests are performed on demeaned data. 
 
 - ACF's? Checking for White Noise Errors
 

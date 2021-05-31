@@ -1,0 +1,72 @@
+---
+title: "Unit Root Tests"
+author: "J Coetsee - 19491050"
+date: "31/05/2021"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+library(tidyverse)
+library(scales)
+theme_set(theme_light())
+library(lubridate)
+library(panelvar)
+library(gridExtra)
+library(plm)
+library(tseries)
+
+#sourcing in functions from code folder 
+
+source("code/growth_fun.R")
+
+data <- read.csv("C:/Projects/Time_Series/PVAR_19491050/data/joined.csv")
+```
+
+# Series Demeaning:
+
+```{r}
+
+data %>% 
+    group_by(State) %>% 
+    mutate(Gini_demeaned = (Gini - mean(Gini)),
+           Inc_demeaned = (realpc_income - mean(realpc_income))) %>% 
+    filter(State == "Alabama") %>% 
+    ggplot()+
+    geom_line(aes(Year, Index))
+
+data %>% 
+    group_by(State) %>% 
+    mutate(Gini_demeaned = Gini - mean(Gini)) %>% view()
+
+
+
+```
+
+
+
+# using purtest: 
+
+```{r}
+
+purtest()
+
+```
+
+
+
+
+growth rates of inequality measures:
+
+```{r}
+
+ineq1930 <- inequality %>% 
+  group_by(State) %>% 
+  mutate(across(Atkin05:Theil, growth_fun)) %>% 
+  filter(Year != "1929")
+
+```
+
+
