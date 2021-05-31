@@ -29,44 +29,556 @@ data <- read.csv("C:/Projects/Time_Series/PVAR_19491050/data/joined.csv")
 
 ```{r}
 
-data %>% 
+#creating cols of demeaned data:
+data <- data %>% 
     group_by(State) %>% 
-    mutate(Gini_demeaned = (Gini - mean(Gini)),
-           Inc_demeaned = (realpc_income - mean(realpc_income))) %>% 
-    filter(State == "Alabama") %>% 
-    ggplot()+
-    geom_line(aes(Year, Index))
+    mutate(Gini_dem = (Gini - mean(Gini)),
+           Inc_dem = (realpc_income - mean(realpc_income))) 
 
-data %>% 
-    group_by(State) %>% 
-    mutate(Gini_demeaned = Gini - mean(Gini)) %>% view()
+### creating Gini data for levels
 
+Gini_demeaned <- data %>% 
+  select(c(Year, State, Gini_dem))
 
+#this is the dataset used for the tests:
+
+gini_data_wide <-  data.frame(split(Gini_demeaned$Gini_dem, Gini_demeaned$State))
+
+### Creating Income Data for Levels
+
+inc_demeaned <- data %>% 
+  select(c(Year, State, Inc_dem))
+
+#and the df used for tests:
+
+inc_data_wide <-  data.frame(split(inc_demeaned$Inc_dem, inc_demeaned$State))
 
 ```
-
 
 
 # using purtest: 
 
 ```{r}
-
-purtest()
-
+#example:
+#data("Grunfeld", package = "plm")
+#y <- data.frame(split(Grunfeld$inv, Grunfeld$firm)) # individuals in columns
+#purtest(y, pmax = 4, exo = "intercept", test = "madwu")
+## same via formula interface
+#purtest(inv ~ 1, data = Grunfeld, index = c("firm", "year"), pmax = 4, test = "madwu")
 ```
 
+### Unit Root Tests, the level of Gini. Four tests, "levinlin", "ips", "madwu" and "hadri". 
 
 
+naming convention:
 
-growth rates of inequality measures:
+gtest1l - where 'g' = gini, 'test1' = intercept and 'l' = levinlin
+
+e.g. incgtest2a = income growth, trend and intercept, using madwu (ADF)
 
 ```{r}
 
-ineq1930 <- inequality %>% 
-  group_by(State) %>% 
-  mutate(across(Atkin05:Theil, growth_fun)) %>% 
-  filter(Year != "1929")
+# LLC:
+
+# Gini level - intercept
+
+gtest1l <- purtest(gini_data_wide,
+        exo = "intercept",
+        test = "levinlin",
+        lags = "AIC",
+        pmax = 10)
+
+summary(gtest1l)
+print(gtest1l)
+
+# Gini level - intercept + Trend
+
+gtest2l <- purtest(gini_data_wide,
+        exo = "trend",
+        test = "levinlin",
+        lags = "AIC",
+        pmax = 10)
+
+summary(gtest2l)
+print(gtest2l)
+
+# IPS:
+
+# Gini level - intercept
+
+gtest1i <- purtest(gini_data_wide,
+        exo = "intercept",
+        test = "ips",
+        lags = "AIC",
+        pmax = 10)
+
+summary(gtest1i)
+print(gtest1i)
+
+# Gini level - intercept + Trend
+
+gtest2i <- purtest(gini_data_wide,
+        exo = "trend",
+        test = "ips",
+        lags = "AIC",
+        pmax = 10)
+
+summary(gtest2i)
+print(gtest2i)
+
+# ADF:
+
+# Gini level - intercept
+
+gtest1a <- purtest(gini_data_wide,
+        exo = "intercept",
+        test = "madwu",
+        lags = "AIC",
+        pmax = 10)
+
+summary(gtest1a)
+print(gtest1a)
+
+# Gini level - intercept + Trend
+
+gtest2a <- purtest(gini_data_wide,
+        exo = "trend",
+        test = "madwu",
+        lags = "AIC",
+        pmax = 10)
+
+summary(gtest2a)
+print(gtest2a)
+
+
+# hadri
+
+# Gini level - intercept
+
+gtest1h <- purtest(gini_data_wide,
+        exo = "intercept",
+        test = "hadri",
+        lags = "AIC",
+        pmax = 10)
+
+summary(gtest1h)
+print(gtest1h)
+
+# Gini level - intercept + Trend
+
+gtest2h <- purtest(gini_data_wide,
+        exo = "trend",
+        test = "hadri",
+        lags = "AIC",
+        pmax = 10)
+
+summary(gtest2h)
+print(gtest2h)
 
 ```
 
+Unit Root Tests, the *growth* of Gini. Four tests, "levinlin", "ips", "madwu" and "hadri"
+
+```{r}
+
+ginigrowth_demeaned <- Gini_demeaned %>% 
+  group_by(State) %>% 
+  mutate(growth = c(NA,diff(Gini_dem))/lag(Gini_dem, 1)) %>% slice(-1)
+
+ginigrowth_data_wide <- data.frame(split(ginigrowth_demeaned$growth, ginigrowth_demeaned$State))
+
+### LLC:
+
+# Gini level - intercept
+
+ggtest1l <- purtest(ginigrowth_data_wide,
+        exo = "intercept",
+        test = "levinlin",
+        lags = "AIC",
+        pmax = 10)
+
+summary(ggtest1l)
+print(ggtest1l)
+
+# Gini level - intercept + Trend
+
+ggtest2l <- purtest(ginigrowth_data_wide,
+        exo = "trend",
+        test = "levinlin",
+        lags = "AIC",
+        pmax = 10)
+
+summary(ggtest2l)
+print(ggtest2l)
+
+# IPS:
+
+# Gini level - intercept
+
+ggtest1i <- purtest(ginigrowth_data_wide,
+        exo = "intercept",
+        test = "ips",
+        lags = "AIC",
+        pmax = 10)
+
+summary(ggtest1i)
+print(ggtest1i)
+
+# Gini level - intercept + Trend
+
+ggtest2i <- purtest(ginigrowth_data_wide,
+        exo = "trend",
+        test = "ips",
+        lags = "AIC",
+        pmax = 10)
+
+summary(ggtest2i)
+print(ggtest2i)
+
+# ADF:
+
+# Gini level - intercept
+
+ggtest1a <- purtest(ginigrowth_data_wide,
+        exo = "intercept",
+        test = "madwu",
+        lags = "AIC",
+        pmax = 10)
+
+summary(ggtest1a)
+print(ggtest1a)
+
+# Gini level - intercept + Trend
+
+ggtest2a <- purtest(ginigrowth_data_wide,
+        exo = "trend",
+        test = "madwu",
+        lags = "AIC",
+        pmax = 10)
+
+summary(ggtest2a)
+print(ggtest2a)
+
+
+# hadri
+
+# Gini level - intercept
+
+ggtest1h <- purtest(ginigrowth_data_wide,
+        exo = "intercept",
+        test = "hadri",
+        lags = "AIC",
+        pmax = 10)
+
+summary(ggtest1h)
+print(ggtest1h)
+
+# Gini level - intercept + Trend
+
+ggtest2h <- purtest(ginigrowth_data_wide,
+        exo = "trend",
+        test = "hadri",
+        lags = "AIC",
+        pmax = 10)
+
+summary(ggtest2h)
+print(ggtest2h)
+
+
+```
+
+####### Income Unit Root Tests
+
+
+Unit Root Tests, the *level* of Income using "inc_data_wide". Four tests, "levinlin", "ips", "madwu" and "hadri"
+
+```{r}
+
+# LLC:
+
+# Gini level - intercept
+
+inctest1l <- purtest(inc_data_wide,
+        exo = "intercept",
+        test = "levinlin",
+        lags = "AIC",
+        pmax = 10)
+
+summary(inctest1l)
+print(inctest1l)
+
+# Gini level - intercept + Trend
+
+inctest2l <- purtest(inc_data_wide,
+        exo = "trend",
+        test = "levinlin",
+        lags = "AIC",
+        pmax = 10)
+
+summary(inctest2l)
+print(inctest2l)
+
+# IPS:
+
+# Gini level - intercept
+
+inctest1i <- purtest(inc_data_wide,
+        exo = "intercept",
+        test = "ips",
+        lags = "AIC",
+        pmax = 10)
+
+summary(inctest1i)
+print(inctest1i)
+
+# Gini level - intercept + Trend
+
+inctest2i <- purtest(inc_data_wide,
+        exo = "trend",
+        test = "ips",
+        lags = "AIC",
+        pmax = 10)
+
+summary(inctest2i)
+print(inctest2i)
+
+# ADF:
+
+# Gini level - intercept
+
+inctest1a <- purtest(inc_data_wide,
+        exo = "intercept",
+        test = "madwu",
+        lags = "AIC",
+        pmax = 10)
+
+summary(inctest1a)
+print(inctest1a)
+
+# Gini level - intercept + Trend
+
+inctest2a <- purtest(inc_data_wide,
+        exo = "trend",
+        test = "madwu",
+        lags = "AIC",
+        pmax = 10)
+
+summary(inctest2a)
+print(inctest2a)
+
+
+# hadri
+
+# Gini level - intercept
+
+inctest1h <- purtest(inc_data_wide,
+        exo = "intercept",
+        test = "hadri",
+        lags = "AIC",
+        pmax = 10)
+
+summary(inctest1h)
+print(inctest1h)
+
+# Gini level - intercept + Trend
+
+inctest2h <- purtest(inc_data_wide,
+        exo = "trend",
+        test = "hadri",
+        lags = "AIC",
+        pmax = 10)
+
+summary(inctest2h)
+print(inctest2h)
+
+```
+
+Unit Root Tests, the *growth* of Income. Four tests, "levinlin", "ips", "madwu" and "hadri"
+
+```{r}
+
+#growth data for income:
+
+incgrowth_demeaned <- inc_demeaned %>% 
+  group_by(State) %>% 
+  mutate(growth = c(NA,diff(Inc_dem))/lag(Inc_dem, 1)) %>% slice(-1)
+
+incgrowth_data_wide <- data.frame(split(incgrowth_demeaned$growth, incgrowth_demeaned$State))
+
+### LLC:
+
+# Gini level - intercept
+
+incgtest1l <- purtest(incgrowth_data_wide,
+        exo = "intercept",
+        test = "levinlin",
+        lags = "AIC",
+        pmax = 10)
+
+summary(incgtest1l)
+print(incgtest1l)
+
+# Gini level - intercept + Trend
+
+incgtest2l <- purtest(incgrowth_data_wide,
+        exo = "trend",
+        test = "levinlin",
+        lags = "AIC",
+        pmax = 10)
+
+summary(incgtest2l)
+print(incgtest2l)
+
+# IPS:
+
+# Gini level - intercept
+
+incgtest1i <- purtest(incgrowth_data_wide,
+        exo = "intercept",
+        test = "ips",
+        lags = "AIC",
+        pmax = 10)
+
+summary(incgtest1i)
+print(incgtest1i)
+
+# Gini level - intercept + Trend
+
+incgtest2i <- purtest(incgrowth_data_wide,
+        exo = "trend",
+        test = "ips",
+        lags = "AIC",
+        pmax = 10)
+
+summary(incgtest2i)
+print(incgtest2i)
+
+# ADF:
+
+# Gini level - intercept
+
+incgtest1a <- purtest(incgrowth_data_wide,
+        exo = "intercept",
+        test = "madwu",
+        lags = "AIC",
+        pmax = 10)
+
+summary(incgtest1a)
+print(incgtest1a)
+
+# Gini level - intercept + Trend
+
+incgtest2a <- purtest(incgrowth_data_wide,
+        exo = "trend",
+        test = "madwu",
+        lags = "AIC",
+        pmax = 10)
+
+summary(incgtest2a)
+print(incgtest2a)
+
+
+# hadri
+
+# Gini level - intercept
+
+incgtest1h <- purtest(incgrowth_data_wide,
+        exo = "intercept",
+        test = "hadri",
+        lags = "AIC",
+        pmax = 10)
+
+summary(incgtest1h)
+print(incgtest1h)
+
+# Gini level - intercept + Trend
+
+incgtest2h <- purtest(incgrowth_data_wide,
+        exo = "trend",
+        test = "hadri",
+        lags = "AIC",
+        pmax = 10)
+
+summary(incgtest2h)
+print(incgtest2h)
+
+
+```
+
+The full results are thus:
+
+```{r}
+
+# Gini Levels
+
+#LLC:
+gtest1l
+gtest2l
+# IPS:
+gtest1i
+gtest2i
+# ADF:
+gtest1a
+gtest2a
+# Hadri:
+gtest1h
+gtest2h
+
+# Gini growth
+
+#LLC:
+ggtest1l
+ggtest2l
+# IPS:
+ggtest1i
+ggtest2i
+# ADF:
+ggtest1a
+ggtest2a
+# Hadri:
+ggtest1h
+ggtest2h
+
+# Income Levels
+
+#LLC:
+inctest1l
+inctest2l
+# IPS:
+inctest1i
+inctest2i
+# ADF:
+inctest1a
+inctest2a
+# Hadri:
+inctest1h
+inctest2h
+
+# Income growth
+
+#LLC:
+incgtest1l
+incgtest2l
+# IPS:
+incgtest1i
+incgtest2i
+# ADF:
+incgtest1a
+incgtest2a
+# Hadri:
+incgtest1h
+incgtest2h
+
+```
+
+### Table of Results:
+
+```{r}
+
+
+
+statresults <- do.call(rbind, Map(data.frame, incgtest1h, incgtest2h))
+
+
+```
 

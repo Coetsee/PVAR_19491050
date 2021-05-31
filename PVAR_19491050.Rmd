@@ -174,7 +174,7 @@ knitr::include_graphics("Fig2_Inequality_Measures.png")
 
 - Unit Root tests
 
-Like the authors, we employ four tests for unit roots^[the Fischer-type ADF, LLC, HT and IPS tests], and one explicitly for stationarity^[The Hadri LM test]. Like @atems, these tests are performed on demeaned data. 
+Like the authors, we employ three tests for unit roots^[the Fischer-type ADF, LLC and IPS tests], and one explicitly for stationarity^[The Hadri LM test]. Like @atems, these tests are performed on demeaned data, and the panel data is balanced.
 
 - ACF's? Checking for White Noise Errors
 

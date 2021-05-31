@@ -1,5 +1,10 @@
 growth_fun <- function(variable){
-    growth = ((variable - lag(variable))/lag(variable)) * 100
+
+    library(plm)
+
+    # difference for 1 lag:
+
+    growth = c(NA,diff(variable))/lag(variable, 1)
 
     growth
 }
