@@ -1,0 +1,86 @@
+---
+title: "PVAR_est"
+author: "J Coetsee - 19491050"
+date: "01/06/2021"
+output: pdf_document
+---
+
+### PVAR estimation 
+
+# packages and data
+```{r}
+
+theme_set(theme_light())
+library(pacman)
+p_load("tidyverse", "scales", "panelvar", "plm", "tseries")
+source("code/growth_fun.R")
+
+pvar_data <- read.csv("C:/Projects/Time_Series/PVAR_19491050/data/joined.csv") %>% 
+    select(-c(1,3))
+
+#growth rates for gini and pc income:
+
+pvar_data <- pvar_data %>% 
+  group_by(State) %>% 
+  mutate(Gini_growth = c(NA,diff(Gini))/lag(Gini, 1),
+         Inc_growth = c(NA,diff(realpc_income))/lag(realpc_income, 1)) %>% slice(-1)
+
+```
+
+# Baseline PVAR estimation - same specification 
+
+```{r}
+
+#need to figure out what predet_vars and exog_vars are in my model? It can't be the same.
+
+baseline <- pvargmm(
+    dependent_vars = c("Inc_growth", "Gini_growth"),
+    lags = 4,
+    predet_vars = c("Inc_growth", "Gini_growth"),
+    exog_vars = c("Inc_growth", "Gini_growth"),
+    transformation = "fod",
+    data = pvar_data,
+    panel_identifier = c("State", "Year"),
+    steps = c("twostep"),
+    system_instruments = TRUE,
+        max_instr_dependent_vars = 99,
+    max_instr_predet_vars = 99,
+    min_instr_dependent_vars = 2L,
+    min_instr_predet_vars = 1L,
+    collapse = FALSE
+)
+
+```
+
+example:
+
+```{r}
+## Not run:
+library(panelvar)
+data(abdata)
+
+#it works for both the dataset without the matrix of years. Both deliver the same results. 
+abdata_nomat <- abdata %>% 
+    select(-c(yr1976:yr1984))
+
+ex3_abdata <-pvargmm(
+    dependent_vars = c("emp"),
+    lags = 4,
+    predet_vars = c("wage"),
+    exog_vars = c("cap"),
+    transformation = "fd",
+    data = abdata_nomat,
+    panel_identifier = c("id", "year"),
+    steps = c("twostep"),
+    system_instruments = TRUE,
+    max_instr_dependent_vars = 99,
+    max_instr_predet_vars = 99,
+    min_instr_dependent_vars = 2L,
+    min_instr_predet_vars = 1L,
+    collapse = FALSE
+)
+## End(Not run)
+summary(ex3_abdata)
+
+```
+

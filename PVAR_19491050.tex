@@ -252,6 +252,8 @@ approaches will be given, after which the contribution of Atems \& Jones
 critical lens, thereby also informing which robustness checks are
 considered the important ones to include in the current analysis.
 
+\newpage
+
 \hypertarget{literature-review}{%
 \section{\texorpdfstring{Literature Review
 \label{Section 2}}{Literature Review }}\label{literature-review}}
@@ -306,9 +308,15 @@ approach. This approach allows them to examine two things: first, the
 correlation between these variables, and second, the dynamic responses
 of both variables given shocks to income and inequality. The motivation
 for using a PVAR approach is that it captures more complexity than
-either standard VARs or traditional panel date models. It also fits the
-data well, whilst being parsimonious enough without making strong
-identifying assumptions.
+either standard VARs or traditional panel date models due to the
+allowance of dynamic effects and . It also does well at fitting the
+data, whilst being parsimonious enough without making strong identifying
+assumptions (Atems \& Jones, \protect\hyperlink{ref-atems}{2015}; Love
+\& Zicchino, \protect\hyperlink{ref-love}{2006}). Additionally, the
+inclusion of specifically state level panel data reduces possible
+measurement error due to greater homogeneity between states than, for
+instance, countries (Frank,
+\protect\hyperlink{ref-frank}{2009}\protect\hyperlink{ref-frank}{a}).
 
 Their results are displayed using cumulative IRFs, which describe the
 response of one variable to the innovations in the other variable in the
@@ -320,10 +328,9 @@ income per capita and inequality varies over time, and is sensitive to
 specific subsamples of time. Overall, their contribution is novel in
 that it is the first study to employ a panel VAR approach to estimate
 the effect of inequality on income per capita and vice versa by
-utilising US state-level data.
-
-In order to gauge whether their analysis is sufficiently specified, a
-brief overview of the data and employed methodology is discussed below.
+utilising US state-level data. In order to gauge whether their analysis
+is sufficiently specified, a brief overview of the data and employed
+methodology is discussed below.
 
 \hypertarget{data}{%
 \subsubsection*{Data}\label{data}}
@@ -332,9 +339,10 @@ brief overview of the data and employed methodology is discussed below.
 There are three datasets used by Atems \& Jones
 (\protect\hyperlink{ref-atems}{2015}) relevant to our discussion. The
 first, data on state-level economic growth, is measured by the annual
-change in per capita real income for the 48 contiguous US states (listed
-in the Appendix) for the period 1930-2005. The second series is
-state-level income inequality data (sourced by Frank
+change in per capita real income for the 48 contiguous US states, plus
+District of Columbia for the period 1930-2005.\footnote{Hawaii and
+  Alaska are therefore excluded.} The second series is state-level
+income inequality data (sourced by Frank
 (\protect\hyperlink{ref-frank}{2009}\protect\hyperlink{ref-frank}{a})),
 for the same period. Their measure of inequality, the Gini coefficient,
 is constructed using tax filing data.\footnote{The usage of tax data is
@@ -424,64 +432,92 @@ specify the final transformed equation as taking the form:
 \tilde{Y}_{it} = A(L) \tilde{Y}_{i, t-1} + \tilde{\varepsilon}_{i,t} \label{eq2}
 \end{align}
 
-\hypertarget{critiques}{%
-\subsubsection*{Critiques}\label{critiques}}
-\addcontentsline{toc}{subsubsection}{Critiques}
+\hypertarget{overview-and-extensions}{%
+\subsubsection*{Overview and Extensions}\label{overview-and-extensions}}
+\addcontentsline{toc}{subsubsection}{Overview and Extensions}
 
 The VAR model by Atems \& Jones (\protect\hyperlink{ref-atems}{2015})
 seems to hold up to scrutiny. It is difference-stationary and accounts
 for the paneled aspects of the data. Furthermore, the ordering
 restriction is economically sound, and the data seems to be of good
-quality. Furthermore, their initial specification holds up to robustness
+quality. Moreover, their initial specification holds up to robustness
 checks with respect to different inequality metrics and structural break
-tests. Moreover, the authors insulate themselves against possible
-criticism when it comes to omitted variable bias by including another
-variable, human capital, and re-estimating the VAR as a trivariate
-model. However, their metric of `human capital' - average years of
-schooling per state - seems to be fairly simplistic. Arguments can be
-made for a more nuanced metric that includes labour market
-information.\footnote{For instance, an inclusion of labour force
-  participation rates, unemployment figures or a variable measuring
-  average work experience might be suitable.}
+tests. The authors also insulate themselves against possible criticism
+when it comes to omitted variable bias by including another variable,
+human capital, and re-estimating the VAR as a trivariate model. However,
+their metric of `human capital' - average years of schooling per state -
+seems to be fairly simplistic. Arguments can be made for a more nuanced
+metric that includes labour market information.\footnote{For instance,
+  an inclusion of labour force participation rates, unemployment figures
+  or a variable measuring average work experience might be suitable.}
 
-Furthermore, the authors do not explicitly provide diagnostic tests such
-as autocorrelation functions (ACFs) or Q-stats, important tools with
-which to check for white noise errors.
+Given these factors, several extensions to this study can nonetheless be
+identified. The first is to extend the model to include new data from
+2005 to 2018, which, at the time of writing, was not available to the
+authors. Another extension to consider would be the inclusion of state
+subsamples delineated according to geographical regions. The intuition
+behind the latter is to ascertain whether some regions drive the results
+found by Atems \& Jones (\protect\hyperlink{ref-atems}{2015}), which
+would add more nuance to their analysis. For the purposes of this study,
+emphasis will be placed on extending the model to include the new data,
+and to include these regional subsamples. Additionally, the authors do
+not explicitly provide diagnostic tests such as autocorrelation
+functions (ACFs) or Q-stats, important tools with which to check for
+white noise errors. This would be a further extension to consider. The
+subsequent section attempts the abovementioned.
 
-Several extensions to this study can be undertaken, the first of which
-is to extend the model to include new data from 2005 to 2018, which, at
-the time of writing, was not available to the authors. Another extension
-to consider would be the inclusion of state subsamples, delineated
-according to geographical regions, to see whether some regions drive the
-results found by Atems \& Jones (\protect\hyperlink{ref-atems}{2015}).
-These extensions will be the primary contribution of the current
-analysis.
+\newpage
 
 \hypertarget{replication}{%
 \section{\texorpdfstring{Replication
 \label{Section 3}}{Replication }}\label{replication}}
 
-\begin{itemize}
-\tightlist
-\item
-  Descriptive Statistics
-\end{itemize}
+\hypertarget{descriptive-statistics}{%
+\subsection{\texorpdfstring{Descriptive Statistics
+\label{Section 3.1}}{Descriptive Statistics }}\label{descriptive-statistics}}
 
-\includegraphics[width=1\linewidth]{Fig1_US_Income_gridplot}
+In order to prove that the replicated study uses the same series as the
+original, as well as to visualise the additional data from 2005-2018,
+descriptive statistics on the US income and inequality series will now
+be given. Figure {[}\ref{Fig1}{]} below displays the per capita real
+income and per capita real income growth for the United States as a
+whole, averaged at the state level. When looking at Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}), it is clear that the same data is
+being used.
 
-\includegraphics[width=1\linewidth]{Fig2_Inequality_Measures}
+\begin{figure}[H]
+\includegraphics[width=1\linewidth]{Fig1_US_Income_gridplot} \caption{\label{Fig1}}\label{fig:Fig1}
+\end{figure}
 
-\begin{itemize}
-\tightlist
-\item
-  Unit Root tests
-\end{itemize}
+In terms of inequality metrics, Figure {[}\ref{Fig2}{]} gives the
+state-average inequality measures from 1930 to 2018. This graph
+replicates the same graph in Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}). However, it is important to note
+that the current analysis will emphasise only the Gini-coefficient, as
+the robustness checks performed by Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}) with respect to different measures
+were deemed adequate for our purposes.
 
-Like the authors, we employ four tests for unit roots\footnote{the
-  Fischer-type ADF, LLC, HT and IPS tests}, and one explicitly for
-stationarity\footnote{The Hadri LM test}. Like Atems \& Jones
+\begin{figure}[H]
+\includegraphics[width=1\linewidth]{Fig2_Inequality_Measures} \caption{\label{Fig2}}\label{fig:Fig2}
+\end{figure}
+
+\hypertarget{unit-root-tests}{%
+\subsection{\texorpdfstring{Unit Root Tests
+\label{Section 3.2}}{Unit Root Tests }}\label{unit-root-tests}}
+
+We employ three tests for unit roots\footnote{The Fischer-type ADF, LLC
+  and IPS tests. The HT test was excluded as it was not available on the
+  statistical program this study employed.}, and one explicitly for
+stationarity\footnote{The Hadri LM test.}. Like Atems \& Jones
 (\protect\hyperlink{ref-atems}{2015}), these tests are performed on
-demeaned data.
+demeaned data, and the panel data is balanced. Our results are displayed
+in the Appendix, section \Ref{A}. Our results, which include the new
+data from 2005 to 2018, mirror their findings. Although the three unit
+root tests indicate stationarity in levels for both income per capita
+and inequality, the Hadri test indicates that the null of no unit roots
+cannot be rejected for the series of both variables. All tests indicate
+stationarity in the growth rates of the two variables.
 
 \begin{itemize}
 \item
@@ -490,9 +526,18 @@ demeaned data.
   IRF's
 \item
   State Subsample
-\item
-  Adding new data (three years, 2015-2018)
 \end{itemize}
+
+\hypertarget{results-baseline-pvar}{%
+\subsection{\texorpdfstring{Results Baseline PVAR
+\label{Section 3.3}}{Results Baseline PVAR }}\label{results-baseline-pvar}}
+
+The baseline PVAR estimated will follow the same methodology described
+in Atems \& Jones (\protect\hyperlink{ref-atems}{2015}).
+
+\hypertarget{regional-subsamples}{%
+\subsection{\texorpdfstring{Regional Subsamples
+\label{Section 3.4}}{Regional Subsamples }}\label{regional-subsamples}}
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
@@ -541,15 +586,23 @@ Love, I. \& Zicchino, L. 2006. Financial development and dynamic
 investment behavior: Evidence from panel var. \emph{The Quarterly Review
 of Economics and Finance}. 46(2):190--210.
 
+\newpage
+
 \hypertarget{appendix}{%
 \section*{Appendix}\label{appendix}}
 \addcontentsline{toc}{section}{Appendix}
 
-\begin{itemize}
-\tightlist
-\item
-  Table of 48 states and the state sample splits
-\end{itemize}
+\hypertarget{unit-root-test-results}{%
+\subsection{\texorpdfstring{Unit Root Test Results
+\label{A}}{Unit Root Test Results }}\label{unit-root-test-results}}
+
+\begin{center}\includegraphics[width=0.49\linewidth,height=0.35\textheight]{Gini_Levels_Intercept} \includegraphics[width=0.49\linewidth,height=0.35\textheight]{Gini_Levels_Trend} \end{center}
+
+\begin{center}\includegraphics[width=0.49\linewidth,height=0.35\textheight]{Income_Levels_Intercept} \includegraphics[width=0.49\linewidth,height=0.35\textheight]{Income_Levels_Trend} \end{center}
+
+\begin{center}\includegraphics[width=0.49\linewidth,height=0.35\textheight]{Gini_Growth_Intercept} \includegraphics[width=0.49\linewidth,height=0.35\textheight]{Gini_Growth_Trend} \end{center}
+
+\begin{center}\includegraphics[width=0.49\linewidth,height=0.35\textheight]{Income_Growth_Intercept} \includegraphics[width=0.49\linewidth,height=0.35\textheight]{Income_Growth_Trend} \end{center}
 
 \bibliography{Tex/ref}
 

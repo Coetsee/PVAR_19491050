@@ -17,6 +17,8 @@ library(panelvar)
 library(gridExtra)
 library(plm)
 library(tseries)
+library(huxtable)
+
 
 #sourcing in functions from code folder 
 
@@ -512,73 +514,74 @@ The full results are thus:
 # Gini Levels
 
 #LLC:
-gtest1l
-gtest2l
+gtest1l$statistic
+gtest2l$statistic
 # IPS:
-gtest1i
-gtest2i
+gtest1i$statistic
+gtest2i$statistic
 # ADF:
-gtest1a
-gtest2a
+gtest1a$statistic
+gtest2a$statistic
 # Hadri:
-gtest1h
-gtest2h
+gtest1h$statistic
+gtest2h$statistic
 
 # Gini growth
 
 #LLC:
-ggtest1l
-ggtest2l
+ggtest1l$statistic
+ggtest2l$statistic
 # IPS:
-ggtest1i
-ggtest2i
+ggtest1i$statistic
+ggtest2i$statistic
 # ADF:
-ggtest1a
-ggtest2a
+ggtest1a$statistic
+ggtest2a$statistic
 # Hadri:
-ggtest1h
-ggtest2h
+ggtest1h$statistic
+ggtest2h$statistic
 
 # Income Levels
 
 #LLC:
-inctest1l
-inctest2l
+inctest1l$statistic
+inctest2l$statistic
 # IPS:
-inctest1i
-inctest2i
+inctest1i$statistic
+inctest2i$statistic
 # ADF:
-inctest1a
-inctest2a
+inctest1a$statistic
+inctest2a$statistic
 # Hadri:
-inctest1h
-inctest2h
+inctest1h$statistic
+inctest2h$statistic
 
 # Income growth
 
 #LLC:
-incgtest1l
-incgtest2l
+incgtest1l$statistic
+incgtest2l$statistic
 # IPS:
-incgtest1i
-incgtest2i
+incgtest1i$statistic
+incgtest2i$statistic
 # ADF:
-incgtest1a
-incgtest2a
+incgtest1a$statistic
+incgtest2a$statistic
 # Hadri:
-incgtest1h
-incgtest2h
+incgtest1h$statistic
+incgtest2h$statistic
 
 ```
 
-### Table of Results:
+### Table of Results: 
+
+This was not completed, too much difficulty trying to make a table 
 
 ```{r}
 
+#create list
 
-
-statresults <- do.call(rbind, Map(data.frame, incgtest1h, incgtest2h))
-
+unitlist <- list(gtest1l,gtest2l,gtest1i,gtest2i,gtest1a,gtest2a,gtest1h,gtest2h,ggtest1l,ggtest2l,ggtest1i,ggtest2i,ggtest1a,ggtest2a,ggtest1h,ggtest2h,inctest1l,inctest2l,inctest1i,inctest2i,inctest1a,inctest2a,inctest1h,inctest2h,incgtest1l,incgtest2l,incgtest1i,incgtest2i,incgtest1a,incgtest2a,incgtest1h,incgtest2h)
 
 ```
 

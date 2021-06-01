@@ -15,6 +15,7 @@ theme_set(theme_light())
 library(lubridate)
 library(panelvar)
 library(gridExtra)
+library(xtable)
 
 #sourcing in functions from code folder 
 
@@ -176,7 +177,7 @@ p2 <- USincome_defl %>%
       filter(Year >= 1930,
          Year <= 2018) %>% 
   mutate(realpc_income = pc_income/(Index/100),
-         pc_incomegrowth = (realpc_income - lag(realpc_income))/lag(realpc_income)) %>% 
+         pc_incomegrowth = growth_fun(realpc_income)) %>% 
   ggplot() +
   geom_line(aes(Year, pc_incomegrowth), colour = "steelblue") +
   labs(y = "Income Growth",
@@ -185,7 +186,6 @@ p2 <- USincome_defl %>%
 #US income plots:
 
 inc_plot <- grid.arrange(p1, p2, nrow = 1,
-             top = "Figure 1",
              bottom = "A) United States average of real income per capita and B) real income per capita growth at the state level, 1930–2018. Author's own calculations.")
 
 
@@ -209,7 +209,7 @@ US_ineq_facet <-  US_ineq %>%
   ggplot()+
   geom_line(aes(Year, mean_measure, colour = Measure), size = 1) +
   facet_wrap(~ Measure, scales = "free") +
-  labs(title = "Figure 2: US State-level Average of Inequality Measures",
+  labs(title = "US State-level Average of Inequality Measures",
        caption = "1930-2018. Author's own calculations.",
        y = "") +
   theme(plot.caption.position = "plot",
@@ -266,6 +266,12 @@ write.csv(joined, "C:/Projects/Time_Series/PVAR_19491050/data/joined.csv")
 ```
 
 
+# Table States: # this isn't done yet.
 
+```{r}
+statenames_tab <- xtable(statenames, caption = "Table of Congruous States \\label{Tab1}")
 
+#saves dataset with statenames to make table in Excel?
+write.csv(statenames, "C:/Projects/Time_Series/PVAR_19491050/data/statenames.csv")
+```
 

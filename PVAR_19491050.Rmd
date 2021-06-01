@@ -100,6 +100,7 @@ This paper attempts to replicate various parts of the paper by @atems. It will s
 
 The paper will be structured in the following manner: for completeness, a overview of the primary differences between the PVAR and VAR approaches will be given, after which the contribution of @atems will be discussed. Section \ref{Section 2.2} looks at their methodological approach through a critical lens, thereby also informing which robustness checks are considered the important ones to include in the current analysis.
 
+\newpage
 
 # Literature Review \label{Section 2}
 
@@ -111,15 +112,13 @@ However, @love note that this restriction is highly likely to be violated in pra
 
 ## Inequality and Economic Growth [@atems] \label{Section 2.2}
 
-@atems utilise a panel of annual state level income inequality data to consider the relationship between per capita income and income inequality using a panel VAR approach. This approach allows them to examine two things: first, the correlation between these variables, and second, the dynamic responses of both variables given shocks to income and inequality. The motivation for using a PVAR approach is that it captures more complexity than either standard VARs or traditional panel date models. It also fits the data well, whilst being parsimonious enough without making strong identifying assumptions.
+@atems utilise a panel of annual state level income inequality data to consider the relationship between per capita income and income inequality using a panel VAR approach. This approach allows them to examine two things: first, the correlation between these variables, and second, the dynamic responses of both variables given shocks to income and inequality. The motivation for using a PVAR approach is that it captures more complexity than either standard VARs or traditional panel date models due to the allowance of dynamic effects and . It also does well at fitting the data, whilst being parsimonious enough without making strong identifying assumptions [@atems; @love]. Additionally, the inclusion of specifically state level panel data reduces possible measurement error due to greater homogeneity between states than, for instance, countries [@frank].
 
-Their results are displayed using cumulative IRFs, which describe the response of one variable to the innovations in the other variable in the system.^[Cumulative IRFs must be interpreted as capturing the effect on the levels of the variables, and not their growth rates.] They find that shocks to inequality has significant negative effects on the level of income per capita. They also find that the relation between income per capita and inequality varies over time, and is sensitive to specific subsamples of time. Overall, their contribution is novel in that it is the first study to employ a panel VAR approach to estimate the effect of inequality on income per capita and vice versa by utilising US state-level data.
-
-In order to gauge whether their analysis is sufficiently specified, a brief overview of the data and employed methodology is discussed below. 
+Their results are displayed using cumulative IRFs, which describe the response of one variable to the innovations in the other variable in the system.^[Cumulative IRFs must be interpreted as capturing the effect on the levels of the variables, and not their growth rates.] They find that shocks to inequality has significant negative effects on the level of income per capita. They also find that the relation between income per capita and inequality varies over time, and is sensitive to specific subsamples of time. Overall, their contribution is novel in that it is the first study to employ a panel VAR approach to estimate the effect of inequality on income per capita and vice versa by utilising US state-level data. In order to gauge whether their analysis is sufficiently specified, a brief overview of the data and employed methodology is discussed below. 
 
 ### Data {-}
 
-There are three datasets used by @atems relevant to our discussion. The first, data on state-level economic growth, is measured by the annual change in per capita real income for the 48 contiguous US states (listed in the Appendix) for the period 1930-2005. The second series is state-level income inequality data (sourced by @frank), for the same period. Their measure of inequality, the Gini coefficient, is constructed using tax filing data.^[The usage of tax data is often considered problematic in that it excludes low-income earners, thereby introducing possibly misleading results. This possibility informs the authors' choice to check for robustness by using other inequality metrics.]
+There are three datasets used by @atems relevant to our discussion. The first, data on state-level economic growth, is measured by the annual change in per capita real income for the 48 contiguous US states, plus District of Columbia for the period 1930-2005.^[Hawaii and Alaska are therefore excluded.] The second series is state-level income inequality data (sourced by @frank), for the same period. Their measure of inequality, the Gini coefficient, is constructed using tax filing data.^[The usage of tax data is often considered problematic in that it excludes low-income earners, thereby introducing possibly misleading results. This possibility informs the authors' choice to check for robustness by using other inequality metrics.]
 
 ### Unit Root Testing {-}
 
@@ -145,36 +144,40 @@ Therefore, incorporating these restrictions to the model and transforming the va
 \tilde{Y}_{it} = A(L) \tilde{Y}_{i, t-1} + \tilde{\varepsilon}_{i,t} \label{eq2}
 \end{align}
 
+In addition to the specificion above, @atems identify the cumulative IRF's using a Cholesky decomposition of the covariance matrix of the residuals, and decide on an arbitrary number of lags, arguing that four lags are sufficient to capture the system dynamics. The cumulative IRFs are given for a one standard deviation shock, with 5% confidence bands generated by Monte Carlo simulation methods.
 
-### Critiques {-}
+### Overview and Extensions {-}
 
-The VAR model by @atems seems to hold up to scrutiny. It is difference-stationary and accounts for the paneled aspects of the data. Furthermore, the ordering restriction is economically sound, and the data seems to be of good quality. Furthermore, their initial specification holds up to robustness checks with respect to different inequality metrics and structural break tests. Moreover, the authors insulate themselves against possible criticism when it comes to omitted variable bias by including another variable, human capital, and re-estimating the VAR as a trivariate model. However, their metric of 'human capital' - average years of schooling per state - seems to be fairly simplistic. Arguments can be made for a more nuanced metric that includes labour market information.^[For instance, an inclusion of labour force participation rates,  unemployment figures or a variable measuring average work experience might be suitable.]
+The VAR model by @atems seems to hold up to scrutiny. It is difference-stationary and accounts for the paneled aspects of the data. Furthermore, the ordering restriction is economically sound, and the data seems to be of good quality. Moreover, their initial specification holds up to robustness checks with respect to different inequality metrics and structural break tests. The authors also insulate themselves against possible criticism when it comes to omitted variable bias by including another variable, human capital, and re-estimating the VAR as a trivariate model. However, their metric of 'human capital' - average years of schooling per state - seems to be fairly simplistic. Arguments can be made for a more nuanced metric that includes labour market information.^[For instance, an inclusion of labour force participation rates, unemployment figures or a variable measuring average work experience might be suitable.]
 
-Furthermore, the authors do not explicitly provide diagnostic tests such as autocorrelation functions (ACFs) or Q-stats, important tools with which to check for white noise errors. 
+Given these factors, several extensions to this study can nonetheless be identified. The first is to extend the model to include new data from 2005 to 2018, which, at the time of writing, was not available to the authors. Another extension to consider would be the inclusion of state subsamples delineated according to geographical regions. The intuition behind the latter is to ascertain whether some regions drive the results found by @atems, which would add more nuance to their analysis. For the purposes of this study, emphasis will be placed on extending the model to include the new data, and to include these regional subsamples. Additionally, the authors do not explicitly provide diagnostic tests such as autocorrelation functions (ACFs) or Q-stats, important tools with which to check for white noise errors. This would be a further extension to consider. The subsequent section attempts the abovementioned.
 
-Several extensions to this study can be undertaken, the first of which is to extend the model to include new data from 2005 to 2018, which, at the time of writing, was not available to the authors. Another extension to consider would be the inclusion of state subsamples, delineated according to geographical regions, to see whether some regions drive the results found by @atems. These extensions will be the primary contribution of the current analysis. 
-
+\newpage 
 
 # Replication \label{Section 3}
 
-- Descriptive Statistics
-```{r Fig1, echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
+## Descriptive Statistics  \label{Section 3.1}
+
+In order to prove that the replicated study uses the same series as the original, as well as to visualise the additional data from 2005-2018, descriptive statistics on the US income and inequality series will now be given. Figure [\ref{Fig1}] below displays the per capita real income and per capita real income growth for the United States as a whole, averaged at the state level. When looking at @atems, it is clear that the same data is being used.
+
+```{r Fig1, fig.cap="\\label{Fig1}", echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
 
 knitr::include_graphics("Fig1_US_Income_gridplot.png")
 
 ```
 
+In terms of inequality metrics, Figure [\ref{Fig2}] gives the state-average inequality measures from 1930 to 2018. This graph replicates the same graph in @atems. However, it is important to note that the current analysis will emphasise only the Gini-coefficient, as the robustness checks performed by @atems with respect to different measures were deemed adequate for our purposes.
 
-```{r Fig2, echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
+```{r Fig2,fig.cap="\\label{Fig2}", echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
 
 knitr::include_graphics("Fig2_Inequality_Measures.png")
 
 ```
 
 
-- Unit Root tests
+## Unit Root Tests \label{Section 3.2}
 
-Like the authors, we employ three tests for unit roots^[the Fischer-type ADF, LLC and IPS tests], and one explicitly for stationarity^[The Hadri LM test]. Like @atems, these tests are performed on demeaned data, and the panel data is balanced.
+We employ three tests for unit roots^[The Fischer-type ADF, LLC and IPS tests. The HT test was excluded as it was not available on the statistical program this study employed.], and one explicitly for stationarity^[The Hadri LM test.]. Like @atems, these tests are performed on demeaned data, and the panel data is balanced. Our results are displayed in the Appendix, section \Ref{A}. Our results, which include the new data from 2005 to 2018, mirror their findings. Although the three unit root tests indicate stationarity in levels for both income per capita and inequality, the Hadri test indicates that the null of no unit roots cannot be rejected for the series of both variables. All tests indicate stationarity in the growth rates of the two variables. 
 
 - ACF's? Checking for White Noise Errors
 
@@ -182,7 +185,11 @@ Like the authors, we employ three tests for unit roots^[the Fischer-type ADF, LL
 
 - State Subsample
 
-- Adding new data (three years, 2015-2018)
+## Results Baseline PVAR \label{Section 3.3}
+
+The baseline PVAR estimated in this section will follow the same methodology described in @atems, using equation \ref{eq2}.  
+
+## Regional Subsamples \label{Section 3.4}
 
 
 # Conclusion
@@ -194,9 +201,37 @@ Like the authors, we employ three tests for unit roots^[the Fischer-type ADF, LL
 
 <div id="refs"></div>
 
+\newpage
 
 # Appendix {-}
 
-* Table of 48 states and the state sample splits
+## Unit Root Test Results \label{A}
 
+```{r unit1, , echo = FALSE, fig.show='hold', fig.align='center', message = FALSE, warning = FALSE, out.width="49%", out.height="35%", fig.pos="H"}
+knitr::include_graphics("Gini_Levels_Intercept.png")
+knitr::include_graphics("Gini_Levels_Trend.png")
+
+```
+
+
+```{r unit2, , echo = FALSE, fig.show='hold', fig.align='center', message = FALSE, warning = FALSE, out.width="49%", out.height="35%", fig.pos="H"}
+knitr::include_graphics("Income_Levels_Intercept.png")
+knitr::include_graphics("Income_Levels_Trend.png")
+
+```
+
+
+```{r unit3, , echo = FALSE, fig.show='hold', fig.align='center', message = FALSE, warning = FALSE, out.width="49%", out.height="35%", fig.pos="H"}
+knitr::include_graphics("Gini_Growth_Intercept.png")
+knitr::include_graphics("Gini_Growth_Trend.png")
+
+```
+
+
+```{r unit4, echo = FALSE, fig.show='hold', fig.align='center', message = FALSE, warning = FALSE, out.width="49%", out.height="35%", fig.pos="H"}
+
+knitr::include_graphics("Income_Growth_Intercept.png")
+knitr::include_graphics("Income_Growth_Trend.png")
+
+```
 
