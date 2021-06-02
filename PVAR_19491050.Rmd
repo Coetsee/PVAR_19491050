@@ -162,7 +162,7 @@ In order to prove that the replicated study uses the same series as the original
 
 ```{r Fig1, fig.cap="\\label{Fig1}", echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
 
-knitr::include_graphics("Fig1_US_Income_gridplot.png")
+knitr::include_graphics("images/Fig1_US_Income_gridplot.png")
 
 ```
 
@@ -170,7 +170,7 @@ In terms of inequality metrics, Figure [\ref{Fig2}] gives the state-average ineq
 
 ```{r Fig2,fig.cap="\\label{Fig2}", echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
 
-knitr::include_graphics("Fig2_Inequality_Measures.png")
+knitr::include_graphics("images/Fig2_Inequality_Measures.png")
 
 ```
 
@@ -208,30 +208,30 @@ The baseline PVAR estimated in this section will follow the same methodology des
 ## Unit Root Test Results \label{A}
 
 ```{r unit1, , echo = FALSE, fig.show='hold', fig.align='center', message = FALSE, warning = FALSE, out.width="49%", out.height="35%", fig.pos="H"}
-knitr::include_graphics("Gini_Levels_Intercept.png")
-knitr::include_graphics("Gini_Levels_Trend.png")
+knitr::include_graphics("images/Gini_Levels_Intercept.png")
+knitr::include_graphics("images/Gini_Levels_Trend.png")
 
 ```
 
 
 ```{r unit2, , echo = FALSE, fig.show='hold', fig.align='center', message = FALSE, warning = FALSE, out.width="49%", out.height="35%", fig.pos="H"}
-knitr::include_graphics("Income_Levels_Intercept.png")
-knitr::include_graphics("Income_Levels_Trend.png")
+knitr::include_graphics("images/Income_Levels_Intercept.png")
+knitr::include_graphics("images/Income_Levels_Trend.png")
 
 ```
 
 
 ```{r unit3, , echo = FALSE, fig.show='hold', fig.align='center', message = FALSE, warning = FALSE, out.width="49%", out.height="35%", fig.pos="H"}
-knitr::include_graphics("Gini_Growth_Intercept.png")
-knitr::include_graphics("Gini_Growth_Trend.png")
+knitr::include_graphics("images/Gini_Growth_Intercept.png")
+knitr::include_graphics("images/Gini_Growth_Trend.png")
 
 ```
 
 
 ```{r unit4, echo = FALSE, fig.show='hold', fig.align='center', message = FALSE, warning = FALSE, out.width="49%", out.height="35%", fig.pos="H"}
 
-knitr::include_graphics("Income_Growth_Intercept.png")
-knitr::include_graphics("Income_Growth_Trend.png")
+knitr::include_graphics("images/Income_Growth_Intercept.png")
+knitr::include_graphics("images/Income_Growth_Trend.png")
 
 ```
 
