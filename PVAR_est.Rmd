@@ -11,9 +11,16 @@ output: pdf_document
 ```{r}
 
 library(pacman)
-p_load("tidyverse", "scales", "panelvar", "plm", "tseries")
+p_load("scales", "panelvar", "plm", "tseries", "vars", "tidyverse")
 source("code/growth_fun.R")
 theme_set(theme_light())
+
+#setting memory limits (atm limit.size = 311.61)
+
+memory.limit(size=50000)
+
+
+# reading in data
 
 pvar_data <- read.csv("C:/Projects/Time_Series/PVAR_19491050/data/joined.csv")
 
@@ -21,24 +28,25 @@ pvar_data <- read.csv("C:/Projects/Time_Series/PVAR_19491050/data/joined.csv")
 
 pvar_data <- pvar_data %>% 
   group_by(State) %>% 
-  mutate(Gini_growth = c(NA,diff(Gini))/lag(Gini, 1),
-         Inc_growth = c(NA,diff(realpc_income))/lag(realpc_income, 1)) %>% slice(-1) %>% 
+  mutate( Inc_growth = c(NA,diff(realpc_income))/lag(realpc_income, 1), 
+          Gini_growth = c(NA,diff(Gini))/lag(Gini, 1)) %>% slice(-1) %>% 
     mutate(Year = ordered(Year),
            st = as_factor(st)) %>% 
-  ungroup()
+  ungroup() %>% 
+  select(Year, st, Inc_growth, Gini_growth)
 
 # must be in data.frame format, not tibble. I struggled with this for long
 pvar_data <- as.data.frame(pvar_data)
 ```
 
-# Baseline PVAR estimation - same specification 
+# Baseline PVAR estimation - same specification as replicated study
 
 ```{r}
 
-#This runs, but there are memory issues (don't run this)
+#Baseline, it runs, but caps out due to memory issues (error: cannot allocate vector size) (don't run this)
 
-baseline <- pvargmm(dependent_vars = c("Gini_growth", "Inc_growth"),
-                             lags = 1,
+baseline <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
+                             lags = 4,
                              transformation = "fod",
                              data = pvar_data,
                              panel_identifier=c("st", "Year"),
@@ -48,18 +56,51 @@ baseline <- pvargmm(dependent_vars = c("Gini_growth", "Inc_growth"),
                              max_instr_predet_vars = 99,
                              min_instr_dependent_vars = 2L,
                              min_instr_predet_vars = 1L,
-                             collapse = FALSE
+                             collapse = TRUE
 )
 
 summary(baseline)
 
+#IRFs
 
-# trying with a smaller dataset: just the new data 2005:2018
+pvar_irf <- oirf(baseline, n.ahead = 20)
+
+plot(pvar_irf)
+
+#IRF's confidence bands: 
+
+pvar_conf <- bootstrap_irf(baseline,
+  typeof_irf = "OIRF",
+  n.ahead = 20,
+  nof_Nstar_draws = 10,
+  confidence.band = 0.95)
+
+plot(pvar_irf, pvar_conf)
+
+# fevd:
+
+fevd_baseline <- fevd_orthogonal(baseline, n.ahead = 12)
+
+plot(fevd_baseline)
+
+#serial test applicable? Because of FE, maybe not?
+
+serial_test_pvar <- serial.test(baseline, lags.pt = 12, type = "PT.asymptotic")
+
+# Johansen-Fisher combined test and the Kao residual-based test.
+
+
+### trying with a smaller dataset: just the new data 2005:2018
 
 pvar_small <- pvar_data %>% 
   group_by(st) %>% 
   filter(Year %in% c("2005":"2018"))
+ 
+# as df:
+
 pvar_small <- as.data.frame(pvar_small)
+
+# running var model:
 
 test_small <- pvargmm(dependent_vars = c("Gini_growth", "Inc_growth"),
                              lags = 4,
@@ -76,6 +117,23 @@ test_small <- pvargmm(dependent_vars = c("Gini_growth", "Inc_growth"),
 )
 
 summary(test_small)
+
+# IRF's:
+
+pvar_small_irf <- oirf(test_small, n.ahead = 8)
+
+plot(pvar_small_irf)
+
+#OIRF's:
+
+pvar_small_conf <- bootstrap_irf(test_small,
+  typeof_irf = "OIRF",
+  n.ahead = 8,
+  nof_Nstar_draws = 50,
+  confidence.band = 0.95)
+
+plot(pvar_small_irf, pvar_small_conf)
+
 ```
 
 example:
@@ -126,5 +184,49 @@ ex1_dahlberg_data <- pvargmm(dependent_vars = c("expenditures", "revenues", "gra
 )
 
 summary(ex1_dahlberg_data)
+
+#IRF's of example:
+
+example_irf <- oirf(ex1_dahlberg_data, n.ahead = 12)
+
+plot(example_irf)
+
+bootstrap <- bootstrap_irf(ex1_dahlberg_data,
+  typeof_irf = "OIRF",
+  n.ahead = 12,
+  nof_Nstar_draws = 2,
+  confidence.band = 0.95)
+
+plot(example_irf, bootstrap)
+
+
+```
+
+# baseline with system instruments = TRUE
+
+```{r}
+baselineGMM <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
+                             lags = 4,
+                             transformation = "fod",
+                             data = pvar_data,
+                             panel_identifier=c("st", "Year"),
+                             steps = c("twostep"),
+                             system_instruments = TRUE,
+                             max_instr_dependent_vars = 99,
+                             max_instr_predet_vars = 99,
+                             min_instr_dependent_vars = 2L,
+                             min_instr_predet_vars = 1L,
+                             collapse = TRUE
+)
+
+summary(baselineGMM)
+
+#IRFs
+
+pvargmm_irf <- oirf(baselineGMM, n.ahead = 12)
+
+plot(pvargmm_irf)
+
+
 ```
 
