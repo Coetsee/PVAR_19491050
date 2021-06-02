@@ -10,13 +10,12 @@ output: pdf_document
 # packages and data
 ```{r}
 
-theme_set(theme_light())
 library(pacman)
 p_load("tidyverse", "scales", "panelvar", "plm", "tseries")
 source("code/growth_fun.R")
+theme_set(theme_light())
 
-pvar_data <- read.csv("C:/Projects/Time_Series/PVAR_19491050/data/joined.csv") %>% 
-    select(-c(1))
+pvar_data <- read.csv("C:/Projects/Time_Series/PVAR_19491050/data/joined.csv")
 
 #growth rates for gini and pc income:
 
@@ -36,10 +35,10 @@ pvar_data <- as.data.frame(pvar_data)
 
 ```{r}
 
-#This runs, but there are memory issues
+#This runs, but there are memory issues (don't run this)
 
 baseline <- pvargmm(dependent_vars = c("Gini_growth", "Inc_growth"),
-                             lags = 4,
+                             lags = 1,
                              transformation = "fod",
                              data = pvar_data,
                              panel_identifier=c("st", "Year"),
@@ -55,12 +54,28 @@ baseline <- pvargmm(dependent_vars = c("Gini_growth", "Inc_growth"),
 summary(baseline)
 
 
-# trying with a smaller dataset:
+# trying with a smaller dataset: just the new data 2005:2018
 
 pvar_small <- pvar_data %>% 
   group_by(st) %>% 
-  select(head(st, 10))
+  filter(Year %in% c("2005":"2018"))
+pvar_small <- as.data.frame(pvar_small)
 
+test_small <- pvargmm(dependent_vars = c("Gini_growth", "Inc_growth"),
+                             lags = 4,
+                             transformation = "fod",
+                             data = pvar_small,
+                             panel_identifier=c("st", "Year"),
+                             steps = c("twostep"),
+                             system_instruments = FALSE,
+                             max_instr_dependent_vars = 99,
+                             max_instr_predet_vars = 99,
+                             min_instr_dependent_vars = 2L,
+                             min_instr_predet_vars = 1L,
+                             collapse = FALSE
+)
+
+summary(test_small)
 ```
 
 example:
