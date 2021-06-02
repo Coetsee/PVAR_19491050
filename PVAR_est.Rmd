@@ -16,39 +16,50 @@ p_load("tidyverse", "scales", "panelvar", "plm", "tseries")
 source("code/growth_fun.R")
 
 pvar_data <- read.csv("C:/Projects/Time_Series/PVAR_19491050/data/joined.csv") %>% 
-    select(-c(1,3))
+    select(-c(1))
 
 #growth rates for gini and pc income:
 
 pvar_data <- pvar_data %>% 
   group_by(State) %>% 
   mutate(Gini_growth = c(NA,diff(Gini))/lag(Gini, 1),
-         Inc_growth = c(NA,diff(realpc_income))/lag(realpc_income, 1)) %>% slice(-1)
+         Inc_growth = c(NA,diff(realpc_income))/lag(realpc_income, 1)) %>% slice(-1) %>% 
+    mutate(Year = ordered(Year),
+           st = as_factor(st)) %>% 
+  ungroup()
 
+# must be in data.frame format, not tibble. I struggled with this for long
+pvar_data <- as.data.frame(pvar_data)
 ```
 
 # Baseline PVAR estimation - same specification 
 
 ```{r}
 
-#need to figure out what predet_vars and exog_vars are in my model? It can't be the same.
+#This runs, but there are memory issues
 
-baseline <- pvargmm(
-    dependent_vars = c("Inc_growth", "Gini_growth"),
-    lags = 4,
-    predet_vars = c("Inc_growth", "Gini_growth"),
-    exog_vars = c("Inc_growth", "Gini_growth"),
-    transformation = "fod",
-    data = pvar_data,
-    panel_identifier = c("State", "Year"),
-    steps = c("twostep"),
-    system_instruments = TRUE,
-        max_instr_dependent_vars = 99,
-    max_instr_predet_vars = 99,
-    min_instr_dependent_vars = 2L,
-    min_instr_predet_vars = 1L,
-    collapse = FALSE
+baseline <- pvargmm(dependent_vars = c("Gini_growth", "Inc_growth"),
+                             lags = 4,
+                             transformation = "fod",
+                             data = pvar_data,
+                             panel_identifier=c("st", "Year"),
+                             steps = c("twostep"),
+                             system_instruments = FALSE,
+                             max_instr_dependent_vars = 99,
+                             max_instr_predet_vars = 99,
+                             min_instr_dependent_vars = 2L,
+                             min_instr_predet_vars = 1L,
+                             collapse = FALSE
 )
+
+summary(baseline)
+
+
+# trying with a smaller dataset:
+
+pvar_small <- pvar_data %>% 
+  group_by(st) %>% 
+  select(head(st, 10))
 
 ```
 
@@ -60,8 +71,6 @@ library(panelvar)
 data(abdata)
 
 #it works for both the dataset without the matrix of years. Both deliver the same results. 
-abdata_nomat <- abdata %>% 
-    select(-c(yr1976:yr1984))
 
 ex3_abdata <-pvargmm(
     dependent_vars = c("emp"),
@@ -69,7 +78,7 @@ ex3_abdata <-pvargmm(
     predet_vars = c("wage"),
     exog_vars = c("cap"),
     transformation = "fd",
-    data = abdata_nomat,
+    data = abdata,
     panel_identifier = c("id", "year"),
     steps = c("twostep"),
     system_instruments = TRUE,
@@ -82,5 +91,25 @@ ex3_abdata <-pvargmm(
 ## End(Not run)
 summary(ex3_abdata)
 
+
+### OR
+
+data("Dahlberg")
+## Not run: 
+ex1_dahlberg_data <- pvargmm(dependent_vars = c("expenditures", "revenues", "grants"),
+                             lags = 1,
+                             transformation = "fod",
+                             data = Dahlberg,
+                             panel_identifier=c("id", "year"),
+                             steps = c("twostep"),
+                             system_instruments = FALSE,
+                             max_instr_dependent_vars = 99,
+                             max_instr_predet_vars = 99,
+                             min_instr_dependent_vars = 2L,
+                             min_instr_predet_vars = 1L,
+                             collapse = FALSE
+)
+
+summary(ex1_dahlberg_data)
 ```
 

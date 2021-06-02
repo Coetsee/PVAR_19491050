@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.3.29)  1 JUN 2021 14:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.3.29)  1 JUN 2021 20:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -860,15 +860,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [5]
-<Fig1_US_Income_gridplot.png, id=171, 847.66687pt x 364.36125pt>
+<Fig1_US_Income_gridplot.png, id=172, 847.66687pt x 364.36125pt>
 File: Fig1_US_Income_gridplot.png Graphic file (type png)
 <use Fig1_US_Income_gridplot.png>
-Package pdftex.def Info: Fig1_US_Income_gridplot.png  used on input line 489.
+Package pdftex.def Info: Fig1_US_Income_gridplot.png  used on input line 497.
 (pdftex.def)             Requested size: 483.41216pt x 207.78813pt.
-<Fig2_Inequality_Measures.png, id=175, 765.6103pt x 364.36125pt>
+<Fig2_Inequality_Measures.png, id=176, 765.6103pt x 364.36125pt>
 File: Fig2_Inequality_Measures.png Graphic file (type png)
 <use Fig2_Inequality_Measures.png>
-Package pdftex.def Info: Fig2_Inequality_Measures.png  used on input line 502.
+Package pdftex.def Info: Fig2_Inequality_Measures.png  used on input line 510.
 (pdftex.def)             Requested size: 483.41216pt x 230.06029pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -880,7 +880,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [6 <./Fig1_US_Income_gridplot.png>]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 5
-24.
+32.
 (c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
@@ -911,35 +911,35 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [9]
-<Gini_Levels_Intercept.png, id=213, 342.5297pt x 328.97906pt>
+<Gini_Levels_Intercept.png, id=215, 342.5297pt x 328.97906pt>
 File: Gini_Levels_Intercept.png Graphic file (type png)
 <use Gini_Levels_Intercept.png>
-Package pdftex.def Info: Gini_Levels_Intercept.png  used on input line 599.
+Package pdftex.def Info: Gini_Levels_Intercept.png  used on input line 608.
 (pdftex.def)             Requested size: 236.87885pt x 222.93477pt.
-<Gini_Levels_Trend.png, id=215, 381.67593pt x 329.73187pt>
+<Gini_Levels_Trend.png, id=217, 381.67593pt x 329.73187pt>
 File: Gini_Levels_Trend.png Graphic file (type png)
 <use Gini_Levels_Trend.png>
-Package pdftex.def Info: Gini_Levels_Trend.png  used on input line 599.
+Package pdftex.def Info: Gini_Levels_Trend.png  used on input line 608.
 (pdftex.def)             Requested size: 236.87541pt x 222.93674pt.
-<Income_Levels_Intercept.png, id=216, 344.03531pt x 330.48468pt>
+<Income_Levels_Intercept.png, id=218, 344.03531pt x 330.48468pt>
 File: Income_Levels_Intercept.png Graphic file (type png)
 <use Income_Levels_Intercept.png>
-Package pdftex.def Info: Income_Levels_Intercept.png  used on input line 601.
+Package pdftex.def Info: Income_Levels_Intercept.png  used on input line 610.
 (pdftex.def)             Requested size: 236.87541pt x 222.93642pt.
-<Income_Levels_Trend.png, id=217, 382.42876pt x 331.2375pt>
+<Income_Levels_Trend.png, id=219, 382.42876pt x 331.2375pt>
 File: Income_Levels_Trend.png Graphic file (type png)
 <use Income_Levels_Trend.png>
-Package pdftex.def Info: Income_Levels_Trend.png  used on input line 601.
+Package pdftex.def Info: Income_Levels_Trend.png  used on input line 610.
 (pdftex.def)             Requested size: 236.8758pt x 222.92871pt.
-<Gini_Growth_Intercept.png, id=218, 335.75438pt x 331.2375pt>
+<Gini_Growth_Intercept.png, id=220, 335.75438pt x 331.2375pt>
 File: Gini_Growth_Intercept.png Graphic file (type png)
 <use Gini_Growth_Intercept.png>
-Package pdftex.def Info: Gini_Growth_Intercept.png  used on input line 603.
+Package pdftex.def Info: Gini_Growth_Intercept.png  used on input line 612.
 (pdftex.def)             Requested size: 236.87593pt x 222.92871pt.
-<Gini_Growth_Trend.png, id=219, 383.93437pt x 330.48468pt>
+<Gini_Growth_Trend.png, id=221, 383.93437pt x 330.48468pt>
 File: Gini_Growth_Trend.png Graphic file (type png)
 <use Gini_Growth_Trend.png>
-Package pdftex.def Info: Gini_Growth_Trend.png  used on input line 603.
+Package pdftex.def Info: Gini_Growth_Trend.png  used on input line 612.
 (pdftex.def)             Requested size: 236.87689pt x 222.93642pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -951,15 +951,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 [10 <./Gini_Levels_Intercept.PNG> <./Gini_Levels_Trend.PNG> <./Income_Levels_In
 tercept.PNG> <./Income_Levels_Trend.PNG>]
-<Income_Growth_Intercept.png, id=230, 335.00156pt x 338.76563pt>
+<Income_Growth_Intercept.png, id=232, 335.00156pt x 338.76563pt>
 File: Income_Growth_Intercept.png Graphic file (type png)
 <use Income_Growth_Intercept.png>
-Package pdftex.def Info: Income_Growth_Intercept.png  used on input line 605.
+Package pdftex.def Info: Income_Growth_Intercept.png  used on input line 614.
 (pdftex.def)             Requested size: 236.8713pt x 222.93985pt.
-<Income_Growth_Trend.png, id=231, 383.93437pt x 333.49594pt>
+<Income_Growth_Trend.png, id=233, 383.93437pt x 333.49594pt>
 File: Income_Growth_Trend.png Graphic file (type png)
 <use Income_Growth_Trend.png>
-Package pdftex.def Info: Income_Growth_Trend.png  used on input line 605.
+Package pdftex.def Info: Income_Growth_Trend.png  used on input line 614.
 (pdftex.def)             Requested size: 236.87689pt x 222.93733pt.
 No file PVAR_19491050.bbl.
 
@@ -1003,10 +1003,10 @@ s/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri9.pfb><c:
 /Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pf
 b><c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmt
 t9.pfb>
-Output written on PVAR_19491050.pdf (11 pages, 412909 bytes).
+Output written on PVAR_19491050.pdf (11 pages, 413407 bytes).
 PDF statistics:
- 308 PDF objects out of 1000 (max. 8388607)
- 259 compressed objects within 3 object streams
+ 310 PDF objects out of 1000 (max. 8388607)
+ 261 compressed objects within 3 object streams
  68 named destinations out of 1000 (max. 500000)
  187 words of extra memory for PDF output out of 10000 (max. 10000000)
 
