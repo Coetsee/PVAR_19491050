@@ -11,7 +11,7 @@ output: pdf_document
 ```{r}
 
 library(pacman)
-p_load("scales", "panelvar", "plm", "tseries", "vars", "tidyverse")
+p_load("scales", "panelvar", "plm", "tseries", "vars", "gridExtra", "tidyverse")
 source("code/growth_fun.R")
 theme_set(theme_light())
 
@@ -42,7 +42,6 @@ pvar_data <- as.data.frame(pvar_data)
 # Baseline PVAR estimation - same specification as replicated study
 
 ```{r}
-
 #Baseline, it runs, but caps out due to memory issues (error: cannot allocate vector size) (don't run this)
 
 baseline <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
@@ -63,9 +62,10 @@ summary(baseline)
 
 #IRFs
 
-pvar_irf <- oirf(baseline, n.ahead = 20)
+pvar_irf <- oirf(baseline, n.ahead = 15)
 
-plot(pvar_irf)
+plot(pvar_irf, ylim = c(-0.01, 0.01))
+
 
 #IRF's confidence bands: 
 
@@ -79,17 +79,63 @@ plot(pvar_irf, pvar_conf)
 
 # fevd:
 
-fevd_baseline <- fevd_orthogonal(baseline, n.ahead = 12)
+fevd_baseline <- fevd_orthogonal(baseline, n.ahead = 20)
 
-plot(fevd_baseline)
+plot(fevd_baseline$Gini_growth)
+```
 
-#serial test applicable? Because of FE, maybe not?
+Counterfactual, period without 2005:2018:
 
-serial_test_pvar <- serial.test(baseline, lags.pt = 12, type = "PT.asymptotic")
+```{r}
 
-# Johansen-Fisher combined test and the Kao residual-based test.
+pvar_19302005 <- pvar_data %>% 
+  filter(Year %in% c(1930:2005))
+
+model19302005 <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
+                             lags = 4,
+                             transformation = "fod",
+                             data = pvar_19302005,
+                             panel_identifier=c("st", "Year"),
+                             steps = c("twostep"),
+                             system_instruments = FALSE,
+                             max_instr_dependent_vars = 99,
+                             max_instr_predet_vars = 99,
+                             min_instr_dependent_vars = 2L,
+                             min_instr_predet_vars = 1L,
+                             collapse = TRUE
+)
+
+summary(model19302005)
+
+#IRFs
+
+pvar_irf_19302005 <- oirf(model19302005, n.ahead = 20)
+
+plot(pvar_irf_19302005)
 
 
+#IRF's confidence bands: 
+
+pvar_conf_19302005 <- bootstrap_irf(model19302005,
+  typeof_irf = "OIRF",
+  n.ahead = 20,
+  nof_Nstar_draws = 10,
+  confidence.band = 0.95)
+
+plot(pvar_irf_19302005, pvar_conf_19302005)
+
+# fevd:
+
+fevd_19302005 <- fevd_orthogonal(model19302005, n.ahead = 20)
+
+plot(fevd_19302005$Gini_growth)
+
+```
+
+
+Only Small dataset
+
+```{r}
 ### trying with a smaller dataset: just the new data 2005:2018
 
 pvar_small <- pvar_data %>% 
@@ -120,21 +166,112 @@ summary(test_small)
 
 # IRF's:
 
-pvar_small_irf <- oirf(test_small, n.ahead = 8)
+pvar_small_irf <- oirf(test_small, n.ahead = 12)
 
 plot(pvar_small_irf)
 
-#OIRF's:
+#girf:
+
+pvar_girf <- girf(test_small, n.ahead = 12,ma_approx_steps = 13 )
+plot(pvar_girf)
+
+
+
+# Confidence intervals:
 
 pvar_small_conf <- bootstrap_irf(test_small,
   typeof_irf = "OIRF",
-  n.ahead = 8,
+  n.ahead = 12,
   nof_Nstar_draws = 50,
   confidence.band = 0.95)
 
 plot(pvar_small_irf, pvar_small_conf)
 
+#fevd_small dataset;
+
+fevd_small <- fevd_orthogonal(test_small, n.ahead = 12)
+plot(fevd_small$Inc_growth)
+
+fevd_small_df <- as.data.frame(fevd_small) %>% 
+  mutate(year = round(1:12)) %>% 
+  gather(Measure, value = Value, Gini_growth.Gini_growth:Inc_growth.Inc_growth)
+
+
+#fevd income plot:
+
+income_fevd <- fevd_small_df %>% 
+  group_by(Measure) %>% 
+  filter(Measure == c("Inc_growth.Inc_growth", "Inc_growth.Gini_growth")) %>% 
+  ggplot()+
+  geom_line(aes(y = Value, x = year, colour = Measure)) +
+  labs(title = "Income Growth",
+       y = "",
+       x = "Years") +
+  theme(legend.position = "none") +
+  scale_x_continuous(breaks =seq(1,12, by = 1)) +
+  scale_y_continuous(labels = percent)
+
+
+#fevd Gini plot:
+
+gini_fevd <- fevd_small_df %>% 
+  group_by(Measure) %>% 
+  filter(Measure == c("Gini_growth.Gini_growth", "Gini_growth.Inc_growth")) %>% 
+  ggplot()+
+  geom_line(aes(y = Value, x = year, colour = Measure)) +
+  labs(title = "Gini Growth",
+       y = "",
+       x = "Years") +
+  theme(legend.position = "none")+
+  scale_x_continuous(breaks =seq(1,12, by = 1)) +
+  scale_y_continuous(labels = percent)
+
+
+fevd_plot <- grid.arrange(income_fevd, gini_fevd, nrow = 1,
+                          bottom = "Income in Blue and Gini in Red")
+
 ```
+
+
+### Regional PVARs
+
+1 = 
+2 = 
+3 = 
+4 = 
+5 = 
+6 = 
+7 = 
+8 = 
+
+```{r}
+#reading in income data:
+
+regional <- read.csv("C:/Projects/Time_Series/PVAR_19491050/data/joined.csv")
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 example:
 
@@ -198,6 +335,13 @@ bootstrap <- bootstrap_irf(ex1_dahlberg_data,
   confidence.band = 0.95)
 
 plot(example_irf, bootstrap)
+
+#fevd:
+
+data("ex1_dahlberg_data")
+example_fevd <- fevd_orthogonal(ex1_dahlberg_data, n.ahead = 12)
+
+plot(example_fevd$expenditures)
 
 
 ```

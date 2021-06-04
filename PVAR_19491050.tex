@@ -432,7 +432,7 @@ specify the final transformed equation as taking the form:
 \tilde{Y}_{it} = A(L) \tilde{Y}_{i, t-1} + \tilde{\varepsilon}_{i,t} \label{eq2}
 \end{align}
 
-In addition to the specificion above, Atems \& Jones
+In addition to the specification above, Atems \& Jones
 (\protect\hyperlink{ref-atems}{2015}) identify the cumulative IRF's
 using a Cholesky decomposition of the covariance matrix of the
 residuals, and decide on an arbitrary number of lags, arguing that four
@@ -529,8 +529,6 @@ stationarity in the growth rates of the two variables.
 
 \begin{itemize}
 \item
-  ACF's? Checking for White Noise Errors
-\item
   IRF's
 \item
   State Subsample
@@ -542,7 +540,14 @@ stationarity in the growth rates of the two variables.
 
 The baseline PVAR estimated in this section will follow the same
 methodology described in Atems \& Jones
-(\protect\hyperlink{ref-atems}{2015}), using equation \ref{eq2}.
+(\protect\hyperlink{ref-atems}{2015}), using equation \ref{eq2}. A
+Cholesky decomposition is used to identify the structural error terms,
+and impulse response functions are generated accordingly. Unlike Atems
+\& Jones (\protect\hyperlink{ref-atems}{2015}), however, our results are
+displayed using orthogonalized IRFs.\footnote{This choice is primarily
+  due to our usage of a new statistical package in R, `panelvar',
+  developed recently by Sigmund \& Ferstl
+  (\protect\hyperlink{ref-sigmund2019panel}{2019}).}
 
 \hypertarget{regional-subsamples}{%
 \subsection{\texorpdfstring{Regional Subsamples
@@ -594,6 +599,11 @@ econometrics}. 108(1):1--24.
 Love, I. \& Zicchino, L. 2006. Financial development and dynamic
 investment behavior: Evidence from panel var. \emph{The Quarterly Review
 of Economics and Finance}. 46(2):190--210.
+
+\leavevmode\hypertarget{ref-sigmund2019panel}{}%
+Sigmund, M. \& Ferstl, R. 2019. Panel vector autoregression in r with
+the package panelvar. \emph{The Quarterly Review of Economics and
+Finance}.
 
 \newpage
 
