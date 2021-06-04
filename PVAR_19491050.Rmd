@@ -149,7 +149,7 @@ In addition to the specification above, @atems identify the cumulative IRF's usi
 
 The VAR model by @atems seems to hold up to scrutiny. It is difference-stationary and accounts for the paneled aspects of the data. Furthermore, the ordering restriction is economically sound, and the data seems to be of good quality. Moreover, their initial specification holds up to robustness checks with respect to different inequality metrics and structural break tests. The authors also insulate themselves against possible criticism when it comes to omitted variable bias by including another variable, human capital, and re-estimating the VAR as a trivariate model. However, their metric of 'human capital' - average years of schooling per state - seems to be fairly simplistic. Arguments can be made for a more nuanced metric that includes labour market information.^[For instance, an inclusion of labour force participation rates, unemployment figures or a variable measuring average work experience might be suitable.]
 
-Given these factors, several extensions to this study can nonetheless be identified. The first is to extend the model to include new data from 2005 to 2018, which, at the time of writing, was not available to the authors. Another extension to consider would be the inclusion of state subsamples delineated according to geographical regions. The intuition behind the latter is to ascertain whether some regions drive the results found by @atems, which would add more nuance to their analysis. For the purposes of this study, emphasis will be placed on extending the model to include the new data, and to include these regional subsamples. Additionally, the authors do not explicitly provide diagnostic tests such as autocorrelation functions (ACFs) or Q-stats, important tools with which to check for white noise errors. This would be a further extension to consider. The subsequent section attempts the abovementioned.
+Given these factors, several extensions to this study can nonetheless be identified. The first is to extend the model to include new data from 2005 to 2018, which, at the time of writing, was not available to the authors. Another extension to consider would be the inclusion of state subsamples delineated according to geographical regions. The intuition for the latter is to ascertain whether some regions drive the results found by @atems, which would add more nuance to their analysis. For the purposes of this study, emphasis will be placed on extending the model to include the new data, and to include these regional subsamples. Additionally, as another way of summarising and visualizing the VAR results, it might be useful to include forecast error variance decompositions (FEVDs). This method determines how much variation between the endogenous variables is due to which shock. The subsequent section endeavors to attempt the three extensions mentioned above.
 
 \newpage 
 
@@ -157,7 +157,7 @@ Given these factors, several extensions to this study can nonetheless be identif
 
 ## Descriptive Statistics  \label{Section 3.1}
 
-In order to prove that the replicated study uses the same series as the original, as well as to visualise the additional data from 2005-2018, descriptive statistics on the US income and inequality series will now be given. Figure [\ref{Fig1}] below displays the per capita real income and per capita real income growth for the United States as a whole, averaged at the state level. When looking at @atems, it is clear that the same data is being used.
+In order to prove that the replicated study uses the same series as the original, as well as to visualise the additional data from 2005-2018, descriptive statistics on the US income and inequality series are plotted. Figure [\ref{Fig1}] below displays the per capita real income and per capita real income growth for the United States as a whole, averaged at the state level. These series closely follow the same plots provided by @atems.
 
 ```{r Fig1, fig.cap="\\label{Fig1}", echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
 
@@ -165,7 +165,7 @@ knitr::include_graphics("images/Fig1_US_Income_gridplot.png")
 
 ```
 
-In terms of inequality metrics, Figure [\ref{Fig2}] gives the state-average inequality measures from 1930 to 2018. This graph replicates the same graph in @atems. However, it is important to note that the current analysis will emphasise only the Gini-coefficient, as the robustness checks performed by @atems with respect to different measures were deemed adequate for our purposes.
+In terms of inequality metrics, Figure [\ref{Fig2}] gives the state-average inequality measures from 1930 to 2018, which, again, replicates the same plot in @atems. However, it is important to note that the current analysis will emphasize only the Gini-coefficient (displayed in green), as the robustness checks performed by @atems with respect to different measures were deemed adequate for our purposes.
 
 ```{r Fig2,fig.cap="\\label{Fig2}", echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
 
@@ -173,22 +173,18 @@ knitr::include_graphics("images/Fig2_Inequality_Measures.png")
 
 ```
 
-
 ## Unit Root Tests \label{Section 3.2}
 
-We employ three tests for unit roots^[The Fischer-type ADF, LLC and IPS tests. The HT test was excluded as it was not available on the statistical program this study employed.], and one explicitly for stationarity^[The Hadri LM test.]. Like @atems, these tests are performed on demeaned data, and the panel data is balanced. Our results are displayed in the Appendix, section \Ref{A}. Our results, which include the new data from 2005 to 2018, mirror their findings. Although the three unit root tests indicate stationarity in levels for both income per capita and inequality, the Hadri test indicates that the null of no unit roots cannot be rejected for the series of both variables. All tests indicate stationarity in the growth rates of the two variables. 
-
-
-
-- State Subsample
+We employ three tests for unit roots^[The Fischer-type ADF, LLC and IPS tests. The HT test was excluded as it was not available on the statistical program this study employed.], and one explicitly for stationarity^[The Hadri LM test.]. Like @atems, these tests are performed on demeaned data, and the panel data is balanced. Our results are displayed in the Appendix, section \Ref{A}. Our results, which include the new data from 2005 to 2018, mirror their findings. Although the three unit root tests indicate stationarity in levels for both income per capita and inequality, the Hadri test indicates that the null of no unit roots cannot be rejected for the series of both variables. All tests indicate stationarity in the growth rates of the two variables.
 
 ## Results Baseline PVAR \label{Section 3.3}
 
-The baseline PVAR estimated in this section will follow the same methodology described in @atems, using equation \ref{eq2}. The model is estimated using GMM
-A Cholesky decomposition is used to identify the structural error terms, and impulse response functions are generated accordingly. Unlike @atems, however, our results are displayed using orthogonalized IRFs.^[This choice is primarily due to our usage of a new statistical package in R, 'panelvar', developed recently by @sigmund2019panel.]
+The baseline PVAR estimated in this section will follow the same methodology described in @atems, using equation \ref{eq2}. The models are estimated using GMM, and a Cholesky decomposition is used to identify the structural error terms. Impulse response functions are generated accordingly. Unlike @atems, however, our results are displayed using orthogonalized IRFs.^[This choice is primarily due to our usage of a new statistical package in R, 'panelvar', developed recently by @sigmund2019panel.]
+
+To test for robustness given new data, we estimate two baseline PVARs. The first includes only the sample of the annual series from 1930 to 2005. It is thus an exact replication of @atems. The second model applies the PVAR methodology to the full dataset, including new data. The intuition is that the model by @atems is robust to new data if the two models display similar results.
 
 
-OIRF for new data
+OIRF for new data:
 
 ```{r Fig3,fig.cap="\\label{Fig2}", echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
 

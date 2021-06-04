@@ -11,7 +11,7 @@ output: pdf_document
 ```{r}
 
 library(pacman)
-p_load("scales", "panelvar", "plm", "tseries", "vars", "gridExtra", "tidyverse")
+p_load("scales", "panelvar", "plm", "tseries", "vars", "gridExtra", "tictoc", "parallel", "tidyverse")
 source("code/growth_fun.R")
 theme_set(theme_light())
 
@@ -39,10 +39,10 @@ pvar_data <- pvar_data %>%
 pvar_data <- as.data.frame(pvar_data)
 ```
 
-# Baseline PVAR estimation - same specification as replicated study
+# Baseline PVAR estimation - full sample 1930-2018
 
 ```{r}
-#Baseline, it runs, but caps out due to memory issues (error: cannot allocate vector size) (don't run this)
+#Baseline with 
 
 baseline <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
                              lags = 4,
@@ -62,29 +62,99 @@ summary(baseline)
 
 #IRFs
 
-pvar_irf <- oirf(baseline, n.ahead = 15)
+pvar_irf <- oirf(baseline, n.ahead = 20)
 
-plot(pvar_irf, ylim = c(-0.01, 0.01))
+plot(pvar_irf)
 
 
 #IRF's confidence bands: 
 
+tic()
 pvar_conf <- bootstrap_irf(baseline,
   typeof_irf = "OIRF",
   n.ahead = 20,
   nof_Nstar_draws = 10,
   confidence.band = 0.95)
+toc()
 
 plot(pvar_irf, pvar_conf)
 
+##### Cumulative IRFs:
+
+## manually for income: ## 
+#vector of IRF for income and income
+inc_inc <- c(5.072704e-02, 1.098332e-02, 9.392457e-03, 6.394237e-04, -6.217209e-03, -3.935836e-03, -2.344428e-03, -2.990627e-04,8.811658e-04, 9.751956e-04, 6.016479e-04, 1.495974e-04,-1.217544e-04, -2.059990e-04,-1.485041e-04, -5.419102e-05, 1.220126e-05, 4.004328e-05, 3.470943e-05, 1.640435e-05)
+#vector of IRF for income and growth
+inc_gr <- c(5.109329e-05,-2.069661e-04 ,2.874334e-03 ,2.191037e-03 ,3.081370e-03 ,1.818792e-04 ,-5.204909e-04 ,-6.059566e-04 ,4.214899e-04 ,1.069992e-04 ,9.729479e-05 , 1.074632e-04 ,-3.099483e-05 ,-3.759734e-05 ,-2.555751e-05 ,-1.956363e-05 ,-1.179556e-06 ,7.410495e-06 , 6.584319e-06,4.256369e-06 )
+# Time period after shock
+Year <- c(1:20)
+
+# concatenating in a df:
+pvar_irf_cum_inc <- data.frame(inc_inc, inc_gr, Year)
+
+#plot:
+pvar_irf_cum_inc %>% 
+  mutate(cumul_inc = cumsum(inc_inc)) %>% 
+  ggplot() +
+  geom_line(aes(x = Year, y = cumul_inc)) +
+  labs(title = "Income Response to Income Shock",
+       y = "") +
+  scale_y_continuous(labels = percent)
+
+pvar_irf_cum_inc %>% 
+  mutate(cumul_gr = cumsum(inc_gr)) %>% 
+  ggplot() +
+  geom_line(aes(x = Year, y = cumul_gr)) + 
+  labs(title = "Gini Response to Income Shock",
+       y = "") +
+  scale_y_continuous(labels = percent)
+
+  ## For Growth: ##
+
+#vector of IRF for Growth and income
+gr_inc <- c(0.000000e+00, -4.143564e-03, -1.162255e-02, -6.739416e-03,-1.955385e-03 , 1.345689e-04,1.942735e-03 ,1.656778e-03, 6.767415e-04,  6.031671e-05, -3.247110e-04,  -3.649290e-04, -1.986487e-04, -4.267119e-05, 5.078826e-05, 7.553122e-05,5.132632e-05, 1.700295e-05,-6.297061e-06, -1.489977e-05)
+#vector of IRF for Growth and growth
+gr_gr <- c(3.392918e-02 ,-7.216043e-03 ,-3.633772e-03 ,2.578326e-03 ,-2.325317e-03 , -3.281926e-04,9.607700e-04 ,2.097168e-05 ,1.632232e-04 ,1.668564e-04 ,-1.095603e-04 ,-6.853123e-05 ,-2.744108e-05 ,-3.081116e-05 ,6.728784e-06 ,1.689650e-05 ,8.821304e-06 ,5.870646e-06 ,5.064842e-07 ,-2.960363e-06 )
+
+# concatenating in a df:
+pvar_irf_cum_gr <- data.frame(gr_inc, gr_gr, Year)
+
+#plot: # seems like gini bottom right (but different y axis values)
+
+pvar_irf_cum_gr %>% 
+  mutate(cumul_inc = cumsum(gr_gr)) %>% 
+  ggplot() +
+  geom_line(aes(x = Year, y = cumul_inc)) +
+  labs(title = "Gini Response to Gini Shock",
+       y = "") +
+  scale_y_continuous(labels = percent)
+
+
+# plot: seems like income top right, same y axis values
+pvar_irf_cum_inc %>% 
+  mutate(cumul_gr = cumsum(gr_inc)) %>% 
+  ggplot() +
+  geom_line(aes(x = Year, y = cumul_gr)) +
+  labs(title = "Income Response to Gini Shock",
+       y = "") +
+  scale_y_continuous(labels = percent)
+
+
+#so these 4 are good. But I also need the bootstrapped confidence intervals:
+
+```
+
+
+```{r}
 # fevd:
 
 fevd_baseline <- fevd_orthogonal(baseline, n.ahead = 20)
 
 plot(fevd_baseline$Gini_growth)
+
 ```
 
-Counterfactual, period without 2005:2018:
+Counterfactual, period without 2005:2018: This is the replication study.
 
 ```{r}
 
