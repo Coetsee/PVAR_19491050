@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.3.29)  3 JUN 2021 12:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.3.29)  5 JUN 2021 11:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -860,17 +860,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [5]
-<images/Fig1_US_Income_gridplot.png, id=172, 847.66687pt x 364.36125pt>
+<images/Fig1_US_Income_gridplot.png, id=176, 847.66687pt x 364.36125pt>
 File: images/Fig1_US_Income_gridplot.png Graphic file (type png)
 <use images/Fig1_US_Income_gridplot.png>
 Package pdftex.def Info: images/Fig1_US_Income_gridplot.png  used on input line
- 497.
+ 496.
 (pdftex.def)             Requested size: 483.41216pt x 207.78813pt.
-<images/Fig2_Inequality_Measures.png, id=176, 765.6103pt x 364.36125pt>
+<images/Fig2_Inequality_Measures.png, id=180, 765.6103pt x 364.36125pt>
 File: images/Fig2_Inequality_Measures.png Graphic file (type png)
 <use images/Fig2_Inequality_Measures.png>
 Package pdftex.def Info: images/Fig2_Inequality_Measures.png  used on input lin
-e 510.
+e 509.
 (pdftex.def)             Requested size: 483.41216pt x 230.06029pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -881,11 +881,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [6 <./images/Fig1_US_Income_gridplot.png>]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 5
-32.
-(c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
-File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -895,6 +890,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [7 <./images/Fig2_Inequality_Measures.png>]
+<images/Fig4_baseline_full_COIRFs.png, id=214, 689.57625pt x 352.31625pt>
+File: images/Fig4_baseline_full_COIRFs.png Graphic file (type png)
+<use images/Fig4_baseline_full_COIRFs.png>
+Package pdftex.def Info: images/Fig4_baseline_full_COIRFs.png  used on input li
+ne 559.
+(pdftex.def)             Requested size: 483.41216pt x 246.98524pt.
+<images/Fig5_fevd_full.png, id=215, 581.17125pt x 287.57437pt>
+File: images/Fig5_fevd_full.png Graphic file (type png)
+<use images/Fig5_fevd_full.png>
+Package pdftex.def Info: images/Fig5_fevd_full.png  used on input line 565.
+(pdftex.def)             Requested size: 483.41216pt x 239.20445pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -903,7 +909,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[8]
+[8 <./images/Fig4_baseline_full_COIRFs.png>]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -912,40 +918,49 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[9]
-<images/Gini_Levels_Intercept.png, id=220, 342.5297pt x 328.97906pt>
+[9 <./images/Fig5_fevd_full.png>]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[10]
+<images/Gini_Levels_Intercept.png, id=237, 342.5297pt x 328.97906pt>
 File: images/Gini_Levels_Intercept.png Graphic file (type png)
 <use images/Gini_Levels_Intercept.png>
 Package pdftex.def Info: images/Gini_Levels_Intercept.png  used on input line 6
-18.
+34.
 (pdftex.def)             Requested size: 236.87885pt x 222.93477pt.
-<images/Gini_Levels_Trend.png, id=222, 381.67593pt x 329.73187pt>
+<images/Gini_Levels_Trend.png, id=239, 381.67593pt x 329.73187pt>
 File: images/Gini_Levels_Trend.png Graphic file (type png)
 <use images/Gini_Levels_Trend.png>
-Package pdftex.def Info: images/Gini_Levels_Trend.png  used on input line 618.
+Package pdftex.def Info: images/Gini_Levels_Trend.png  used on input line 634.
 (pdftex.def)             Requested size: 236.87541pt x 222.93674pt.
-<images/Income_Levels_Intercept.png, id=223, 344.03531pt x 330.48468pt>
+<images/Income_Levels_Intercept.png, id=240, 344.03531pt x 330.48468pt>
 File: images/Income_Levels_Intercept.png Graphic file (type png)
 <use images/Income_Levels_Intercept.png>
 Package pdftex.def Info: images/Income_Levels_Intercept.png  used on input line
- 620.
+ 636.
 (pdftex.def)             Requested size: 236.87541pt x 222.93642pt.
-<images/Income_Levels_Trend.png, id=224, 382.42876pt x 331.2375pt>
+<images/Income_Levels_Trend.png, id=241, 382.42876pt x 331.2375pt>
 File: images/Income_Levels_Trend.png Graphic file (type png)
 <use images/Income_Levels_Trend.png>
-Package pdftex.def Info: images/Income_Levels_Trend.png  used on input line 620
+Package pdftex.def Info: images/Income_Levels_Trend.png  used on input line 636
 .
 (pdftex.def)             Requested size: 236.8758pt x 222.92871pt.
-<images/Gini_Growth_Intercept.png, id=225, 335.75438pt x 331.2375pt>
+<images/Gini_Growth_Intercept.png, id=242, 335.75438pt x 331.2375pt>
 File: images/Gini_Growth_Intercept.png Graphic file (type png)
 <use images/Gini_Growth_Intercept.png>
 Package pdftex.def Info: images/Gini_Growth_Intercept.png  used on input line 6
-22.
+38.
 (pdftex.def)             Requested size: 236.87593pt x 222.92871pt.
-<images/Gini_Growth_Trend.png, id=226, 383.93437pt x 330.48468pt>
+<images/Gini_Growth_Trend.png, id=243, 383.93437pt x 330.48468pt>
 File: images/Gini_Growth_Trend.png Graphic file (type png)
 <use images/Gini_Growth_Trend.png>
-Package pdftex.def Info: images/Gini_Growth_Trend.png  used on input line 622.
+Package pdftex.def Info: images/Gini_Growth_Trend.png  used on input line 638.
 (pdftex.def)             Requested size: 236.87689pt x 222.93642pt.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -955,18 +970,18 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[10 <./images/Gini_Levels_Intercept.PNG> <./images/Gini_Levels_Trend.PNG> <./im
+[11 <./images/Gini_Levels_Intercept.PNG> <./images/Gini_Levels_Trend.PNG> <./im
 ages/Income_Levels_Intercept.PNG> <./images/Income_Levels_Trend.PNG>]
-<images/Income_Growth_Intercept.png, id=237, 335.00156pt x 338.76563pt>
+<images/Income_Growth_Intercept.png, id=254, 335.00156pt x 338.76563pt>
 File: images/Income_Growth_Intercept.png Graphic file (type png)
 <use images/Income_Growth_Intercept.png>
 Package pdftex.def Info: images/Income_Growth_Intercept.png  used on input line
- 624.
+ 640.
 (pdftex.def)             Requested size: 236.8713pt x 222.93985pt.
-<images/Income_Growth_Trend.png, id=238, 383.93437pt x 333.49594pt>
+<images/Income_Growth_Trend.png, id=255, 383.93437pt x 333.49594pt>
 File: images/Income_Growth_Trend.png Graphic file (type png)
 <use images/Income_Growth_Trend.png>
-Package pdftex.def Info: images/Income_Growth_Trend.png  used on input line 624
+Package pdftex.def Info: images/Income_Growth_Trend.png  used on input line 640
 .
 (pdftex.def)             Requested size: 236.87689pt x 222.93733pt.
 No file PVAR_19491050.bbl.
@@ -978,44 +993,43 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[11 <./images/Gini_Growth_Intercept.PNG> <./images/Gini_Growth_Trend.PNG> <./im
+[12 <./images/Gini_Growth_Intercept.PNG> <./images/Gini_Growth_Trend.PNG> <./im
 ages/Income_Growth_Intercept.PNG> <./images/Income_Growth_Trend.PNG>] (./PVAR_1
 9491050.aux)
 Package rerunfilecheck Info: File `PVAR_19491050.out' has not changed.
-(rerunfilecheck)             Checksum: 98469ECC7D8334BC0627F45CB3845B59;2566.
+(rerunfilecheck)             Checksum: E56FFFEF14C8A03FB5930CE13EE1AC25;2725.
  ) 
 Here is how much of TeX's memory you used:
- 15071 strings out of 480962
- 262379 string characters out of 5905732
- 551755 words of memory out of 5000000
- 31938 multiletter control sequences out of 15000+600000
- 473596 words of font info for 76 fonts, out of 8000000 for 9000
+ 15068 strings out of 480962
+ 262161 string characters out of 5905732
+ 552044 words of memory out of 5000000
+ 31931 multiletter control sequences out of 15000+600000
+ 473231 words of font info for 75 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  83i,12n,88p,408b,799s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1
-.enc}{c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-
-rm.enc}{c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/l
-m-mathsy.enc}{c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvip
-s/lm/lm-mathit.enc}{c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/en
-c/dvips/lm/lm-ec.enc}<c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/
-type1/public/lm/lmbx10.pfb><c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/
-fonts/type1/public/lm/lmmi10.pfb><c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf
--dist/fonts/type1/public/lm/lmmi8.pfb><c:/Users/Outlet/AppData/Roaming/TinyTeX/
-texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/Outlet/AppData/Roaming/Tin
-yTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/Outlet/AppData/Roamin
-g/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/Users/Outlet/AppData/Ro
-aming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/Outlet/AppDat
-a/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/Users/Outlet/Ap
-pData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/Out
-let/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri7.pfb><c:/User
-s/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri9.pfb><c:
-/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pf
-b><c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmt
-t9.pfb>
-Output written on PVAR_19491050.pdf (11 pages, 414623 bytes).
+{c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.
+enc}{c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-m
+athsy.enc}{c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/l
+m/lm-mathit.enc}{c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/d
+vips/lm/lm-ec.enc}<c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/typ
+e1/public/lm/lmbx10.pfb><c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fon
+ts/type1/public/lm/lmmi10.pfb><c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-di
+st/fonts/type1/public/lm/lmmi8.pfb><c:/Users/Outlet/AppData/Roaming/TinyTeX/tex
+mf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/Outlet/AppData/Roaming/TinyTe
+X/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/Outlet/AppData/Roaming/T
+inyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/Users/Outlet/AppData/Roami
+ng/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/Outlet/AppData/R
+oaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/Users/Outlet/AppDa
+ta/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/Outlet
+/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri7.pfb><c:/Users/O
+utlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri9.pfb><c:/Us
+ers/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy8.pfb><
+c:/Users/Outlet/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt9.
+pfb>
+Output written on PVAR_19491050.pdf (12 pages, 433569 bytes).
 PDF statistics:
- 315 PDF objects out of 1000 (max. 8388607)
- 266 compressed objects within 3 object streams
- 70 named destinations out of 1000 (max. 500000)
- 187 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 333 PDF objects out of 1000 (max. 8388607)
+ 279 compressed objects within 3 object streams
+ 76 named destinations out of 1000 (max. 500000)
+ 205 words of extra memory for PDF output out of 10000 (max. 10000000)
 

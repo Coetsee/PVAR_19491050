@@ -1,0 +1,76 @@
+---
+title: "PVAR_est_reg"
+author: "J Coetsee - 19491050"
+date: "05/06/2021"
+output: pdf_document
+---
+
+### Regional PVARs
+
+1 = New England
+2 = Mideast
+3 = Great Lakes
+4 = Plains
+5 = Southeast
+6 = Southwest
+7 = Rocky Mountain
+8 = Far West
+# packages and data:
+
+
+```{r}
+library(pacman)
+p_load("scales", "panelvar", "plm", "tseries", "vars", "gridExtra", "tictoc", "parallel", "tidyverse")
+source("code/growth_fun.R")
+theme_set(theme_light())
+
+#setting memory limits 
+
+memory.limit(size=50000)
+
+
+# reading in data
+
+pvar_reg <- read.csv("data/joined.csv")
+
+#growth rates for gini and pc income:
+
+pvar_reg <- pvar_reg %>% 
+  group_by(State) %>% 
+  mutate(Inc_growth = c(NA,diff(realpc_income))/lag(realpc_income, 1), 
+          Gini_growth = c(NA,diff(Gini))/lag(Gini, 1)) %>% slice(-1) %>% 
+    mutate(Year = ordered(Year),
+           st = as_factor(st)) %>% 
+  ungroup() %>% 
+  select(Year, st, Region, Inc_growth, Gini_growth)
+
+# must be in data.frame format, not tibble. I struggled with this for long
+
+pvar_reg <- as.data.frame(pvar_reg)
+
+```
+
+# New England (1)
+
+```{r}
+#data:
+
+ne <- pvar_reg %>% 
+    group_by(st) %>% 
+    filter(Region == 1)
+
+ne_full <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
+                             lags = 4,
+                             transformation = "fod",
+                             data = ne,
+                             panel_identifier=c("st", "Year"),
+                             steps = c("twostep"),
+                             system_instruments = FALSE,
+                             max_instr_dependent_vars = 99,
+                             max_instr_predet_vars = 99,
+                             min_instr_dependent_vars = 2L,
+                             min_instr_predet_vars = 1L,
+                             collapse = TRUE
+)
+
+```

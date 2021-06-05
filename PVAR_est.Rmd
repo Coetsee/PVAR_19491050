@@ -7,7 +7,8 @@ output: pdf_document
 
 ### PVAR estimation 
 
-# packages and data
+# packages and data:
+
 ```{r}
 
 library(pacman)
@@ -15,14 +16,14 @@ p_load("scales", "panelvar", "plm", "tseries", "vars", "gridExtra", "tictoc", "p
 source("code/growth_fun.R")
 theme_set(theme_light())
 
-#setting memory limits (atm limit.size = 311.61)
+#setting memory limits 
 
 memory.limit(size=50000)
 
 
 # reading in data
 
-pvar_data <- read.csv("C:/Projects/Time_Series/PVAR_19491050/data/joined.csv")
+pvar_data <- read.csv("data/joined.csv")
 
 #growth rates for gini and pc income:
 
@@ -42,7 +43,7 @@ pvar_data <- as.data.frame(pvar_data)
 # Baseline PVAR estimation - full sample 1930-2018
 
 ```{r}
-#Baseline with 
+#Baseline with full sample:
 
 baseline <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
                              lags = 4,
@@ -67,13 +68,13 @@ pvar_irf <- oirf(baseline, n.ahead = 20)
 plot(pvar_irf)
 
 
-#IRF's confidence bands: 
+#IRF's confidence bands: 100 draws take an hour and a half
 
 tic()
 pvar_conf <- bootstrap_irf(baseline,
   typeof_irf = "OIRF",
   n.ahead = 20,
-  nof_Nstar_draws = 10,
+  nof_Nstar_draws = 100,
   confidence.band = 0.95)
 toc()
 
@@ -89,75 +90,200 @@ inc_gr <- c(5.109329e-05,-2.069661e-04 ,2.874334e-03 ,2.191037e-03 ,3.081370e-03
 # Time period after shock
 Year <- c(1:20)
 
+#vector for lower confidence band
+
+inc_inc_lower <- c(4.363231e-02,8.165715e-03 ,6.013635e-03 ,-2.451223e-03 ,-8.167555e-03 ,-5.556446e-03 ,-3.106569e-03 ,8.974244e-04 , 3.813846e-04 ,4.918800e-04 ,2.428668e-04 ,-1.897230e-04 ,-4.565564e-04 ,-4.124473e-04 ,-2.768374e-04 , -1.324421e-04 ,-2.905892e-05 ,6.201097e-06 ,6.866626e-06 ,-1.163872e-05)
+
+inc_gr_lower <- c(-1.238790e-03,-2.642670e-03 ,9.062350e-04 ,-1.125767e-03 ,-4.980141e-03 ,-8.755237e-04 ,-1.349230e-03 ,-1.202816e-03 ,1.094404e-04 ,-4.991221e-05 , -1.530813e-04, 1.145221e-05 ,-1.536868e-04 ,-1.526611e-04 ,-1.053238e-04 , -7.233912e-05, -3.376425e-05 ,-3.058459e-06 ,-5.115544e-06 ,-6.829022e-06 )
+
+inc_inc_upper <- c( 5.819039e-02, 1.747194e-02,   1.189443e-02 ,  2.425484e-03,   -4.618139e-03 , -2.714988e-03 , -1.110354e-03 , 8.771280e-04, 1.909159e-03 , 1.660196e-03 ,  9.384117e-04 ,  3.787130e-04 , 2.915978e-05 , -5.748233e-05 , -4.605359e-05 ,  5.686039e-05,  1.279945e-04,  1.231902e-04 , 9.722115e-05 , 6.090218e-05 )
+
+
+inc_gr_upper <- c(1.831707e-03,1.923251e-03,5.113049e-03,3.286192e-03,-1.155553e-03,4.953605e-04,-6.866389e-05,-9.604849e-05, 8.242024e-04, 3.834222e-04, 2.724125e-04, 2.636548e-04, 4.383398e-05, 1.744325e-06, 1.302786e-05, 7.292966e-06, 2.380345e-05,3.211043e-05,1.868117e-05, 1.517870e-05)
+
 # concatenating in a df:
-pvar_irf_cum_inc <- data.frame(inc_inc, inc_gr, Year)
+pvar_irf_cum_inc <- data.frame(inc_inc, inc_gr, Year, inc_inc_upper, inc_gr_upper, inc_inc_lower, inc_gr_lower)
 
 #plot:
-pvar_irf_cum_inc %>% 
-  mutate(cumul_inc = cumsum(inc_inc)) %>% 
+baseline_coinf_inc_inc <- pvar_irf_cum_inc %>% 
+  mutate(cumul_inc = cumsum(inc_inc),
+         cumul_upper = cumsum(inc_inc_upper),
+         cumul_lower = cumsum(inc_inc_lower)) %>% 
   ggplot() +
-  geom_line(aes(x = Year, y = cumul_inc)) +
+  geom_line(aes(x = Year, y = cumul_inc), size = 1) +
   labs(title = "Income Response to Income Shock",
-       y = "") +
-  scale_y_continuous(labels = percent)
+       y = "Percent") +
+  geom_line(aes(x = Year, y = cumul_upper)) +
+  geom_line(aes(x = Year, y = cumul_lower)) +
+  geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
 
-pvar_irf_cum_inc %>% 
-  mutate(cumul_gr = cumsum(inc_gr)) %>% 
+baseline_coinf_inc_gr <-pvar_irf_cum_inc %>% 
+  mutate(cumul_gr = cumsum(inc_gr),
+         cumul_upper = cumsum(inc_gr_upper),
+         cumul_lower = cumsum(inc_gr_lower)) %>% 
   ggplot() +
-  geom_line(aes(x = Year, y = cumul_gr)) + 
+  geom_line(aes(x = Year, y = cumul_gr), size = 1) + 
   labs(title = "Gini Response to Income Shock",
-       y = "") +
-  scale_y_continuous(labels = percent)
+       y = "Percent") +
+  geom_line(aes(x = Year, y = cumul_upper)) +
+  geom_line(aes(x = Year, y = cumul_lower)) +
+  geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
 
-  ## For Growth: ##
+  ## For Gini: ##
 
-#vector of IRF for Growth and income
+#vector of IRF for Gini and income
 gr_inc <- c(0.000000e+00, -4.143564e-03, -1.162255e-02, -6.739416e-03,-1.955385e-03 , 1.345689e-04,1.942735e-03 ,1.656778e-03, 6.767415e-04,  6.031671e-05, -3.247110e-04,  -3.649290e-04, -1.986487e-04, -4.267119e-05, 5.078826e-05, 7.553122e-05,5.132632e-05, 1.700295e-05,-6.297061e-06, -1.489977e-05)
 #vector of IRF for Growth and growth
 gr_gr <- c(3.392918e-02 ,-7.216043e-03 ,-3.633772e-03 ,2.578326e-03 ,-2.325317e-03 , -3.281926e-04,9.607700e-04 ,2.097168e-05 ,1.632232e-04 ,1.668564e-04 ,-1.095603e-04 ,-6.853123e-05 ,-2.744108e-05 ,-3.081116e-05 ,6.728784e-06 ,1.689650e-05 ,8.821304e-06 ,5.870646e-06 ,5.064842e-07 ,-2.960363e-06 )
 
+# confidence intervals
+
+
+#conf for gr_inc_lower
+
+gr_gr_lower <- c(3.230611e-02,-8.427274e-03, -5.255261e-03, 1.703557e-04,-5.596954e-03,-1.145983e-03, -7.757106e-04, -1.230079e-03,-3.085882e-04, -9.209588e-05,-5.439732e-04, -1.960355e-04,-1.410910e-04,-1.872762e-04,-8.785836e-05,-1.607433e-05, -4.317578e-05,-2.125814e-05,-1.445529e-05, -2.645564e-05)
+
+gr_inc_lower <- c(0.000000e+00,  
+-6.740533e-03, 
+-1.465860e-02, 
+-1.024366e-02,  
+-8.175535e-03, 
+ -2.429579e-03, 
+ 2.493940e-04, 
+ 8.331046e-04, 
+-3.287156e-04, 
+ -3.409474e-04, 
+-6.938270e-04, 
+ -7.404768e-04, 
+ -5.614929e-04,
+ -2.021905e-04, 
+-6.580528e-05, 
+1.477852e-05, 
+ 9.592570e-06 ,
+ -3.555233e-05, 
+-4.165291e-05,
+-4.455474e-05)
+
+# and upper: 
+
+gr_inc_upper <- c( 0.000000e+00,
+-5.920166e-04,
+-7.433883e-03,
+-3.419755e-03,
+6.995887e-04,
+9.035463e-04 ,
+ 2.797153e-03,
+2.577865e-03 ,
+1.554341e-03 ,
+3.898923e-04 ,
+ 2.869077e-05 ,
+-1.501185e-04 ,
+ -3.680740e-06 ,
+ 8.876590e-05,
+1.402338e-04,
+ 1.682094e-04 ,
+ 1.307725e-04,
+ 5.435688e-05,
+ 2.169433e-05,
+-2.089001e-08 )
+
+print(pvar_conf$Upper)
+
+gr_gr_upper <- c(3.722309e-02,-1.312535e-03,6.153984e-03, 8.191214e-03, 6.630317e-04, 1.754789e-03,2.598837e-03,6.292943e-04,1.526119e-03, 8.553053e-04,3.244435e-04, 2.427583e-04,2.053487e-04, 1.384693e-04,1.051766e-04, 1.031216e-04,8.717252e-05,4.707258e-05,4.300116e-05,1.086144e-05)
+
+
 # concatenating in a df:
-pvar_irf_cum_gr <- data.frame(gr_inc, gr_gr, Year)
+pvar_irf_cum_gr <- data.frame(gr_inc, gr_gr, Year,gr_gr_upper, gr_inc_upper, gr_gr_lower, gr_inc_lower )
 
 #plot: # seems like gini bottom right (but different y axis values)
 
-pvar_irf_cum_gr %>% 
-  mutate(cumul_inc = cumsum(gr_gr)) %>% 
+baseline_coinf_gr_gr <-pvar_irf_cum_gr %>% 
+  mutate(cumul_inc = cumsum(gr_gr),
+         cumul_lower = cumsum(gr_gr_lower),
+         cumul_upper = cumsum(gr_gr_upper)) %>% 
   ggplot() +
-  geom_line(aes(x = Year, y = cumul_inc)) +
+  geom_line(aes(x = Year, y = cumul_inc), size = 1) +
   labs(title = "Gini Response to Gini Shock",
-       y = "") +
-  scale_y_continuous(labels = percent)
+       y = "Percent") +
+  geom_line(aes(x = Year, y = cumul_upper)) +
+  geom_line(aes(x = Year, y = cumul_lower)) +
+  geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
 
 
 # plot: seems like income top right, same y axis values
-pvar_irf_cum_inc %>% 
-  mutate(cumul_gr = cumsum(gr_inc)) %>% 
+baseline_coinf_gr_inc <- pvar_irf_cum_inc %>% 
+  mutate(cumul_gr = cumsum(gr_inc),
+         cumul_lower = cumsum(gr_inc_lower),
+         cumul_upper = cumsum(gr_inc_upper)) %>% 
   ggplot() +
-  geom_line(aes(x = Year, y = cumul_gr)) +
+  geom_line(aes(x = Year, y = cumul_gr), size =1 ) +
   labs(title = "Income Response to Gini Shock",
-       y = "") +
-  scale_y_continuous(labels = percent)
+       y = "Percent") +
+  geom_line(aes(x = Year, y = cumul_upper)) +
+  geom_line(aes(x = Year, y = cumul_lower)) +
+  geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
 
+# Grid plot final Full sample baseline
 
-#so these 4 are good. But I also need the bootstrapped confidence intervals:
+baseline_COIRFs <- grid.arrange(baseline_coinf_inc_inc, baseline_coinf_gr_inc, baseline_coinf_inc_gr, baseline_coinf_gr_gr, top = "Cumulative OIRFs (1930-2018)")
 
 ```
 
+fevd for full sample:
 
 ```{r}
 # fevd:
 
-fevd_baseline <- fevd_orthogonal(baseline, n.ahead = 20)
+#fevd_small dataset;
 
-plot(fevd_baseline$Gini_growth)
+fevd_full <- fevd_orthogonal(baseline, n.ahead = 12)
+
+
+fevd_full_df <- as.data.frame(fevd_full) %>% 
+  mutate(year = round(1:12)) %>% 
+  gather(Measure, value = Value, Gini_growth.Gini_growth:Inc_growth.Inc_growth)
+
+
+#fevd income plot:
+
+income_fevd_full <- fevd_full_df %>% 
+  group_by(Measure) %>% 
+  filter(Measure == c("Inc_growth.Inc_growth", "Inc_growth.Gini_growth")) %>% 
+  ggplot()+
+  geom_line(aes(y = Value, x = year, colour = Measure)) +
+  labs(title = "Income Growth",
+       y = "",
+       x = "Years") +
+  theme(legend.position = "none") +
+  scale_x_continuous(breaks =seq(1,12, by = 1)) +
+  scale_y_continuous(labels = percent)
+
+
+#fevd Gini plot:
+
+gini_fevd_full <- fevd_full_df  %>% 
+  group_by(Measure) %>% 
+  filter(Measure == c("Gini_growth.Gini_growth", "Gini_growth.Inc_growth")) %>% 
+  ggplot()+
+  geom_line(aes(y = Value, x = year, colour = Measure)) +
+  labs(title = "Gini Growth",
+       y = "",
+       x = "Years") +
+  theme(legend.position = "none")+
+  scale_x_continuous(breaks =seq(1,12, by = 1)) +
+  scale_y_continuous(labels = percent)
+
+#full plot for both fevd: 
+
+fevd_plot_full <- grid.arrange(income_fevd, gini_fevd, nrow = 1,
+                          bottom = "Income in Blue and Gini in Red",
+                          top = "Forecast Error Variance Decomposition (1930-2018)")
 
 ```
 
 Counterfactual, period without 2005:2018: This is the replication study.
 
 ```{r}
-
 pvar_19302005 <- pvar_data %>% 
   filter(Year %in% c(1930:2005))
 
@@ -177,7 +303,7 @@ model19302005 <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
 
 summary(model19302005)
 
-#IRFs
+#OIRFs
 
 pvar_irf_19302005 <- oirf(model19302005, n.ahead = 20)
 
@@ -186,14 +312,139 @@ plot(pvar_irf_19302005)
 
 #IRF's confidence bands: 
 
+tic()
 pvar_conf_19302005 <- bootstrap_irf(model19302005,
   typeof_irf = "OIRF",
   n.ahead = 20,
-  nof_Nstar_draws = 10,
+  nof_Nstar_draws = 100,
   confidence.band = 0.95)
+toc()
+
 
 plot(pvar_irf_19302005, pvar_conf_19302005)
 
+# Cumulative OIRFs replicated study:
+
+### income:
+
+rep_inc_inc <- c(5.359524e-02,
+1.102978e-02,
+1.040126e-02,
+7.770004e-04 ,
+-7.125130e-03,
+-4.485756e-03 ,
+-2.747514e-03 ,
+-2.801075e-04, 
+1.072973e-03 ,
+1.211509e-03 ,
+7.590601e-04,
+1.672788e-04 ,
+-1.663350e-04 ,
+-2.766108e-04 ,
+-2.007880e-04 ,
+-6.936843e-05 ,
+2.094427e-05 ,
+5.872679e-05 ,
+5.042643e-05 ,
+2.316715e-05 )
+
+rep_inc_gr <- c(-8.438854e-04,
+-3.923047e-04,
+ 3.176415e-03,
+ 2.682348e-03,
+ -3.706782e-03,
+ 3.796823e-04,
+ -5.580456e-04,
+-7.488315e-04,
+ 5.022671e-04,
+ 1.272728e-04,
+ 1.151307e-04,
+  1.228535e-04,
+ -3.127021e-05,
+-4.853877e-05,
+-3.558430e-05,
+-2.223848e-05,
+-2.446314e-06,
+ 9.741478e-06,
+9.808256e-06,
+5.518135e-06)
+
+
+### Gini: 
+
+rep_gr_gr <- c(3.570591e-02,
+-8.281839e-03,
+-4.093906e-03,
+ 2.859326e-03,
+-2.204872e-03,
+-5.582887e-04,
+ 1.073213e-03,
+1.526033e-04,
+ 9.888283e-05,
+ 1.954644e-04,
+-1.023605e-04,
+-1.086590e-04,
+-3.035443e-05,
+-3.026447e-05,
+ 4.408291e-06,
+  2.360524e-05,
+  1.321114e-05,
+ 6.302895e-06,
+  5.263720e-07,
+ -4.066069e-06)
+
+rep_gr_inc <- c(0.000000e+00,  
+-4.752507e-03, 
+-1.299208e-02,
+-7.800783e-03 , 
+ -1.830681e-03 ,
+3.257032e-04 ,
+2.289915e-03  ,
+ 2.034138e-03 ,
+ 7.722645e-04 ,
+3.282027e-06 ,
+ -4.312469e-04, 
+-4.743343e-04 ,
+-2.540266e-04,
+ -3.981389e-05, 
+  7.930820e-05 ,
+  1.064208e-04,
+  7.102623e-05 ,
+  2.069508e-05  ,
+-1.242388e-05  ,
+-2.325215e-05 )
+
+# Confidence intervals:
+
+#income
+rep_inc_inc_lower <- c()
+
+rep_inc_inc_upper <- c()
+
+rep_inc_gr_lower <- c()
+
+rep_inc_gr_upper <- c()
+
+#gini
+
+rep_gr_gr_lower <- c()
+
+rep_gr_gr_upper <- c()
+
+rep_gr_inc_lower <- c()
+
+rep_gr_inc_upper <- c()
+
+
+rep_inf_cum_gr <- 
+  
+rep_inf_cum_inc <- 
+
+```
+
+
+
+```{r}
 # fevd:
 
 fevd_19302005 <- fevd_orthogonal(model19302005, n.ahead = 20)
@@ -203,7 +454,12 @@ plot(fevd_19302005$Gini_growth)
 ```
 
 
-Only Small dataset
+
+
+
+
+
+ ####### Only Small dataset (new data, 2005-2018) #####
 
 ```{r}
 ### trying with a smaller dataset: just the new data 2005:2018
@@ -244,7 +500,6 @@ plot(pvar_small_irf)
 
 pvar_girf <- girf(test_small, n.ahead = 12,ma_approx_steps = 13 )
 plot(pvar_girf)
-
 
 
 # Confidence intervals:
@@ -301,43 +556,6 @@ fevd_plot <- grid.arrange(income_fevd, gini_fevd, nrow = 1,
                           bottom = "Income in Blue and Gini in Red")
 
 ```
-
-
-### Regional PVARs
-
-1 = 
-2 = 
-3 = 
-4 = 
-5 = 
-6 = 
-7 = 
-8 = 
-
-```{r}
-#reading in income data:
-
-regional <- read.csv("C:/Projects/Time_Series/PVAR_19491050/data/joined.csv")
-
-
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

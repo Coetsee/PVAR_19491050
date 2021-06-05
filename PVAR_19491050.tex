@@ -389,7 +389,6 @@ inequality.\footnote{These are the Relative Mean Deviation, the Theil
   (\protect\hyperlink{ref-frank}{2009}\protect\hyperlink{ref-frank}{a}).}
 
 Their reduced-form empirical specification is as follows:
-
 \begin{align}\tag{1}
 Y_{it} = A(L)Y_{i,t-1} + \delta_i + \varphi_i + \varepsilon_{it} \hspace{12pt} \varepsilon_{it} ~ N(0, \Sigma_{i}), \label{eq1}
 \end{align}
@@ -464,15 +463,16 @@ identified. The first is to extend the model to include new data from
 2005 to 2018, which, at the time of writing, was not available to the
 authors. Another extension to consider would be the inclusion of state
 subsamples delineated according to geographical regions. The intuition
-behind the latter is to ascertain whether some regions drive the results
+for the latter is to ascertain whether some regions drive the results
 found by Atems \& Jones (\protect\hyperlink{ref-atems}{2015}), which
 would add more nuance to their analysis. For the purposes of this study,
 emphasis will be placed on extending the model to include the new data,
-and to include these regional subsamples. Additionally, the authors do
-not explicitly provide diagnostic tests such as autocorrelation
-functions (ACFs) or Q-stats, important tools with which to check for
-white noise errors. This would be a further extension to consider. The
-subsequent section attempts the abovementioned.
+and to include these regional subsamples. Additionally, as another way
+of summarising and visualizing the VAR results, it might be useful to
+include forecast error variance decompositions (FEVDs). This method
+determines how much variation between the endogenous variables is due to
+which shock. The subsequent section endeavors to attempt the three
+extensions mentioned above.
 
 \newpage
 
@@ -486,25 +486,24 @@ subsequent section attempts the abovementioned.
 
 In order to prove that the replicated study uses the same series as the
 original, as well as to visualise the additional data from 2005-2018,
-descriptive statistics on the US income and inequality series will now
-be given. Figure {[}\ref{Fig1}{]} below displays the per capita real
+descriptive statistics on the US income and inequality series are
+plotted. Figure {[}\ref{Fig1}{]} below displays the per capita real
 income and per capita real income growth for the United States as a
-whole, averaged at the state level. When looking at Atems \& Jones
-(\protect\hyperlink{ref-atems}{2015}), it is clear that the same data is
-being used.
+whole, averaged at the state level. These series closely follow the same
+plots provided by Atems \& Jones (\protect\hyperlink{ref-atems}{2015}).
 
 \begin{figure}[H]
 \includegraphics[width=1\linewidth]{images/Fig1_US_Income_gridplot} \caption{\label{Fig1}}\label{fig:Fig1}
 \end{figure}
 
 In terms of inequality metrics, Figure {[}\ref{Fig2}{]} gives the
-state-average inequality measures from 1930 to 2018. This graph
-replicates the same graph in Atems \& Jones
+state-average inequality measures from 1930 to 2018, which, again,
+replicates the same plot in Atems \& Jones
 (\protect\hyperlink{ref-atems}{2015}). However, it is important to note
-that the current analysis will emphasise only the Gini-coefficient, as
-the robustness checks performed by Atems \& Jones
-(\protect\hyperlink{ref-atems}{2015}) with respect to different measures
-were deemed adequate for our purposes.
+that the current analysis will emphasize only the Gini-coefficient
+(displayed in green), as the robustness checks performed by Atems \&
+Jones (\protect\hyperlink{ref-atems}{2015}) with respect to different
+measures were deemed adequate for our purposes.
 
 \begin{figure}[H]
 \includegraphics[width=1\linewidth]{images/Fig2_Inequality_Measures} \caption{\label{Fig2}}\label{fig:Fig2}
@@ -527,27 +526,44 @@ and inequality, the Hadri test indicates that the null of no unit roots
 cannot be rejected for the series of both variables. All tests indicate
 stationarity in the growth rates of the two variables.
 
-\begin{itemize}
-\item
-  IRF's
-\item
-  State Subsample
-\end{itemize}
-
 \hypertarget{results-baseline-pvar}{%
 \subsection{\texorpdfstring{Results Baseline PVAR
 \label{Section 3.3}}{Results Baseline PVAR }}\label{results-baseline-pvar}}
 
 The baseline PVAR estimated in this section will follow the same
 methodology described in Atems \& Jones
-(\protect\hyperlink{ref-atems}{2015}), using equation \ref{eq2}. A
-Cholesky decomposition is used to identify the structural error terms,
-and impulse response functions are generated accordingly. Unlike Atems
-\& Jones (\protect\hyperlink{ref-atems}{2015}), however, our results are
+(\protect\hyperlink{ref-atems}{2015}), using equation \ref{eq2}. The
+models are estimated using GMM, and a Cholesky decomposition is used to
+identify the structural error terms. Impulse response functions are
+generated accordingly. Unlike Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}), however, our results are
 displayed using orthogonalized IRFs.\footnote{This choice is primarily
   due to our usage of a new statistical package in R, `panelvar',
   developed recently by Sigmund \& Ferstl
   (\protect\hyperlink{ref-sigmund2019panel}{2019}).}
+
+To test for robustness given new data, we estimate two baseline PVARs.
+The first includes only the sample of the annual series from 1930 to
+2005. It is thus an exact replication of Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}). The second model applies the PVAR
+methodology to the full dataset, including new data. The intuition is
+that the model by Atems \& Jones (\protect\hyperlink{ref-atems}{2015})
+is robust to new data if the two models display similar results.
+
+COIRF full sample:\footnote{All confidence intervals are calculated at
+  the 95\% level and are generated by Monte Carlo simulation based on
+  100 draws. The low number of draws were chosen due computational
+  limitations.}
+
+\begin{figure}[H]
+\includegraphics[width=1\linewidth]{images/Fig4_baseline_full_COIRFs} \caption{\label{Fig4}}\label{fig:Fig4}
+\end{figure}
+
+Forecast Error Variance Decompositions for the full sample:
+
+\begin{figure}[H]
+\includegraphics[width=1\linewidth]{images/Fig5_fevd_full} \caption{\label{Fig5}}\label{fig:Fig5}
+\end{figure}
 
 \hypertarget{regional-subsamples}{%
 \subsection{\texorpdfstring{Regional Subsamples
@@ -622,6 +638,10 @@ Finance}.
 \begin{center}\includegraphics[width=0.49\linewidth,height=0.35\textheight]{images/Gini_Growth_Intercept} \includegraphics[width=0.49\linewidth,height=0.35\textheight]{images/Gini_Growth_Trend} \end{center}
 
 \begin{center}\includegraphics[width=0.49\linewidth,height=0.35\textheight]{images/Income_Growth_Intercept} \includegraphics[width=0.49\linewidth,height=0.35\textheight]{images/Income_Growth_Trend} \end{center}
+
+\hypertarget{full-sample-oirfs}{%
+\subsection{\texorpdfstring{Full Sample OIRFs
+\label{B}}{Full Sample OIRFs }}\label{full-sample-oirfs}}
 
 \bibliography{Tex/ref}
 
