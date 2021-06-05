@@ -211,7 +211,7 @@ baseline_coinf_gr_gr <-pvar_irf_cum_gr %>%
 
 
 # plot: seems like income top right, same y axis values
-baseline_coinf_gr_inc <- pvar_irf_cum_inc %>% 
+baseline_coinf_gr_inc <- pvar_irf_cum_gr %>% 
   mutate(cumul_gr = cumsum(gr_inc),
          cumul_lower = cumsum(gr_inc_lower),
          cumul_upper = cumsum(gr_inc_upper)) %>% 
@@ -222,6 +222,7 @@ baseline_coinf_gr_inc <- pvar_irf_cum_inc %>%
   geom_line(aes(x = Year, y = cumul_upper)) +
   geom_line(aes(x = Year, y = cumul_lower)) +
   geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
+
 
 # Grid plot final Full sample baseline
 
@@ -369,7 +370,6 @@ rep_inc_gr <- c(-8.438854e-04,
 9.808256e-06,
 5.518135e-06)
 
-
 ### Gini: 
 
 rep_gr_gr <- c(3.570591e-02,
@@ -414,31 +414,255 @@ rep_gr_inc <- c(0.000000e+00,
 -1.242388e-05  ,
 -2.325215e-05 )
 
+
+
+
+
 # Confidence intervals:
 
 #income
-rep_inc_inc_lower <- c()
+rep_inc_inc_lower <- c( 4.550594e-02 ,
+ 9.107598e-03,
+ 7.067469e-03 ,
+ -3.058805e-03  ,
+ -9.952679e-03 ,
+ -6.224038e-03 ,
+ -3.877431e-03 ,
+ -1.305330e-03,
+  3.892280e-04,
+ 6.107659e-04 ,
+ 3.293013e-04 ,
+ -9.416887e-05  ,
+-4.338356e-04 ,
+-5.542699e-04 ,
+ -4.024256e-04 ,
+ -2.138727e-04 ,
+-5.107593e-05 ,
+ 5.751463e-06,
+ 5.706802e-06 ,
+-5.814245e-07)
+         
+rep_inc_inc_upper <- c( 6.061210e-02  ,
+ 1.680053e-02  ,
+ 1.373928e-02 ,
+ 2.928065e-03  ,
+-5.444880e-03 ,
+-3.525448e-03  ,
+ -1.685900e-03 ,
+ 3.896195e-04 ,
+ 1.809126e-03 ,
+ 1.969515e-03 ,
+ 1.307707e-03 ,
+ 5.685217e-04  ,
+4.315447e-05 ,
+ -8.970947e-05  ,
+ -4.475750e-05  ,
+ 1.493845e-06 ,
+1.101241e-04  ,
+1.495037e-04  ,
+ 1.231026e-04 , 
+ 7.495038e-05)
 
-rep_inc_inc_upper <- c()
-
-rep_inc_gr_lower <- c()
-
-rep_inc_gr_upper <- c()
+rep_inc_gr_lower <- c( -1.913963e-03,
+ -2.884725e-03,
+ 8.856933e-04,
+  6.067089e-05,
+ -4.893833e-03,
+ -5.790095e-04,
+ -1.700665e-03,
+ -1.316073e-03,
+ 3.781217e-05,
+-9.914318e-05,
+ -4.895904e-05,
+ 1.368602e-05,
+ -1.351794e-04,
+ -1.429984e-04,
+ -9.519596e-05,
+ -8.632118e-05,
+-2.546929e-05,
+-6.935010e-06,
+ -9.353968e-07,
+ -7.386437e-07)
+        
+rep_inc_gr_upper <- c( 1.220354e-03,
+ 1.751049e-03,
+ 6.712168e-03,
+ 4.061499e-03,
+ -1.497765e-03,
+  1.045894e-03,
+ -7.967311e-05,
+ -9.219948e-05,
+ 8.240606e-04,
+ 3.985533e-04,
+ 4.008804e-04,
+ 3.349544e-04,
+ 5.670299e-05,
+ 1.716420e-05,
+ 5.345373e-06,
+-5.798564e-08,
+2.409271e-05,
+3.804802e-05,
+ 2.852854e-05,
+2.201620e-05)
 
 #gini
 
-rep_gr_gr_lower <- c()
+rep_gr_gr_lower <- c( 3.422564e-02,
+-1.081461e-02,
+ -7.075715e-03,
+ -1.209294e-04,
+ -5.517866e-03,
+-1.788964e-03,
+-7.938936e-05,
+ -7.595993e-04,
+ -4.596992e-04,
+ -1.725192e-04,
+-4.649698e-04,
+-2.411195e-04,
+ -1.182596e-04,
+-1.192043e-04,
+-3.674134e-05,
+-3.345684e-05,
+ -1.909971e-05,
+-1.240930e-05,
+-1.728599e-05,
+ -1.672950e-05)
+         
+rep_gr_gr_upper <- c( 3.854951e-02,
+-2.407221e-03,
+  2.055340e-03,
+ 5.769978e-03,
+ 1.076680e-03,
+ 2.027022e-03,
+ 2.070643e-03,
+  7.717512e-04,
+ 7.386965e-04,
+ 5.190895e-04,
+ 1.164920e-04,
+ 1.582855e-04,
+  1.116030e-04,
+  6.078941e-05,
+  8.343529e-05,
+ 6.894375e-05,
+ 3.844761e-05,
+2.446204e-05,
+9.296610e-06,
+4.354557e-06)
 
-rep_gr_gr_upper <- c()
+rep_gr_inc_lower <- c( 0.000000e+00 ,
+ -6.882593e-03 ,
+ -1.419774e-02 ,
+ -1.009682e-02 ,
+ -3.715419e-03,
+ -9.968888e-04 ,
+  6.356374e-04 ,
+  4.341632e-04 ,
+ -6.141121e-04 ,
+ -4.989820e-04 ,
+ -8.234528e-04 ,
+-7.701073e-04 ,
+ -4.047622e-04 ,
+ -1.449442e-04 ,
+ 1.938768e-07 ,
+7.406705e-06 ,
+-6.652390e-06 ,
+-2.393176e-05 ,
+-5.364130e-05 ,
+-6.065318e-05)
 
-rep_gr_inc_lower <- c()
+rep_gr_inc_upper <- c( 0.000000e+00 ,
+ -1.144841e-04 ,
+ -3.749641e-03  ,
+-7.622836e-04  ,
+ 4.091352e-03  ,
+1.446710e-03 ,
+ 3.264058e-03 ,
+ 2.706154e-03  ,
+ 1.226236e-03 ,
+ 3.098405e-04  ,
+-3.941243e-05  ,
+ -8.945986e-05 ,
+ 5.487117e-05  ,
+  1.253196e-04 ,
+ 2.194840e-04 ,
+ 2.118252e-04 ,
+ 1.366204e-04  ,
+ 5.985916e-05 ,
+ 1.313512e-05, 
+ 6.412530e-07)
 
-rep_gr_inc_upper <- c()
 
+#income data frame for plotting:
+rep_irf_cum_inc <- data.frame(rep_inc_gr, rep_inc_inc, Year, rep_inc_gr_lower, rep_inc_gr_upper, rep_inc_inc_lower, rep_inc_inc_upper)
 
-rep_inf_cum_gr <- 
+# gini df for plotting:
+rep_irf_cum_gr <- data.frame(rep_gr_gr, rep_gr_inc, Year, rep_gr_inc_lower, rep_gr_gr_upper, rep_gr_gr_lower, rep_gr_inc_upper)
   
-rep_inf_cum_inc <- 
+
+#### PLOTTING ####
+
+
+# income income
+rep_coinf_inc_inc <- rep_irf_cum_inc %>% 
+  mutate(cumul_inc = cumsum(rep_inc_inc),
+         cumul_upper = cumsum(rep_inc_inc_upper),
+         cumul_lower = cumsum(rep_inc_inc_lower)) %>% 
+  ggplot() +
+  geom_line(aes(x = Year, y = cumul_inc), size = 1) +
+  labs(title = "Income Response to Income Shock",
+       y = "Percent") +
+  geom_line(aes(x = Year, y = cumul_upper)) +
+  geom_line(aes(x = Year, y = cumul_lower)) +
+  geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
+
+# gini income
+rep_coinf_inc_gr <-rep_irf_cum_inc %>% 
+  mutate(cumul_gr = cumsum(rep_inc_gr),
+         cumul_upper = cumsum(rep_inc_gr_upper),
+         cumul_lower = cumsum(rep_inc_gr_lower)) %>% 
+  ggplot() +
+  geom_line(aes(x = Year, y = cumul_gr), size = 1) + 
+  labs(title = "Gini Response to Income Shock",
+       y = "Percent") +
+  geom_line(aes(x = Year, y = cumul_upper)) +
+  geom_line(aes(x = Year, y = cumul_lower)) +
+  geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
+
+
+
+# gini gini
+rep_coinf_gr_gr <-rep_irf_cum_gr %>% 
+  mutate(cumul_inc = cumsum(rep_gr_gr),
+         cumul_lower = cumsum(rep_gr_gr_lower),
+         cumul_upper = cumsum(rep_gr_gr_upper)) %>% 
+  ggplot() +
+  geom_line(aes(x = Year, y = cumul_inc), size = 1) +
+  labs(title = "Gini Response to Gini Shock",
+       y = "Percent") +
+  geom_line(aes(x = Year, y = cumul_upper)) +
+  geom_line(aes(x = Year, y = cumul_lower)) +
+  geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
+
+
+# plot: seems like income top right, same y axis values
+rep_coinf_gr_inc <- rep_irf_cum_gr %>% 
+  mutate(cumul_gr = cumsum(rep_gr_inc),
+         cumul_lower = cumsum(rep_gr_inc_lower),
+         cumul_upper = cumsum(rep_gr_inc_upper)) %>% 
+  ggplot() +
+  geom_line(aes(x = Year, y = cumul_gr), size =1 ) +
+  labs(title = "Income Response to Gini Shock",
+       y = "Percent") +
+  geom_line(aes(x = Year, y = cumul_upper)) +
+  geom_line(aes(x = Year, y = cumul_lower)) +
+  geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
+
+# Grid plot final Full sample baseline
+
+rep_COIRFs <- grid.arrange(rep_coinf_inc_inc, rep_coinf_gr_inc, rep_coinf_inc_gr, rep_coinf_gr_gr, top = "Cumulative OIRFs (1930-2005)")
+
+  
+
 
 ```
 
