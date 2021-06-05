@@ -461,18 +461,19 @@ metric that includes labour market information.\footnote{For instance,
 Given these factors, several extensions to this study can nonetheless be
 identified. The first is to extend the model to include new data from
 2005 to 2018, which, at the time of writing, was not available to the
-authors. Another extension to consider would be the inclusion of state
-subsamples delineated according to geographical regions. The intuition
-for the latter is to ascertain whether some regions drive the results
-found by Atems \& Jones (\protect\hyperlink{ref-atems}{2015}), which
-would add more nuance to their analysis. For the purposes of this study,
-emphasis will be placed on extending the model to include the new data,
-and to include these regional subsamples. Additionally, as another way
-of summarising and visualizing the VAR results, it might be useful to
-include forecast error variance decompositions (FEVDs). This method
-determines how much variation between the endogenous variables is due to
-which shock. The subsequent section endeavors to attempt the three
-extensions mentioned above.
+authors of the original paper. Another extension to consider would be
+the inclusion of state subsamples delineated according to geographical
+regions. The intuition for the latter is to ascertain whether some
+regions drive the results found by Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}), which would add more nuance to
+their analysis. For the purposes of this study, emphasis will be placed
+on extending the model to include the new data, and to include these
+regional subsamples. Additionally, as another way of summarizing and
+visualizing the VAR results, it might be useful to include forecast
+error variance decompositions (FEVDs). This method displays how much
+variation between the endogenous variables is due to which shock - Gini
+or Income - over time. The subsequent section endeavors to attempt the
+three extensions mentioned above.
 
 \newpage
 
@@ -485,7 +486,7 @@ extensions mentioned above.
 \label{Section 3.1}}{Descriptive Statistics }}\label{descriptive-statistics}}
 
 In order to prove that the replicated study uses the same series as the
-original, as well as to visualise the additional data from 2005-2018,
+original, as well as to visualize the additional data from 2005-2018,
 descriptive statistics on the US income and inequality series are
 plotted. Figure {[}\ref{Fig1}{]} below displays the per capita real
 income and per capita real income growth for the United States as a
@@ -533,41 +534,65 @@ stationarity in the growth rates of the two variables.
 The baseline PVAR estimated in this section will follow the same
 methodology described in Atems \& Jones
 (\protect\hyperlink{ref-atems}{2015}), using equation \ref{eq2}. The
-models are estimated using GMM, and a Cholesky decomposition is used to
-identify the structural error terms. Impulse response functions are
-generated accordingly. Unlike Atems \& Jones
-(\protect\hyperlink{ref-atems}{2015}), however, our results are
-displayed using orthogonalized IRFs.\footnote{This choice is primarily
-  due to our usage of a new statistical package in R, `panelvar',
-  developed recently by Sigmund \& Ferstl
+models are estimated using GMM for four lags, and a Cholesky
+decomposition is used to identify the structural error terms. Impulse
+response functions are generated accordingly. Our results are displayed
+using cumulative orthogonalized IRFs (COIRFs), which, as mentioned
+earlier, should be interpreted as long run responses to a permanent
+shock in the level of the series.\footnote{All computation of OIRFs were
+  done using a statistical package in R, `\emph{panelvar}', developed
+  recently by Sigmund \& Ferstl
   (\protect\hyperlink{ref-sigmund2019panel}{2019}).}
 
-To test for robustness given new data, we estimate two baseline PVARs.
-The first includes only the sample of the annual series from 1930 to
-2005. It is thus an exact replication of Atems \& Jones
+To test for robustness given new data, we estimate two PVARs. The first
+includes only the sample of the annual series from 1930 to 2005, and is
+thus an exact replication of the baseline PVAR by Atems \& Jones
 (\protect\hyperlink{ref-atems}{2015}). The second model applies the PVAR
-methodology to the full dataset, including new data. The intuition is
-that the model by Atems \& Jones (\protect\hyperlink{ref-atems}{2015})
-is robust to new data if the two models display similar results.
+methodology to the full dataset, including new data. The intuition
+behind this approach is that the baseline model can be considered robust
+to new data if the two models display similar results. As an additional
+visualization tool, the FEVD for both models are also reported.
+
+Figure \ref{Fig3} displays the replicated COIRFs for the baseline model
+for the 1930-2005 sample. It seems largely similar to the results
+obtained by Atems \& Jones (\protect\hyperlink{ref-atems}{2015}), but
+with some noticeable differences. The most pertinent difference is the
+wider confidence intervals difference is the response to Gini given its
+own shock,
+
+\begin{figure}[H]
+\includegraphics[width=1\linewidth]{images/Fig3_rep_COIRFs} \caption{\label{Fig3}}\label{fig:Fig3}
+\end{figure}
 
 COIRF full sample:\footnote{All confidence intervals are calculated at
   the 95\% level and are generated by Monte Carlo simulation based on
-  100 draws. The low number of draws were chosen due computational
+  100 draws. The low number of draws were chosen due to computational
   limitations.}
 
 \begin{figure}[H]
 \includegraphics[width=1\linewidth]{images/Fig4_baseline_full_COIRFs} \caption{\label{Fig4}}\label{fig:Fig4}
 \end{figure}
 
+Forecast Error Variance Decompositions for the replicated sample
+(1930-2005)
+
+\begin{figure}[H]
+\includegraphics[width=1\linewidth]{images/Fig5_fevd_rep} \caption{\label{Fig5}}\label{fig:Fig5}
+\end{figure}
+
 Forecast Error Variance Decompositions for the full sample:
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{images/Fig5_fevd_full} \caption{\label{Fig5}}\label{fig:Fig5}
+\includegraphics[width=1\linewidth]{images/Fig6_fevd_full} \caption{\label{Fig6}}\label{fig:Fig6}
 \end{figure}
 
 \hypertarget{regional-subsamples}{%
 \subsection{\texorpdfstring{Regional Subsamples
 \label{Section 3.4}}{Regional Subsamples }}\label{regional-subsamples}}
+
+In this section, we re-estimate the model for each regional subsample of
+the full data. These regions, of which there are eight, are defined
+according to geographical area in the US, and are the following:
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}

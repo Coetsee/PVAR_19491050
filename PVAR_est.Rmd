@@ -249,9 +249,9 @@ fevd_full_df <- as.data.frame(fevd_full) %>%
 
 income_fevd_full <- fevd_full_df %>% 
   group_by(Measure) %>% 
-  filter(Measure == c("Inc_growth.Inc_growth", "Inc_growth.Gini_growth")) %>% 
+  filter(Measure %in% c("Inc_growth.Inc_growth", "Inc_growth.Gini_growth")) %>% 
   ggplot()+
-  geom_line(aes(y = Value, x = year, colour = Measure)) +
+  geom_line(aes(y = Value, x = year, colour = Measure), size = 1) +
   labs(title = "Income Growth",
        y = "",
        x = "Years") +
@@ -264,9 +264,9 @@ income_fevd_full <- fevd_full_df %>%
 
 gini_fevd_full <- fevd_full_df  %>% 
   group_by(Measure) %>% 
-  filter(Measure == c("Gini_growth.Gini_growth", "Gini_growth.Inc_growth")) %>% 
+  filter(Measure %in% c("Gini_growth.Gini_growth", "Gini_growth.Inc_growth")) %>% 
   ggplot()+
-  geom_line(aes(y = Value, x = year, colour = Measure)) +
+  geom_line(aes(y = Value, x = year, colour = Measure), size =1) +
   labs(title = "Gini Growth",
        y = "",
        x = "Years") +
@@ -276,7 +276,7 @@ gini_fevd_full <- fevd_full_df  %>%
 
 #full plot for both fevd: 
 
-fevd_plot_full <- grid.arrange(income_fevd, gini_fevd, nrow = 1,
+fevd_plot_full <- grid.arrange(income_fevd_full, gini_fevd_full, nrow = 1,
                           bottom = "Income in Blue and Gini in Red",
                           top = "Forecast Error Variance Decomposition (1930-2018)")
 
@@ -601,7 +601,6 @@ rep_irf_cum_gr <- data.frame(rep_gr_gr, rep_gr_inc, Year, rep_gr_inc_lower, rep_
 
 #### PLOTTING ####
 
-
 # income income
 rep_coinf_inc_inc <- rep_irf_cum_inc %>% 
   mutate(cumul_inc = cumsum(rep_inc_inc),
@@ -628,8 +627,6 @@ rep_coinf_inc_gr <-rep_irf_cum_inc %>%
   geom_line(aes(x = Year, y = cumul_lower)) +
   geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
 
-
-
 # gini gini
 rep_coinf_gr_gr <-rep_irf_cum_gr %>% 
   mutate(cumul_inc = cumsum(rep_gr_gr),
@@ -643,8 +640,7 @@ rep_coinf_gr_gr <-rep_irf_cum_gr %>%
   geom_line(aes(x = Year, y = cumul_lower)) +
   geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
 
-
-# plot: seems like income top right, same y axis values
+# plot: income Gini
 rep_coinf_gr_inc <- rep_irf_cum_gr %>% 
   mutate(cumul_gr = cumsum(rep_gr_inc),
          cumul_lower = cumsum(rep_gr_inc_lower),
@@ -657,23 +653,61 @@ rep_coinf_gr_inc <- rep_irf_cum_gr %>%
   geom_line(aes(x = Year, y = cumul_lower)) +
   geom_ribbon(aes(x = Year, ymax = cumul_upper, ymin = cumul_lower), fill = "blue", alpha = 0.2)
 
-# Grid plot final Full sample baseline
+# Grid plots replication: 
 
 rep_COIRFs <- grid.arrange(rep_coinf_inc_inc, rep_coinf_gr_inc, rep_coinf_inc_gr, rep_coinf_gr_gr, top = "Cumulative OIRFs (1930-2005)")
-
-  
 
 
 ```
 
-
+### fevd for replicated study (1930-2005)
 
 ```{r}
+
 # fevd:
 
-fevd_19302005 <- fevd_orthogonal(model19302005, n.ahead = 20)
+fevd_19302005 <- fevd_orthogonal(model19302005, n.ahead = 12)
 
-plot(fevd_19302005$Gini_growth)
+# as df:
+
+fevd_rep_df <- as.data.frame(fevd_19302005) %>% 
+  mutate(year = round(1:12)) %>% 
+  gather(Measure, value = Value, Gini_growth.Gini_growth:Inc_growth.Inc_growth)
+
+
+#fevd income plot:
+
+income_fevd_rep <- fevd_rep_df %>% 
+  group_by(Measure) %>% 
+  filter(Measure %in% c("Inc_growth.Inc_growth", "Inc_growth.Gini_growth")) %>%
+  ggplot() +
+  geom_line(aes(y = Value, x = year, colour = Measure), size= 1) +
+  labs(title = "Income Growth",
+       y = "",
+       x = "Years") +
+  theme(legend.position = "none") +
+  scale_x_continuous(breaks = seq(1,12, by = 1)) +
+  scale_y_continuous(labels = percent)
+
+#fevd Gini plot:
+
+gini_fevd_rep <- fevd_rep_df  %>% 
+  group_by(Measure) %>% 
+  filter(Measure %in% c("Gini_growth.Gini_growth", "Gini_growth.Inc_growth")) %>% 
+  ggplot()+
+  geom_line(aes(y = Value, x = year, colour = Measure), size = 1) +
+  labs(title = "Gini Growth",
+       y = "",
+       x = "Years") +
+  theme(legend.position = "none")+
+  scale_x_continuous(breaks =seq(1,12, by = 1)) +
+  scale_y_continuous(labels = percent)
+
+#full plot for both fevd: 
+
+fevd_plot_rep <- grid.arrange(income_fevd_rep, gini_fevd_rep, nrow = 1,
+                          bottom = "Income in Blue and Gini in Red",
+                          top = "Forecast Error Variance Decomposition (1930-2005)")
 
 ```
 
