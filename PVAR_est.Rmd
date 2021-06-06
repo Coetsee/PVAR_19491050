@@ -663,7 +663,6 @@ rep_COIRFs <- grid.arrange(rep_coinf_inc_inc, rep_coinf_gr_inc, rep_coinf_inc_gr
 ### fevd for replicated study (1930-2005)
 
 ```{r}
-
 # fevd:
 
 fevd_19302005 <- fevd_orthogonal(model19302005, n.ahead = 12)
@@ -708,11 +707,16 @@ gini_fevd_rep <- fevd_rep_df  %>%
 fevd_plot_rep <- grid.arrange(income_fevd_rep, gini_fevd_rep, nrow = 1,
                           bottom = "Income in Blue and Gini in Red",
                           top = "Forecast Error Variance Decomposition (1930-2005)")
+```
 
+FEVD one plot::
+
+```{r}
 ### Can I do it on one plot?
 
 fevd_plot_all <- bind_cols(fevd_rep_df, fevd_full_df) %>% 
   select(-year...4) %>% 
+  rename(Year = year...1) %>% 
   rename(rep_measure = Measure...2,
          rep_value = Value...3,
          full_measure = Measure...5,
@@ -721,16 +725,52 @@ fevd_plot_all <- bind_cols(fevd_rep_df, fevd_full_df) %>%
          rep_measure = gsub("Gini_growth.Inc_growth", "Gini Income Replication", rep_measure),
          rep_measure = gsub("Inc_growth.Gini_growth", "Income Gini Replication", rep_measure),
          rep_measure = gsub("Inc_growth.Inc_growth", "Income Income Replication", rep_measure)) %>% 
-  mutate(full_measure = gsub("Gini_growth.Gini_growth", "Gini-Gini Full", full_measure),
+  mutate(full_measure = gsub("Gini_growth.Gini_growth", "Gini Gini Full", full_measure),
          full_measure = gsub("Gini_growth.Inc_growth", "Gini Income Full", full_measure),
          full_measure = gsub("Inc_growth.Gini_growth", "Income Gini Full", full_measure),
          full_measure = gsub("Inc_growth.Inc_growth", "Income Income Full", full_measure)) %>% 
-  gather(key = measure_all, value = value_all, c(full_measure, rep_measure)) %>% view()
+  gather(key = measure_all, value = measure_name, c(full_measure, rep_measure)) %>% 
+  gather(key = model, value = value, c(rep_value, full_value))
 
+fevd_all_inc <- fevd_plot_all %>% 
+  filter(measure_name %in% c(	"Income Gini Full", "Income Income Full")) %>% 
+  filter(model == "full_value") %>% 
+  group_by(measure_name, measure_all) %>% 
+  ggplot() +
+  geom_line(aes(x = Year, y = value , group = measure_name, colour = measure_name), size = 0.8) +
+  geom_line(data = (fevd_plot_all %>% 
+                    filter(measure_name %in% c("Income Gini Replication", "Income Income Replication"), 
+                    model == "rep_value")), 
+            aes(x = Year, y = value , group = measure_name, colour = measure_name)) +
+  theme(legend.position = c(0.7, 0.5),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 7)) +
+  labs(title = "Income Growth",
+       y = "")
+
+fevd_all_gr <- fevd_plot_all %>% 
+  filter(measure_name %in% c(	"Gini Gini Full", "Gini Income Full")) %>% 
+  filter(model == "full_value") %>% 
+  group_by(measure_name, measure_all) %>% 
+  ggplot() +
+  geom_line(aes(x = Year, y = value , group = measure_name, colour = measure_name), size = 0.8) +
+  geom_line(data = (fevd_plot_all %>% 
+                    filter(measure_name %in% c("Gini Gini Replication", "Gini Income Replication"), 
+                    model == "rep_value")), 
+            aes(x = Year, y = value , group = measure_name, colour = measure_name))+
+  theme(legend.position = c(0.7, 0.5),
+        legend.title = element_blank(),
+        legend.text = element_text(size = 7)) +
+  labs(title = "Gini Growth")
+
+all_fevd_grid <- ggarrange(fevd_all_inc, fevd_all_gr, nrow = 1, ncol = 2)
+
+
+#final grid_arranged plot:
+
+all_fevd_grid <- annotate_figure(all_fevd_grid, top = text_grob("Forecast Error Variance Decomposition (Comparison)"), bottom = text_grob("Full = 1930-2018, Replication = 1930-2005", size = 10))
 
 ```
-
-
 
 ### OIRF for both full and rep for appendix
 

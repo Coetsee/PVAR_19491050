@@ -545,7 +545,11 @@ shock in the level of the series.\footnote{All estimation of PVARs, and
   computation of OIRFs, were done using a statistical package in R,
   `\emph{panelvar}', developed recently by Sigmund \& Ferstl
   (\protect\hyperlink{ref-sigmund2019panel}{2019}).}. COIRFs were
-computed manually from the OIRFs given in Appendix \ref{B}
+computed manually from the OIRFs given in Appendix \ref{B}, which have
+been included for completeness, and as an additional
+extension.\footnote{They are displayed and briefly interpreted in the
+  appendix, as the focus of our findings is on cumulative IRFs, as done
+  by Atems \& Jones (\protect\hyperlink{ref-atems}{2015}).}
 
 To test for robustness given new data, we estimate two PVARs. The first
 includes only the sample of the annual series from 1930 to 2005, and is
@@ -568,27 +572,37 @@ COIRF full sample:\footnote{All confidence intervals are calculated at
   100 draws. The low number of draws were chosen due to computational
   limitations.}
 
-Forecast Error Variance Decompositions for the replicated sample
-(1930-2005) Forecast Error Variance Decompositions for the full sample:
-
 \newpage
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{images/Fig3_rep_COIRFs} \caption{\label{Fig3}}\label{fig:Fig3}
+
+{\centering \includegraphics[width=1\linewidth]{images/Fig3_rep_COIRFs} 
+
+}
+
+\caption{\label{Fig3}}\label{fig:Fig3}
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{images/Fig4_baseline_full_COIRFs} \caption{\label{Fig4}}\label{fig:Fig4}
+
+{\centering \includegraphics[width=1\linewidth]{images/Fig4_baseline_full_COIRFs} 
+
+}
+
+\caption{\label{Fig4}}\label{fig:Fig4}
 \end{figure}
 
-\newpage
+Figure \ref{Fig5} presents the results of the forecast error variance
+decompositions for both estimated models. As is evident, they are very
+similar, indicating that our model is robust to different sample
+periods. For the full-sample model, the variance of Income Growth at
+each forecast horizon is explained more by its own shock than for the
+replicated (smaller) sample. Conversely, Income Growth variance is thus
+also explained less by the shock to inequality. Similarly, Gini Growth
+variance
 
 \begin{figure}[H]
-\includegraphics[width=1\linewidth]{images/Fig5_fevd_rep} \caption{\label{Fig5}}\label{fig:Fig5}
-\end{figure}
-
-\begin{figure}[H]
-\includegraphics[width=1\linewidth]{images/Fig6_fevd_full} \caption{\label{Fig6}}\label{fig:Fig6}
+\includegraphics[width=1\linewidth]{images/Fig5_fevd_all} \caption{\label{Fig5}}\label{fig:Fig5}
 \end{figure}
 
 \newpage
