@@ -68,7 +68,7 @@ pvar_irf <- oirf(baseline, n.ahead = 20)
 plot(pvar_irf)
 
 
-#IRF's confidence bands: 100 draws take an hour and a half
+#IRF's confidence bands: 100 draws take an hour and a half. # next time use multithreading using futures package, or google cloud.
 
 tic()
 pvar_conf <- bootstrap_irf(baseline,
@@ -709,6 +709,95 @@ fevd_plot_rep <- grid.arrange(income_fevd_rep, gini_fevd_rep, nrow = 1,
                           bottom = "Income in Blue and Gini in Red",
                           top = "Forecast Error Variance Decomposition (1930-2005)")
 
+### Can I do it on one plot?
+
+fevd_plot_all <- bind_cols(fevd_rep_df, fevd_full_df) %>% 
+  select(-year...4) %>% 
+  rename(rep_measure = Measure...2,
+         rep_value = Value...3,
+         full_measure = Measure...5,
+         full_value = Value...6) %>% 
+  mutate(rep_measure = gsub("Gini_growth.Gini_growth", "Gini Gini Replication", rep_measure),
+         rep_measure = gsub("Gini_growth.Inc_growth", "Gini Income Replication", rep_measure),
+         rep_measure = gsub("Inc_growth.Gini_growth", "Income Gini Replication", rep_measure),
+         rep_measure = gsub("Inc_growth.Inc_growth", "Income Income Replication", rep_measure)) %>% 
+  mutate(full_measure = gsub("Gini_growth.Gini_growth", "Gini-Gini Full", full_measure),
+         full_measure = gsub("Gini_growth.Inc_growth", "Gini Income Full", full_measure),
+         full_measure = gsub("Inc_growth.Gini_growth", "Income Gini Full", full_measure),
+         full_measure = gsub("Inc_growth.Inc_growth", "Income Income Full", full_measure)) %>% 
+  gather(key = measure_all, value = value_all, c(full_measure, rep_measure)) %>% view()
+
+
+```
+
+
+
+### OIRF for both full and rep for appendix
+
+```{r}
+
+
+# Without confidence intervals:
+
+plot_all_OIRF <- data.frame(Year, inc_inc, inc_gr, gr_inc, gr_gr, rep_gr_gr, rep_inc_inc, rep_inc_gr, rep_gr_inc) %>% 
+  gather(key = sample_inc, value = value_inc, contains("inc_inc")) %>%
+  gather(key = sample_gr, value = value_gr, contains("gr_gr")) %>% 
+  gather(key = sample_inc_gr, value = value_inc_gr, contains("inc_gr")) %>% 
+  gather(key = sample_gr_inc, value = value_gr_inc, contains("gr_inc"))
+  
+
+# Plot of inc_inc: 
+inc_inc_plot_all_OIRF <- plot_all_OIRF %>% 
+  filter(Year %in% c(1:12)) %>% 
+  rename(Sample = sample_inc) %>% 
+  mutate(Sample = gsub("inc_inc", "Full", Sample),
+         Sample = gsub("rep_Full", "Replicated", Sample)) %>% 
+  ggplot()+
+  geom_line(aes(x = Year, y = value_inc, colour = Sample, linetype = Sample), size = 0.8) +
+    labs(title = "Income Response to Income Shock",
+         y = "")
+
+#PLot of inc_gr:
+inc_gr_plot_all_OIRF <- plot_all_OIRF %>% 
+  filter(Year %in% c(1:12)) %>% 
+  rename(Sample = sample_inc_gr) %>% 
+  mutate(Sample = gsub("inc_gr", "Full", Sample),
+         Sample = gsub("rep_Full", "Replicated", Sample)) %>% 
+  ggplot()+
+  geom_line(aes(x = Year, y = value_inc_gr, colour = Sample, linetype = Sample), size = 0.8) +
+    labs(title = "Income Response to Gini Shock",
+         y = "")
+
+#plot of gr_inc:
+gr_inc_plot_all_OIRF <- plot_all_OIRF %>% 
+  filter(Year %in% c(1:12)) %>% 
+  rename(Sample = sample_gr_inc) %>% 
+  mutate(Sample = gsub("gr_inc", "Full", Sample),
+         Sample = gsub("rep_Full", "Replicated", Sample)) %>% 
+  ggplot()+
+  geom_line(aes(x = Year, y = value_gr_inc, colour = Sample, linetype = Sample), size = 0.8) +
+    labs(title = "Gini Response to Income Shock",
+         y = "")
+
+#plot of gr_gr:
+gr_gr_plot_all_OIRF <- plot_all_OIRF %>% 
+  filter(Year %in% c(1:12)) %>% 
+  rename(Sample = sample_gr) %>% 
+  mutate(Sample = gsub("gr_gr", "Full", Sample),
+         Sample = gsub("rep_Full", "Replicated", Sample)) %>% 
+  ggplot()+
+  geom_line(aes(x = Year, y = value_gr, colour = Sample, linetype = Sample), size = 0.8) +
+    labs(title = "Gini Response to Gini Shock",
+         y = "")
+
+#and arranged plot:
+
+library(ggpubr)
+
+
+all_OIRF_grid <- ggarrange(inc_inc_plot_all_OIRF, inc_gr_plot_all_OIRF,gr_inc_plot_all_OIRF,gr_gr_plot_all_OIRF, nrow = 2, ncol = 2, common.legend = TRUE, legend = "bottom")
+
+all_OIRF_grid <- annotate_figure(all_OIRF_grid, top = text_grob("OIRFs Full and Replicated Samples"))
 ```
 
 
