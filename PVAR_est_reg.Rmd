@@ -39,8 +39,6 @@ pvar_reg <- pvar_reg %>%
   group_by(State) %>% 
   mutate(Inc_growth = c(NA,diff(realpc_income))/lag(realpc_income, 1), 
           Gini_growth = c(NA,diff(Gini))/lag(Gini, 1)) %>% slice(-1) %>% 
-    mutate(Year = ordered(Year),
-           st = as_factor(st)) %>% 
   ungroup() %>% 
   select(Year, st, Region, Inc_growth, Gini_growth)
 
@@ -56,8 +54,14 @@ pvar_reg <- as.data.frame(pvar_reg)
 #data:
 
 ne <- pvar_reg %>% 
-    group_by(st) %>% 
-    filter(Region == 1)
+    group_by(st) %>%
+    filter(Region == 1) %>%
+    mutate(Year = ordered(Year),
+           st = as_factor(st)) %>% 
+    ungroup() %>% 
+    select(-Region) 
+
+ne <- as.data.frame(ne)
 
 ne_full <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
                              lags = 4,
@@ -65,12 +69,18 @@ ne_full <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
                              data = ne,
                              panel_identifier=c("st", "Year"),
                              steps = c("twostep"),
-                             system_instruments = FALSE,
+                             system_instruments = TRUE,
                              max_instr_dependent_vars = 99,
                              max_instr_predet_vars = 99,
                              min_instr_dependent_vars = 2L,
                              min_instr_predet_vars = 1L,
                              collapse = TRUE
 )
+
+summary(ne_full)
+
+ne_irf <- oirf(ne_full, n.ahead = 20)
+
+plot(ne_irf)
 
 ```

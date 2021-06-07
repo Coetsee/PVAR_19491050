@@ -188,11 +188,18 @@
 
 \begin{abstract}
 \small{
-This paper attempts to replicate and critique Atems \& Jones
+This paper attempts to replicate and extend a paper by Atems \& Jones
 (\protect\hyperlink{ref-atems}{2015}), in which the authors attempt to
 model the contemporaneous effects of income inequality and economic
 growth of the United States at the state level, using a Panel Vector
-Autoregression (PVAR) approach.
+Autoregression (PVAR) approach. This approach is reproduced to ascertain
+whether Atems \& Jones (\protect\hyperlink{ref-atems}{2015}) hold up to
+scrutiny given new data. Two models are therefore estimated. One with
+only the replicated sample of data, and one that includes new data from
+2005-2018. We find their results largely robust to the additional data.
+Further extensions include the reporting of forecast error variance
+decompositions, orthogonalised impulse response functions, and
+re-estimations of the model with geographical subsamples.
 }
 \end{abstract}
 
@@ -234,25 +241,34 @@ Panel vector autoregression \sep Income Inequality \sep Economic Growth \\ \vspa
 \section{\texorpdfstring{Introduction
 \label{Introduction}}{Introduction }}\label{introduction}}
 
-This paper attempts to replicate various parts of the paper by Atems \&
-Jones (\protect\hyperlink{ref-atems}{2015}). It will specifically
-emphasise the methodological approach used by these authors in an
-attempt to uncover whether their PVAR approach holds against further
-checks for robustness. As such, this paper will, like the authors, test
-the series for unit roots, whilst attempting to replicate the cumulative
-Impulse Response Functions (IRFs) for the baseline bivariate PVAR.
-Furthermore, we will test whether certain subsamples of observational
-units drive their results, something the authors did not consider.
+Atems \& Jones (\protect\hyperlink{ref-atems}{2015}) utilize a Panel
+Vector Autoregression (PVAR) approach to examine the dynamic effects of
+US state-level inequality on income per capita and vice versa. The
+current analysis attempts to replicate various parts of this paper by
+specifically emphasizing the methodological approach used by these
+authors, in an attempt to uncover whether their PVAR specification holds
+against further checks for robustness. As such, like the authors, this
+paper 1) tests the series for unit roots, 2) estimates the baseline
+model for annual data from 1930-2005, and 3) replicates the cumulative
+Impulse Response Functions (IRFs) for this baseline bivariate PVAR.
+Additionally, another model will then be estimated for the entire series
+of data from 1930-2018 in order to compare the cumulative IRFs for both
+models. This comparison is the primary objective for this paper. In
+order to add more nuance to their argument, however, we will also test
+whether certain subsamples of observational units drive their results,
+as well as report the Forecast Error Variance Decompositions (FEVDs) and
+Orthogonalized IRFs (OIRFs) for both estimated models.
 
 The paper will be structured in the following manner: for completeness,
 a overview of the primary differences between the PVAR and VAR
-approaches will be given, after which the contribution of Atems \& Jones
-(\protect\hyperlink{ref-atems}{2015}) will be discussed. Section
+approaches is given, after which the contribution of Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}) is discussed. Section
 \ref{Section 2.2} looks at their methodological approach through a
 critical lens, thereby also informing which robustness checks are
 considered the important ones to include in the current analysis.
-
-\newpage
+Section \ref{Section 3} then reporta some descriptive statistics as well
+as the results of the various estimations. Section \ref{Section 4}
+concludes.
 
 \hypertarget{literature-review}{%
 \section{\texorpdfstring{Literature Review
@@ -267,13 +283,14 @@ the standard VAR approach applied to panel data. Panel data, in contrast
 to time series data, is comprised out of various cross-sectional units
 observed over time - in our case, states - meaning that a VAR approach
 to model interactions between endogenous variables need to account for
-the fact that the underlying structure might differ across these units.
-Whereas both VARs and PVARs treat all variables in a given system as
-endogenous, the PVAR approach thus allows for unobserved individual
-heterogeneity between the different cross-sectional units of
+the fact that the underlying structure of the model might differ across
+these units. Whereas both VARs and PVARs treat all variables in a given
+system as endogenous, the PVAR approach thus allows for unobserved
+individual heterogeneity between the different cross-sectional units of
 observation. In order to overcome this difficulty, a PVAR approach
-therefore imposes an additional restriction, namely, that the underlying
-structure is the same for all of the units of analysis.
+therefore imposes an additional restriction, one that attempts to ensure
+a homogeneous underlying structure between all of the units of
+observation.
 
 However, Love \& Zicchino (\protect\hyperlink{ref-love}{2006}) note that
 this restriction is highly likely to be violated in practice,
@@ -294,14 +311,16 @@ requirement for isolating shocks to the system. This, in turn, allows
 for the usage of the lagged regressors as instruments whereby the
 coefficients of the systems can be estimated. Moreover, these orthogonal
 relationships provide the necessary moment conditions that allow for VAR
-estimation using Generalized Method of Moments (GMM).
+estimation using Generalized Method of Moments (GMM), which is, as will
+be shown, the estimation method employed both in this paper and in Atems
+\& Jones (\protect\hyperlink{ref-atems}{2015}).
 
 \hypertarget{inequality-and-economic-growth-atems}{%
 \subsection{\texorpdfstring{Inequality and Economic Growth (Atems \&
 Jones, \protect\hyperlink{ref-atems}{2015})
 \label{Section 2.2}}{Inequality and Economic Growth (Atems \& Jones, 2015) }}\label{inequality-and-economic-growth-atems}}
 
-Atems \& Jones (\protect\hyperlink{ref-atems}{2015}) utilise a panel of
+Atems \& Jones (\protect\hyperlink{ref-atems}{2015}) utilize a panel of
 annual state level income inequality data to consider the relationship
 between per capita income and income inequality using a panel VAR
 approach. This approach allows them to examine two things: first, the
@@ -309,17 +328,21 @@ correlation between these variables, and second, the dynamic responses
 of both variables given shocks to income and inequality. The motivation
 for using a PVAR approach is that it captures more complexity than
 either standard VARs or traditional panel date models due to the
-allowance of dynamic effects and . It also does well at fitting the
-data, whilst being parsimonious enough without making strong identifying
-assumptions (Atems \& Jones, \protect\hyperlink{ref-atems}{2015}; Love
-\& Zicchino, \protect\hyperlink{ref-love}{2006}). Additionally, the
-inclusion of specifically state level panel data reduces possible
-measurement error due to greater homogeneity between states than, for
-instance, countries (Frank,
+allowance of dynamic effects, as well as allowing for unobserved
+heterogeneity across units of observation. Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}) also report that it does well at
+fitting the data, whilst being parsimonious enough without making strong
+identifying assumptions (Atems \& Jones,
+\protect\hyperlink{ref-atems}{2015}; Love \& Zicchino,
+\protect\hyperlink{ref-love}{2006}). Additionally, the inclusion of
+specifically state level panel data reduces possible measurement error
+due to greater homogeneity between states than, for instance, countries
+(Frank,
 \protect\hyperlink{ref-frank}{2009}\protect\hyperlink{ref-frank}{a}).
 
-Their results are displayed using cumulative IRFs, which describe the
-response of one variable to the innovations in the other variable in the
+Atems \& Jones (\protect\hyperlink{ref-atems}{2015})'s results are
+displayed using cumulative IRFs, which describe the response of one
+variable to the innovations in the other variable in the
 system.\footnote{Cumulative IRFs must be interpreted as capturing the
   effect on the levels of the variables, and not their growth rates.}
 They find that shocks to inequality has significant negative effects on
@@ -332,28 +355,27 @@ utilising US state-level data. In order to gauge whether their analysis
 is sufficiently specified, a brief overview of the data and employed
 methodology is discussed below.
 
-\hypertarget{data}{%
-\subsubsection*{Data}\label{data}}
-\addcontentsline{toc}{subsubsection}{Data}
+\hypertarget{data-and-unit-root-testing}{%
+\subsubsection*{Data and Unit Root
+Testing}\label{data-and-unit-root-testing}}
+\addcontentsline{toc}{subsubsection}{Data and Unit Root Testing}
 
 There are three datasets used by Atems \& Jones
 (\protect\hyperlink{ref-atems}{2015}) relevant to our discussion. The
 first, data on state-level economic growth, is measured by the annual
-change in per capita real income for the 48 contiguous US states, plus
-District of Columbia for the period 1930-2005.\footnote{Hawaii and
+change in per capita real income for the 48 contiguous US states - plus
+District of Columbia - for the period 1930-2005.\footnote{Hawaii and
   Alaska are therefore excluded.} The second series is state-level
 income inequality data (sourced by Frank
 (\protect\hyperlink{ref-frank}{2009}\protect\hyperlink{ref-frank}{a})),
-for the same period. Their measure of inequality, the Gini coefficient,
-is constructed using tax filing data.\footnote{The usage of tax data is
+for the same period. The measure of inequality, the Gini coefficient, is
+constructed using tax filing data.\footnote{The usage of tax data is
   often considered problematic in that it excludes low-income earners,
   thereby introducing possibly misleading results. This possibility
   informs the authors' choice to check for robustness by using other
-  inequality metrics.}
-
-\hypertarget{unit-root-testing}{%
-\subsubsection*{Unit Root Testing}\label{unit-root-testing}}
-\addcontentsline{toc}{subsubsection}{Unit Root Testing}
+  inequality metrics.}. The third relevant series is the US CPI for all
+urban consumers, the measure of inflation used to convert nominal rates
+to real rates.
 
 The first step to any VAR study is to conduct unit root tests on the
 series of data. Atems \& Jones (\protect\hyperlink{ref-atems}{2015})
@@ -361,17 +383,16 @@ perform five different unit root tests - which include the Fisher-type
 Augmented Dickey-Fuller (ADF), Levin-Lin-Chu (LLC), IM-Pesaran-Shin
 (IPS), Harris-Tzavalis (HT) and Hadri (LM) tests - on demeaned
 data.\footnote{Levin \emph{et al.} (\protect\hyperlink{ref-levin}{2002})
-  suggest to perform these test on demeaned data, as it reduces the
-  effects of dependence between cross-sectional units.} After using the
-Akaike Information Criterion (AIC) to choose the appropriate lag length
-of the tests. Although the first four tests reject the null hypothesis
+  suggest to perform these tests on demeaned data, as it reduces the
+  effects of dependence between cross-sectional units.} The Akaike
+Information Criterion (AIC) is used to select the appropriate lag length
+for the tests. Although the first four tests reject the null hypothesis
 of a unit root, the Hadri test, which tests the null hypothesis of no
 unit root, cannot be rejected. This is interpreted as being sufficient
-evidence to suggest that nonstationarity might be present at a
-significance level of 5\% in some of the series. In order to respond to
-this, the authors conclude that first-differencing is the appropriate
-response. As such, the PVAR is estimated on the differenced series of
-the data.
+evidence to suggest that nonstationarity might be present at a 5\% level
+in some of the series. In order to overcome this, the authors
+first-difference both series of data, concluding that the PVAR should be
+estimated on the differenced series.
 
 \hypertarget{methodology}{%
 \subsubsection*{Methodology}\label{methodology}}
@@ -381,11 +402,11 @@ The authors estimate a baseline structural bivariate VAR model of the
 growth rate of real income per capita and changes in the Gini index,
 whilst also implementing various robustness checks. These robustness
 checks include subsampling (structural break testing) on the time-period
-of analysis, as well as using three other measures of
-inequality.\footnote{These are the Relative Mean Deviation, the Theil
-  Entropy Index, and the income share of the top income decile and top
-  percentile of the state population. All measures are sourced from
-  Frank
+of analysis, as well as using four differing measures of
+inequality.\footnote{These are the Gini coefficient, the Relative Mean
+  Deviation, the Theil Entropy Index, and the income share of the top
+  income decile and top percentile of the state population. All measures
+  are sourced from Frank
   (\protect\hyperlink{ref-frank}{2009}\protect\hyperlink{ref-frank}{a}).}
 
 Their reduced-form empirical specification is as follows:
@@ -412,14 +433,15 @@ requirement of orthogonality due to the structure of panel data, and is
 discussed in Section \Ref{Section 2.1}. The second restriction is guided
 by economic theory, and is concerned with the ordering of the variables
 - there cannot be contemporaneous effects of changes in the Gini
-coefficient on economic growth. By employing a Cholesky decomposition,
-Atems \& Jones (\protect\hyperlink{ref-atems}{2015}) argue that the Gini
+coefficient on economic growth. By Cholesky identification, Atems \&
+Jones (\protect\hyperlink{ref-atems}{2015}) argue that the Gini
 coefficient should be ordered second in the structural specification of
 the VAR. This argument is sound; the Gini coefficient is calculated
-using income data, meaning that there will be contemporaneous effects of
-changes on income on the Gini coefficient. The Gini coefficient,
-however, has delayed effects on income, a fact that is established in
-the literature (Barro, \protect\hyperlink{ref-barro}{2008}; Cingano,
+using tax and income data, meaning that there will be contemporaneous
+effects of changes on income on the Gini coefficient. The Gini
+coefficient, however, has delayed effects on income, a fact that is
+established in the literature (Barro,
+\protect\hyperlink{ref-barro}{2008}; Cingano,
 \protect\hyperlink{ref-cingano}{2014}; Frank,
 \protect\hyperlink{ref-frankincome}{2009}\protect\hyperlink{ref-frankincome}{b}).
 
@@ -435,17 +457,17 @@ In addition to the specification above, Atems \& Jones
 (\protect\hyperlink{ref-atems}{2015}) identify the cumulative IRF's
 using a Cholesky decomposition of the covariance matrix of the
 residuals, and decide on an arbitrary number of lags, arguing that four
-lags are sufficient to capture the system dynamics. The cumulative IRFs
+lags is sufficient to capture the system dynamics. The cumulative IRFs
 are given for a one standard deviation shock, with 5\% confidence bands
 generated by Monte Carlo simulation methods.
 
-\hypertarget{overview-and-extensions}{%
-\subsubsection*{Overview and Extensions}\label{overview-and-extensions}}
-\addcontentsline{toc}{subsubsection}{Overview and Extensions}
+\hypertarget{overview}{%
+\subsubsection*{Overview}\label{overview}}
+\addcontentsline{toc}{subsubsection}{Overview}
 
 The VAR model by Atems \& Jones (\protect\hyperlink{ref-atems}{2015})
-seems to hold up to scrutiny. It is difference-stationary and accounts
-for the paneled aspects of the data. Furthermore, the ordering
+seems to hold up to initial scrutiny. It is difference-stationary and
+accounts for the paneled aspects of the data. Furthermore, the ordering
 restriction is economically sound, and the data seems to be of good
 quality. Moreover, their initial specification holds up to robustness
 checks with respect to different inequality metrics and structural break
@@ -477,9 +499,9 @@ three extensions mentioned above.
 
 \newpage
 
-\hypertarget{replication}{%
-\section{\texorpdfstring{Replication
-\label{Section 3}}{Replication }}\label{replication}}
+\hypertarget{replication-and-extensions}{%
+\section{\texorpdfstring{Replication and Extensions
+\label{Section 3}}{Replication and Extensions }}\label{replication-and-extensions}}
 
 \hypertarget{descriptive-statistics}{%
 \subsection{\texorpdfstring{Descriptive Statistics
@@ -488,16 +510,16 @@ three extensions mentioned above.
 In order to prove that the replicated study uses the same series as the
 original, as well as to visualize the additional data from 2005-2018,
 descriptive statistics on the US income and inequality series are
-plotted. Figure {[}\ref{Fig1}{]} below displays the per capita real
-income and per capita real income growth for the United States as a
-whole, averaged at the state level. These series closely follow the same
-plots provided by Atems \& Jones (\protect\hyperlink{ref-atems}{2015}).
+plotted. Figure \ref{Fig1} below displays the per capita real income and
+per capita real income growth for the United States as a whole, averaged
+at the state level. These series closely follow the same plots provided
+by Atems \& Jones (\protect\hyperlink{ref-atems}{2015}).
 
 \begin{figure}[H]
 \includegraphics[width=1\linewidth]{images/Fig1_US_Income_gridplot} \caption{\label{Fig1}}\label{fig:Fig1}
 \end{figure}
 
-In terms of inequality metrics, Figure {[}\ref{Fig2}{]} gives the
+In terms of inequality metrics, Figure \ref{Fig2} gives the
 state-average inequality measures from 1930 to 2018, which, again,
 replicates the same plot in Atems \& Jones
 (\protect\hyperlink{ref-atems}{2015}). However, it is important to note
@@ -521,17 +543,21 @@ We employ three tests for unit roots\footnote{The Fischer-type ADF, LLC
   (\protect\hyperlink{ref-croissant2020package}{2020})).}, and one
 explicitly for stationarity\footnote{The Hadri LM test.}. Like Atems \&
 Jones (\protect\hyperlink{ref-atems}{2015}), these tests are performed
-on demeaned data, and the panel data is balanced. Our results are
-displayed in the Appendix, section \Ref{A}. Our results, which include
-the new data from 2005 to 2018, mirror their findings. Although the
-three unit root tests indicate stationarity in levels for both income
-per capita and inequality, the Hadri test indicates that the null of no
-unit roots cannot be rejected for the series of both variables. All
-tests indicate stationarity in the growth rates of the two variables.
+on demeaned data, and the panel data is balanced. Furthermore, all tests
+are performed for both the intercept and with a trend for all series,
+whilst the new data from 2005 to 2018 is also included. The test results
+mirror the findings of Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}), and are displayed in the
+Appendix, section \Ref{A}. Although the three unit root tests indicate
+stationarity in levels for both income per capita and inequality, the
+Hadri test indicates that the null of no unit roots cannot be rejected
+for the series of both variables. After first differencing, the same
+process is repeated, and all tests indicate stationarity in the growth
+rates of the two variables.
 
-\hypertarget{results-baseline-pvar}{%
-\subsection{\texorpdfstring{Results Baseline PVAR
-\label{Section 3.3}}{Results Baseline PVAR }}\label{results-baseline-pvar}}
+\hypertarget{results-of-pvar-estimation}{%
+\subsection{\texorpdfstring{Results of PVAR Estimation
+\label{Section 3.3}}{Results of PVAR Estimation }}\label{results-of-pvar-estimation}}
 
 The baseline PVAR estimated in this section will follow the same
 methodology described in Atems \& Jones
@@ -548,29 +574,52 @@ shock in the level of the series.\footnote{All estimation of PVARs, and
 computed manually from the OIRFs given in Appendix \ref{B}, which have
 been included for completeness, and as an additional
 extension.\footnote{They are displayed and briefly interpreted in the
-  appendix, as the focus of our findings is on cumulative IRFs, as done
-  by Atems \& Jones (\protect\hyperlink{ref-atems}{2015}).}
+  appendix as the focus of our findings is on cumulative IRFs.}
 
 To test for robustness given new data, we estimate two PVARs. The first
 includes only the sample of the annual series from 1930 to 2005, and is
-thus an exact replication of the baseline PVAR by Atems \& Jones
+thus an exact replica of the baseline PVAR by Atems \& Jones
 (\protect\hyperlink{ref-atems}{2015}). The second model applies the PVAR
 methodology to the full dataset, including new data. The intuition
-behind this approach is that the baseline model can be considered robust
-to new data if the two models display similar results. As an additional
-visualization tool, the FEVD for both models are also reported.
+behind this approach is comparative - the baseline model can be
+considered robust to new data if the two models display similar results.
+As an additional visualization tool, the FEVDs for both models are also
+reported.
 
 Figure \ref{Fig3} displays the replicated COIRFs for the baseline model
-for the 1930-2005 sample. It seems largely similar to the results
+for the 1930-2005 sample.\footnote{All confidence intervals are
+  calculated at the 95\% level and are generated by Monte Carlo
+  simulation based on 100 draws. The low number of draws were chosen due
+  to computational limitations.} It seems largely similar to the results
 obtained by Atems \& Jones (\protect\hyperlink{ref-atems}{2015}), but
-with some noticeable differences. The most pertinent difference is the
-wider confidence intervals difference is the response to Gini given its
-own shock,
+with some noticeable differences, the most pertinent of which is the
+response to Gini given its own shock. Whilst both indicate a decrease
+over 5 years for the initial shock, the replicated COIRF stabilizes at
+2.5 percent compared to the 1.25 percent in Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}). In terms of the other results,
+however, our replicated study is similar. The permanent income shock to
+income has the expected result of increasing the level of income per
+capita permanently, with the greatest response coming at around year
+four post-shock. The response to income given a permanent shock to
+inequality shows a clear permanent decrease in the level of income per
+capita. An income shock, however, has only a slight positive effect on
+the level of inequality, essentially remaining near zero, whilst a
+deviation for inequality increases the level of inequality permanently,
+converging to a level below the initial standard deviation shock value.
 
-COIRF full sample:\footnote{All confidence intervals are calculated at
-  the 95\% level and are generated by Monte Carlo simulation based on
-  100 draws. The low number of draws were chosen due to computational
-  limitations.}
+Now turning towards incorporating the new data, Figure \ref{Fig4}
+displays the COIRFs for the full sample from 1930-2018. As is evident,
+the signs of the permanent changes in levels are the same for all four
+IRFs. However, and notably, the level of inequality given a shock to
+income is no longer insignificantly near zero. Instead, this deviation
+increases the level of inequality quite substantially above its initial
+value, and is the primary result obtained by this analysis. This can
+perhaps be explained by the high levels of inequality shown in Figure
+\ref{Fig2} for the years 2005-2018. If this result holds, it might
+indicate that the model by Atems \& Jones
+(\protect\hyperlink{ref-atems}{2015}) is sample-specific with respect to
+inequality, and that periods of sustained higher inequality might react
+differently to permanent unexpected increases in income per capita.
 
 \newpage
 
@@ -616,7 +665,8 @@ the full data. These regions, of which there are eight, are defined
 according to geographical area in the US, and are the following:
 
 \hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
+\section{\texorpdfstring{Conclusion
+\label{Section 4}}{Conclusion }}\label{conclusion}}
 
 \newpage
 
