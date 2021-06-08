@@ -5,13 +5,6 @@ date: "25/05/2021"
 output: pdf_document
 ---
 
-```{r setup, echo = FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
-
-library(pacman)
-p_load("tidyverse", "panelvar", "scales")
-```
-
 ## Purpose
 
 This README discusses my Time Series Econometrics project for the Advanced Econometrics 871 Course in 2021. The goal of this project is to replicate and extend the PVAR paper titled "Income inequality and economic growth: a panel VAR approach" by Bebonchu Atems & Jason Jones (2015).
