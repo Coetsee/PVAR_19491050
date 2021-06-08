@@ -7,6 +7,8 @@ output: pdf_document
 
 ### Regional PVARs
 
+#region variable breakdown:
+
 1 = New England
 2 = Mideast
 3 = Great Lakes
@@ -48,143 +50,7 @@ pvar_reg <- as.data.frame(pvar_reg)
 
 ```
 
-# New England (1)
-
-```{r}
-#data:
-
-ne <- pvar_reg %>% 
-    group_by(st) %>%
-    filter(Region == 1) %>%
-    mutate(Year = ordered(Year),
-           st = as_factor(st)) %>% 
-    ungroup() %>% 
-    select(-Region) 
-
-ne <- as.data.frame(ne)
-
-ne_var <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
-                             lags = 1,
-                             transformation = "fod",
-                             data = ne,
-                             panel_identifier=c("st", "Year"),
-                             steps = c("twostep"),
-                             system_instruments = FALSE,
-                             max_instr_dependent_vars = 99,
-                             max_instr_predet_vars = 99,
-                             min_instr_dependent_vars = 2L,
-                             min_instr_predet_vars = 1L,
-                             collapse = TRUE
-)
-
-summary(ne_var)
-
-ne_irf <- oirf(ne_var, n.ahead = 20)
-
-plot(ne_irf)
-
-nemegl <- pvar_reg %>% 
-    group_by(st) %>%
-    filter(Region %in% c(1, 2, 3)) %>%
-    mutate(Year = ordered(Year),
-           st = as_factor(st)) %>% 
-    ungroup() %>% 
-    select(-Region)
-
-nemegl <- as.data.frame(nemegl)
-
-nemegl_var <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
-                             lags = 4,
-                             transformation = "fod",
-                             data = nemegl,
-                             panel_identifier=c("st", "Year"),
-                             steps = c("twostep"),
-                             system_instruments = FALSE,
-                             max_instr_dependent_vars = 99,
-                             max_instr_predet_vars = 99,
-                             min_instr_dependent_vars = 2L,
-                             min_instr_predet_vars = 1L,
-                             collapse = TRUE
-)
-
-summary(nemegl_var)
-oirf(nemegl_var, n.ahead = 20) %>% 
-    plot()
-
-```
-
-#mideast (2)
-
-```{r}
-me <- pvar_reg %>% 
-    group_by(st) %>%
-    filter(Region == 2) %>%
-    mutate(Year = ordered(Year),
-           st = as_factor(st)) %>% 
-    ungroup() %>% 
-    select(-Region)
-
-me <- as.data.frame(me)
-
-me_var <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
-                             lags = 4,
-                             transformation = "fod",
-                             data = me,
-                             panel_identifier=c("st", "Year"),
-                             steps = c("twostep"),
-                             system_instruments = FALSE,
-                             max_instr_dependent_vars = 99,
-                             max_instr_predet_vars = 99,
-                             min_instr_dependent_vars = 2L,
-                             min_instr_predet_vars = 1L,
-                             collapse = TRUE
-)
-
-summary(me_var)
-
-me_irf <- oirf(me_var, n.ahead = 20)
-
-plot(me_irf)
-
-```
-
-# Great Lakes (3)
-
-
-```{r}
-gl <- pvar_reg %>% 
-    group_by(st) %>%
-    filter(Region == 3) %>%
-    mutate(Year = ordered(Year),
-           st = as_factor(st)) %>% 
-    ungroup() %>% 
-    select(-Region)
-
-gl <- as.data.frame(gl)
-
-gl_var <- pvargmm(dependent_vars = c("Inc_growth", "Gini_growth"),
-                             lags = 4,
-                             transformation = "fod",
-                             data = gl,
-                             panel_identifier=c("st", "Year"),
-                             steps = c("twostep"),
-                             system_instruments = FALSE,
-                             max_instr_dependent_vars = 99,
-                             max_instr_predet_vars = 99,
-                             min_instr_dependent_vars = 2L,
-                             min_instr_predet_vars = 1L,
-                             collapse = TRUE
-)
-
-summary(me_var)
-
-gl_irf <- oirf(gl_var, n.ahead = 20)
-
-plot(gl_irf)
-
-```
-
-split sample in two first: EAST and WEST
+# Split sample in two first: EAST (1,2,3,5) and WEST (4,6,7,8)
 
 ```{r}
 
@@ -194,7 +60,7 @@ east <- pvar_reg %>%
     mutate(Year = ordered(Year),
            st = as_factor(st)) %>% 
     ungroup() %>% 
-    select(-Region)
+    select(-Region) 
 
 east <- as.data.frame(east)
 
@@ -449,11 +315,7 @@ west_gr_inc <- c(0.000000e+00 ,
 # Plot and COIRFs
 
 ```{r}
-plot_reg_subsample <- data.frame(Year, east_inc_inc, east_inc_gr, east_gr_inc, east_gr_gr, west_inc_inc, west_inc_gr, west_gr_inc, west_gr_gr) %>% 
-  gather(key = reg_inc, value = value_inc, contains("inc_inc")) %>%
-  gather(key = reg_gr, value = value_gr, contains("gr_gr")) %>% 
-  gather(key = reg_inc_gr, value = value_inc_gr, contains("inc_gr")) %>% 
-  gather(key = reg_gr_inc, value = value_gr_inc, contains("gr_inc")) 
+plot_reg_subsample <- data.frame(Year, east_inc_inc, east_inc_gr, east_gr_inc, east_gr_gr, west_inc_inc, west_inc_gr, west_gr_inc, west_gr_gr) 
   
 
 # Plot of inc_inc: 
@@ -486,7 +348,7 @@ inc_gr_plot_reg_subsample  <- plot_reg_subsample %>%
 gr_inc_plot_reg_subsample  <- plot_reg_subsample %>% 
  mutate(cumul_gr_inc_east = cumsum(east_gr_inc),
         cumul_gr_inc_west = cumsum(west_gr_inc)) %>% 
-    gather(key = reg_inc, value = value_reg_inc, contains("cumul_inc")) %>% 
+    gather(key = reg_inc, value = value_reg_inc, contains("cumul_gr")) %>% 
   mutate(reg_inc = gsub("cumul_gr_inc_east", "East", reg_inc),
          reg_inc = gsub("cumul_gr_inc_west", "West", reg_inc)) %>%
   ggplot()+
@@ -496,15 +358,15 @@ gr_inc_plot_reg_subsample  <- plot_reg_subsample %>%
   theme(legend.title = element_blank())
 
 #plot of gr_gr:
-inc_gr_plot_reg_subsample  <- plot_reg_subsample %>% 
- mutate(cumul_inc_gr_east = cumsum(east_inc_gr),
-        cumul_inc_gr_west = cumsum(west_inc_gr)) %>% 
-    gather(key = reg_inc, value = value_reg_inc, contains("cumul_inc")) %>% 
-  mutate(reg_inc = gsub("cumul_inc_gr_east", "East", reg_inc),
-         reg_inc = gsub("cumul_inc_gr_west", "West", reg_inc)) %>%
+gr_gr_plot_reg_subsample  <- plot_reg_subsample %>% 
+ mutate(cumul_gr_gr_east = cumsum(east_gr_gr),
+        cumul_gr_gr_west = cumsum(west_gr_gr)) %>% 
+    gather(key = reg_inc, value = value_reg_inc, contains("cumul_gr_gr")) %>% 
+  mutate(reg_inc = gsub("cumul_gr_gr_east", "East", reg_inc),
+         reg_inc = gsub("cumul_gr_gr_west", "West", reg_inc)) %>%
   ggplot()+
   geom_line(aes(x = Year, y = value_reg_inc, colour =  reg_inc), size = 0.8) +
-    labs(title = "Income Response to Gini Shock",
+    labs(title = "Gini Response to Gini Shock",
          y = "") +
   theme(legend.title = element_blank())
 
@@ -513,9 +375,9 @@ inc_gr_plot_reg_subsample  <- plot_reg_subsample %>%
 library(ggpubr)
 
 
-all_OIRF_grid <- ggarrange(inc_inc_plot_all_OIRF, inc_gr_plot_all_OIRF,gr_inc_plot_all_OIRF,gr_gr_plot_all_OIRF, nrow = 2, ncol = 2, common.legend = TRUE, legend = "bottom")
+reg_plot_grid <- ggarrange(inc_inc_plot_reg_subsample, inc_gr_plot_reg_subsample, gr_inc_plot_reg_subsample, gr_gr_plot_reg_subsample , nrow = 2, ncol = 2, common.legend = TRUE, legend = "bottom")
 
-all_OIRF_grid <- annotate_figure(all_OIRF_grid, top = text_grob("OIRFs Full and Replicated Samples"))
+all_OIRF_grid <- annotate_figure(reg_plot_grid, top = text_grob("Cumulative OIRFs East and West"))
 
 ```
 

@@ -176,8 +176,8 @@
 
 
 
-\author[Add1]{Johannes Coetsee - 19491050}
-\ead{19491050@sun.ac.za}
+\author[Add1]{Johannes Coetsee}
+\ead{19491050@sun.ac.za - https://github.com/Coetsee/PVAR\_19491050}
 
 
 
@@ -255,9 +255,10 @@ Additionally, another model will then be estimated for the entire series
 of data from 1930-2018 in order to compare the cumulative IRFs for both
 models. This comparison is the primary objective for this paper. In
 order to add more nuance to their argument, however, we will also test
-whether certain subsamples of observational units drive their results,
-as well as report the Forecast Error Variance Decompositions (FEVDs) and
-Orthogonalized IRFs (OIRFs) for both estimated models.
+whether certain geographical subsamples of observational units drive
+their results, as well as report the Forecast Error Variance
+Decompositions (FEVDs) and Orthogonalized IRFs (OIRFs) for both
+estimated models.
 
 The paper will be structured in the following manner: for completeness,
 a overview of the primary differences between the PVAR and VAR
@@ -266,7 +267,7 @@ approaches is given, after which the contribution of Atems \& Jones
 \ref{Section 2.2} looks at their methodological approach through a
 critical lens, thereby also informing which robustness checks are
 considered the important ones to include in the current analysis.
-Section \ref{Section 3} then reporta some descriptive statistics as well
+Section \ref{Section 3} then reports some descriptive statistics as well
 as the results of the various estimations. Section \ref{Section 4}
 concludes.
 
@@ -288,13 +289,13 @@ these units. Whereas both VARs and PVARs treat all variables in a given
 system as endogenous, the PVAR approach thus allows for unobserved
 individual heterogeneity between the different cross-sectional units of
 observation. In order to overcome this difficulty, a PVAR approach
-therefore imposes an additional restriction, one that attempts to ensure
-a homogeneous underlying structure between all of the units of
+should impose an additional restriction - one that attempts to ensure a
+homogeneous underlying structure between all of the units of
 observation.
 
 However, Love \& Zicchino (\protect\hyperlink{ref-love}{2006}) note that
-this restriction is highly likely to be violated in practice,
-consequently requiring circumvention. To this end, Love \& Zicchino
+this restriction is likely to be violated in practice, consequently
+requiring circumvention. To this end, Love \& Zicchino
 (\protect\hyperlink{ref-love}{2006}) suggest the introduction of fixed
 effects that allow individual heterogeneity in the levels of the
 variables. Crucially, these fixed effects are correlated with the
@@ -487,9 +488,9 @@ authors of the original paper. Another extension to consider would be
 the inclusion of state subsamples delineated according to geographical
 regions. The intuition for the latter is to ascertain whether some
 regions drive the results found by Atems \& Jones
-(\protect\hyperlink{ref-atems}{2015}), which would add more nuance to
-their analysis. For the purposes of this study, emphasis will be placed
-on extending the model to include the new data, and to include these
+(\protect\hyperlink{ref-atems}{2015}), which would add nuance to their
+analysis. For the purposes of this study, emphasis will be placed on
+extending the model to include the new data, and to include these
 regional subsamples. Additionally, as another way of summarizing and
 visualizing the VAR results, it might be useful to include forecast
 error variance decompositions (FEVDs). This method displays how much
@@ -507,7 +508,7 @@ three extensions mentioned above.
 \subsection{\texorpdfstring{Descriptive Statistics
 \label{Section 3.1}}{Descriptive Statistics }}\label{descriptive-statistics}}
 
-In order to prove that the replicated study uses the same series as the
+In order to prove that the replicated study uses the same data as the
 original, as well as to visualize the additional data from 2005-2018,
 descriptive statistics on the US income and inequality series are
 plotted. Figure \ref{Fig1} below displays the per capita real income and
@@ -570,7 +571,7 @@ earlier, should be interpreted as long run responses to a permanent
 shock in the level of the series.\footnote{All estimation of PVARs, and
   computation of OIRFs, were done using a statistical package in R,
   `\emph{panelvar}', developed recently by Sigmund \& Ferstl
-  (\protect\hyperlink{ref-sigmund2019panel}{2019}).}. COIRFs were
+  (\protect\hyperlink{ref-sigmund2019panel}{2019}).} COIRFs were
 computed manually from the OIRFs given in Appendix \ref{B}, which have
 been included for completeness, and as an additional
 extension.\footnote{They are displayed and briefly interpreted in the
@@ -643,10 +644,10 @@ differently to permanent unexpected increases in income per capita.
 
 Figure \ref{Fig5} presents the results of the forecast error variance
 decompositions for both estimated models. As is evident, they are very
-similar. For the full-sample model, the variance of Income Growth at
+similar. For the full-sample model, the variance of income growth at
 each forecast horizon is explained more by its own shock than for the
 replicated (smaller) sample. Conversely, income growth variance is thus
-also explained less by the shock to inequality. Gini Growth is even more
+also explained less by the shock to inequality. Gini growth is even more
 similar across the two models. Variance in Gini growth is largely
 explained by shocks to inequality, a fact that does not change much
 given the passage of time post-shock.
@@ -662,26 +663,28 @@ given the passage of time post-shock.
 In this section, we re-estimate the model for two regional sub-samples
 of the full dataset from 1930-2018. Due to the number of units of
 observation, only a simple sample split of the US is possible. As such,
-we split the sample in two - into West and East - and report the OIRFs
-for these two samples. The intention is not to be able to say anything
+we split the sample in two - West and East - and report the COIRFs for
+these two samples. The intention is not to be able to say anything
 definitively, but rather to show that subsampling according to
 geographical region may be something to look at more in depth in the
-future. As such, the West is divided according to the following regions,
-as specified by the Bureau of Economic Analysis: Great Lakes, New
-England, Mideast and Southeast, whilst the East consists of the Plains,
-Rocky Mountain, Southwest and Far West regions.\footnote{The state
-  delineation of these regions are specified at
+future. The East is divided according to the following regions, as
+specified by the Bureau of Economic Analysis: Great Lakes, New England,
+Mideast and Southeast, whilst the West consists of the Plains, Rocky
+Mountain, Southwest and Far West regions.\footnote{The state delineation
+  of these regions are specified at
   \url{https://apps.bea.gov/regional/docs/msalist.cfm?mlist=2}.} Figure
 \ref{Fig6} below reports the results for the cumulative OIRFs for this
 sample split. It is apparent that the response of the West subsample is
 more variable over time, and that it is also more extreme in terms of
 the level responses to permanent shocks in both variables. This may
 indicate that much of the results in Figure \ref{Fig4} are driven by the
-West of the US, rather than the East. However, these results may be
+West of the US rather than the East. However, these results may be
 biased for two reasons. First, the confidence intervals were not
 computed for these COIRFs due to time constraints, and second, the
 subsamples are composed out of different amount of states, with the West
-composed out of 20, and the East out of 29.
+composed out of 20, and the East out of 29. A higher sample of states
+would report more accurate results, meaning that the displayed results
+in Figure \ref{Fig} should be carefully interpreted.
 
 \begin{figure}[H]
 \includegraphics[width=1\linewidth]{images/regional_COIRFs} \caption{\label{Fig6}}\label{fig:Fig6}
@@ -696,14 +699,15 @@ This paper attempted to replicate the study by Atems \& Jones
 extensions to add nuance to their analysis. The primary finding is that
 their results are largely robust to the addition of new data from
 2005-2018, except for the permanent income shock to inequality (Figure
-\ref{Fig4}), where the response is higher than for their estimated
-model. This might be due to higher inequality figures for the new data.
-Additionally, the FEVDs were reported for both estimated models in
-Figure \ref{Fig5}. Lastly, when subsampling according to geographic
-regions, East and West, it seems as if the West drives much of the
-results relative to the East. Further analysis is needed to corroborate
-this conclusion, however, which leaves space for further research in the
-future.
+\ref{Fig4}), where the response of income is both more pronounced and
+larger than for their estimated model. This might be due to sustained
+higher inequality figures for the years 2005-2018. Additionally, the
+FEVDs were reported for both estimated models in Figure \ref{Fig5},
+indicating little difference between the estimated models. Lastly, when
+subsampling according to geographic regions - East and West - it seems
+as if the West drives much of the results found in Figure \ref{Fig4}
+relative to the East. Further analysis is needed to corroborate this
+conclusion, however, which leaves space for future research.
 
 \newpage
 
