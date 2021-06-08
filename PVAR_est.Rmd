@@ -746,7 +746,8 @@ fevd_all_inc <- fevd_plot_all %>%
         legend.title = element_blank(),
         legend.text = element_text(size = 7)) +
   labs(title = "Income Growth",
-       y = "")
+       y = "") +
+  scale_y_continuous(labels = percent)
 
 fevd_all_gr <- fevd_plot_all %>% 
   filter(measure_name %in% c(	"Gini Gini Full", "Gini Income Full")) %>% 
@@ -761,7 +762,9 @@ fevd_all_gr <- fevd_plot_all %>%
   theme(legend.position = c(0.7, 0.5),
         legend.title = element_blank(),
         legend.text = element_text(size = 7)) +
-  labs(title = "Gini Growth")
+  labs(title = "Gini Growth",
+       y = "") +
+  scale_y_continuous(labels = percent)
 
 all_fevd_grid <- ggarrange(fevd_all_inc, fevd_all_gr, nrow = 1, ncol = 2)
 
@@ -775,7 +778,6 @@ all_fevd_grid <- annotate_figure(all_fevd_grid, top = text_grob("Forecast Error 
 ### OIRF for both full and rep for appendix
 
 ```{r}
-
 
 # Without confidence intervals:
 
@@ -803,7 +805,7 @@ inc_gr_plot_all_OIRF <- plot_all_OIRF %>%
   rename(Sample = sample_inc_gr) %>% 
   mutate(Sample = gsub("inc_gr", "Full", Sample),
          Sample = gsub("rep_Full", "Replicated", Sample)) %>% 
-  ggplot()+
+  ggplot() +
   geom_line(aes(x = Year, y = value_inc_gr, colour = Sample, linetype = Sample), size = 0.8) +
     labs(title = "Income Response to Gini Shock",
          y = "")

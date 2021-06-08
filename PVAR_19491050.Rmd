@@ -197,7 +197,7 @@ knitr::include_graphics("images/Fig4_baseline_full_COIRFs.png")
 
 ```
 
-Figure \ref{Fig5} presents the results of the forecast error variance decompositions for both estimated models. As is evident, they are very similar, indicating that our model is robust to different sample periods. For the full-sample model, the variance of Income Growth at each forecast horizon is explained more by its own shock than for the replicated (smaller) sample. Conversely, Income Growth variance is thus also explained less by the shock to inequality. Similarly, Gini Growth variance
+Figure \ref{Fig5} presents the results of the forecast error variance decompositions for both estimated models. As is evident, they are very similar. For the full-sample model, the variance of Income Growth at each forecast horizon is explained more by its own shock than for the replicated (smaller) sample. Conversely, income growth variance is thus also explained less by the shock to inequality. Gini Growth is even more similar across the two models. Variance in Gini growth is largely explained by shocks to inequality, a fact that does not change much given the passage of time post-shock.
 
 
 ```{r Fig5,fig.cap="\\label{Fig5}", echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
@@ -206,14 +206,18 @@ knitr::include_graphics("images/Fig5_fevd_all.png")
 
 ```
 
-\newpage
-
 ## Regional Subsamples \label{Section 3.4}
 
-In this section, we re-estimate the model for each regional subsample of the full data. These regions, of which there are eight, are defined according to geographical area in the US, and are the following: 
+In this section, we re-estimate the model for two regional sub-samples of the full dataset from 1930-2018. Due to the number of units of observation, only a simple sample split of the US is possible. As such, we split the sample in two - into West and East - and report the OIRFs for these two samples. The intention is not to be able to say anything definitively, but rather to show that subsampling according to geographical region may be something to look at more in depth in the future. As such, the West is divided according to the following regions, as specified by the Bureau of Economic Analysis: Great Lakes, New England, Mideast and Southeast, whilst the East consists of the Plains, Rocky Mountain, Southwest and Far West regions.^[The state delineation of these regions are specified at https://apps.bea.gov/regional/docs/msalist.cfm?mlist=2.] Figure \ref{Fig6} below reports the results for the cumulative OIRFs for this sample split. It is apparent that the response of the West subsample is more variable over time, and that it is also more extreme in terms of the level responses to permanent shocks in both variables. This may indicate that much of the results in Figure \ref{Fig4} are driven by the West of the US, rather than the East. However, these results may be biased for two reasons. First, the confidence intervals were not computed for these COIRFs due to time constraints, and second, the subsamples are composed out of different amount of states, with the West composed out of 20, and the East out of 29. 
+
+```{r Fig6,fig.cap="\\label{Fig6}", echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
+
+knitr::include_graphics("images/regional_COIRFs.png")
+
+```
 
 # Conclusion \label{Section 4}
-
+This paper attempted to replicate  the study by @atems, whilst providing some additional extensions to add nuance to their analysis. The primary finding is that their results are largely robust to the addition of new data from 2005-2018, except for the permanent income shock to inequality (Figure \ref{Fig4}), where the response is higher than for their estimated model. This might be due to higher inequality figures for the new data. Additionally, the FEVDs were reported for both estimated models in Figure \ref{Fig5}. Lastly, when subsampling according to geographic regions, East and West, it seems as if the West drives much of the results relative to the East. Further analysis is needed to corroborate this conclusion, however, which leaves space for further research in the future.
 
 \newpage
 
@@ -256,6 +260,8 @@ knitr::include_graphics("images/Income_Growth_Trend.png")
 ```
 
 ## Full Sample OIRFs \label{B}
+
+Figure \ref{Fig6} below reports the OIRFs - from which the COIRFs in Figures \ref{Fig3} and \ref{Fig4} were calculated - for both estimated models. OIRFs should be interpreted as the short term response of a variable given a one standard deviation shock in another (or the same) variable. It is evident that the OIRFs below share similarities, but also some differences. The most substantial difference is the large deviation of the income response to an inequality shock from year 4 to 6, where the full sample changes the sign of the response in that period. Further analysis is necessary to uncover why this might be the case.
 
 ```{r AppB,fig.cap="\\label{Fig6}", echo = FALSE, message = FALSE, warning = FALSE, out.width="100%", fig.height = 5, fig.pos="H"}
 
